@@ -1,2 +1,1 @@
-# Cleaning-Web
-Курсовая работа
+# WEB-Cleaning
