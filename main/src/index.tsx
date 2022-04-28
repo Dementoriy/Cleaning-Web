@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import SideBar from './SideBar';
 import reportWebVitals from './reportWebVitals';
+import {Stack} from "@mui/material";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Stack direction="row" spacing={3}>
+      <SideBar />
+      <App />
+    </Stack>
   </React.StrictMode>,
   document.getElementById('root')
 );
