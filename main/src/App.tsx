@@ -1,7 +1,5 @@
 import React from 'react';
-import {TextField, Typography, Avatar, Stack, Button, Grid, Paper} from "@mui/material";
-
-import { createTheme, ThemeProvider, makeStyles } from '@mui/material/styles';
+import {TextField, Typography, Avatar, Stack, Button, Grid} from "@mui/material";
 
 import '@fontsource/raleway/300.css';
 import '@fontsource/raleway/400.css';
@@ -30,38 +28,15 @@ function App() {
           noValidate
           autoComplete="off"
         >
-          <TextField label="Фамилия" focused size='small' />
-          <TextField label="Имя" focused size='small' />
-          <TextField label="Отчество" focused size='small'/>
-          <TextField label="Номер телефона" focused size='small' />
-          <TextField label="Почта" focused size='small' />
+          <TextField label="Фамилия" size='small' />
+          <TextField label="Имя" size='small' />
+          <TextField label="Отчество" size='small'/>
+          <TextField label="Номер телефона" size='small' />
+          <TextField label="Почта" size='small' />
         </Stack>
-        <Grid container>
-          <Grid item>
-            <Button variant="outlined" size="large" color="primary" sx={{mt: '10px'}}>Сохранить</Button>
-          </Grid>
-        </Grid>
+        <Button variant="outlined" size="large" color="primary" sx={{mt: '10px'}}>Сохранить</Button>
     </div>
   );
 }
-
-// const innerTheme = createTheme({
-//   palette: {
-//     primary: {
-//       main: '#E3D9D3',
-//     },
-//   },
-// });
-
-// export const theme = createTheme({
-//   palette: {
-//     primary: {
-//       main: '#776D61',
-//     },
-//     secondary: {
-//       main: '#E3D9D3',
-//     },
-//   },
-// });
 
 export default App;

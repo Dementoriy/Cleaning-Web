@@ -16,6 +16,8 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -61,6 +63,9 @@ interface ExpandMoreProps extends IconButtonProps {
             </Button>
         </CardActions>
         </Card>
+        <Fab color="primary" aria-label="add">
+            <AddIcon />
+        </Fab>
     </div>
   );
 }
