@@ -1,27 +1,41 @@
 import React from 'react';
-import {TextField, Typography, Avatar, Stack, Button} from "@mui/material";
+import {TextField, Typography, Avatar, Stack, Button, Grid, Paper} from "@mui/material";
 
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider, makeStyles } from '@mui/material/styles';
 
 import '@fontsource/raleway/300.css';
 import '@fontsource/raleway/400.css';
 import '@fontsource/raleway/500.css';
 import '@fontsource/raleway/700.css';
+import { ClassNames } from '@emotion/react';
+
+
+// const useStyles = makeStyles((theme) => ({
+//   root:{
+//   },
+//   textField: {
+//     backgroundColor: '#FFFFFF',
+//     opacity: '60%',
+//     borderRadius: '5px'
+//   }
+// }))
 
 function App() {
+  // const classes = useStyles();
+
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '880px'}}>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '48%'}}>
         <Stack direction="row" spacing={2}>
             <Avatar alt="Avatar" src="./assets/image/ava.png" sx={{ width: 120, height: 120 }}/>
-            <Stack spacing={1}>
-                <Typography variant="h4">Вафлев Адам Неадамович</Typography>
-                <Typography variant="h5">@Adam</Typography>
+            <Stack spacing={1} sx={{ fontWeight: 600 }}>
+              <Typography color="primary" variant="h4">Вафлев Адам Неадамович</Typography>
+              <Typography color="secondary" variant="h5">@Adam</Typography>
             </Stack>
         </Stack>
         <Stack
           component="form"
           sx={{
-            width: '60ch',
+            width: '60%',
             marginTop: '30px',
             fontFamily: 'Raleway'
           }}
@@ -29,37 +43,27 @@ function App() {
           noValidate
           autoComplete="off"
         >
-          <ThemeProvider theme={outerTheme}>
-            <TextField label="Фамилия" focused size='small' /*sx={{borderColor: '#776D61', input: { color: '#776D61', borderColor: '#776D61', backgroundColor: '#FFFFFF', opacity: '60%', borderRadius: '5px' } }}*/ />
-            <TextField label="Имя" focused size='small' />
-            <TextField label="Отчество" focused size='small'/>
-            <TextField label="Номер телефона" focused size='small'/>
-            <TextField label="Почта" focused size='small'/>
-          </ThemeProvider>
-          
+          <TextField label="Фамилия" focused size='small' /*sx={{borderColor: '#776D61', input: { color: '#776D61', borderColor: '#776D61', backgroundColor: '#FFFFFF', opacity: '60%', borderRadius: '5px' } }}*/ />
+          <TextField label="Имя" focused size='small' /*className={classes.textField}*/ />
+          <TextField label="Отчество" focused size='small'/>
+          <TextField label="Номер телефона" focused size='small' />
         </Stack>
-        <ThemeProvider theme={outerTheme}>
-          <Button variant="outlined" size="large" sx={{mt: '10px'}}>Сохранить</Button>
-        </ThemeProvider>
+        <Grid container>
+          <Grid item>
+            <Button variant="outlined" size="large" sx={{mt: '10px'}}>Сохранить</Button>
+          </Grid>
+        </Grid>
     </div>
   );
 }
 
-const outerTheme = createTheme({
-  palette: {
-    primary: {
-      main: '#776D61',
-    },
-  },
-});
-
-const innerTheme = createTheme({
-  palette: {
-    primary: {
-      main: '#E3D9D3',
-    },
-  },
-});
+// const innerTheme = createTheme({
+//   palette: {
+//     primary: {
+//       main: '#E3D9D3',
+//     },
+//   },
+// });
 
 // export const theme = createTheme({
 //   palette: {

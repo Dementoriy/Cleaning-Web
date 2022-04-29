@@ -2,15 +2,48 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import SideBar from './SideBar';
+import Address from './Address';
 import reportWebVitals from './reportWebVitals';
 import {Stack} from "@mui/material";
+import { createTheme, ThemeProvider, makeStyles } from '@mui/material/styles';
+
+const outerTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#776D61',
+    },
+    secondary: {
+      main: '#E3D9D3',
+    },
+  },
+  typography: {
+    fontFamily: [
+      '"Raleway"',
+    ].join(','),
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: `
+        @font-face {
+          font-family: 'Raleway';
+          font-style: normal;
+          font-weight: 400;
+          }
+      `,
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <Stack direction="row" spacing={3}>
-      <SideBar />
-      <App />
-    </Stack>
+    <ThemeProvider theme={outerTheme}>
+      <Stack direction="row" spacing={3}>
+        <SideBar />
+        <App />
+        <Address />
+      </Stack>
+    </ThemeProvider>
+
   </React.StrictMode>,
   document.getElementById('root')
 );
@@ -18,4 +51,5 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+
 reportWebVitals();
