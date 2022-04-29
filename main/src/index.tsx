@@ -13,13 +13,15 @@ const outerTheme = createTheme({
       main: '#776D61',
     },
     secondary: {
-      main: '#E3D9D3',
+      main: '#D8D0C5',
     },
   },
   typography: {
     fontFamily: [
       '"Raleway"',
+      '"Roboto"',
     ].join(','),
+    // fontWeight: '500',
   },
   components: {
     MuiCssBaseline: {
@@ -27,7 +29,7 @@ const outerTheme = createTheme({
         @font-face {
           font-family: 'Raleway';
           font-style: normal;
-          font-weight: 400;
+          font-weight: 500;
           }
       `,
     },
