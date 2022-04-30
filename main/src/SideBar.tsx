@@ -1,12 +1,10 @@
 import React from 'react';
-import {TextField, Typography, Avatar, Stack, Button} from "@mui/material";
+import {Typography, Avatar, Stack, Button} from "@mui/material";
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 
 function SideBar() {
     return (

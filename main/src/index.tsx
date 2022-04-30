@@ -5,6 +5,8 @@ import SideBar from './SideBar';
 import Address from './Address';
 import Services from './Services';
 import DopServices from './DopServices';
+import SignIn from './SignIn';
+import SignOn from './SignOn';
 import reportWebVitals from './reportWebVitals';
 import {Stack} from "@mui/material";
 import { createTheme, ThemeProvider, makeStyles } from '@mui/material/styles';
@@ -43,7 +45,7 @@ ReactDOM.render(
     <ThemeProvider theme={outerTheme}>
       <Stack direction="row" spacing={3}>
         <SideBar />
-        <App />
+        <SignOn />
         <Address />
       </Stack>
     </ThemeProvider>
@@ -51,9 +53,5 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 
 reportWebVitals();

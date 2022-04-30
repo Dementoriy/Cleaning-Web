@@ -1,10 +1,5 @@
 import React from 'react';
-import {TextField, Typography, Avatar, Stack, Button, Grid} from "@mui/material";
-
-import '@fontsource/raleway/300.css';
-import '@fontsource/raleway/400.css';
-import '@fontsource/raleway/500.css';
-import '@fontsource/raleway/700.css';
+import {TextField, Typography, Avatar, Stack, Button} from "@mui/material"; 
 
 function App() {
   return (
