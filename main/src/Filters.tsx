@@ -74,7 +74,7 @@ function Filters() {
         <Typography variant="h4" color="primary" align='center' style={{fontWeight: '500'}}>Фильтры</Typography>
         <Stack spacing={2} sx={{width: '100%', marginTop: '30px'}}>
             <FormControl sx={{width: '100%'}}>
-                <InputLabel id="address-chip-label">Адрес</InputLabel>
+                <InputLabel id="address-chip-label">Адреса</InputLabel>
                 <Select
                 labelId="address-chip-label"
                 id="address-chip"

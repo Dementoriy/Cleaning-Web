@@ -23,13 +23,13 @@ public class AuthHandler : RequestHandler
         var body = Bind<RegModel>();
         if(RegModel.Check(body))
         {
-            Send(new AnswerModel(false, null, 1, "Алярма ошибка!"));
+            Send(new AnswerModel(false, null, 1, "Ошибка!"));
             return;
         }
         var client = new Client(body!.surname, body.name, body.middlename, body.phoneNumber, false, body.login, body.password, body.email);
         if (!client.AddClient())
         {
-            Send(new AnswerModel(false, null, 1, "Алярма ошибка!"));
+            Send(new AnswerModel(false, null, 1, "Ошибка!"));
             return;
         }
         Send(new AnswerModel(true, new {token = GenerateToken(client) }, null, null));
