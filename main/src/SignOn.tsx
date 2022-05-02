@@ -1,11 +1,5 @@
 import React from 'react';
-import { Typography, Stack, Button} from "@mui/material";
-import IconButton from '@mui/material/IconButton';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
+import { Typography, Stack, Button, IconButton, OutlinedInput, InputLabel, InputAdornment, FormControl, TextField} from "@mui/material";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -44,7 +38,7 @@ function SignOn() {
       };
 
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '48%'}}>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '40%'}}>
         <Typography variant="h4" color="primary" align='center' style={{fontWeight: '500'}}>Регистрация</Typography>
         <Stack
           component="form"

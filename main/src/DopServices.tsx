@@ -1,20 +1,6 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import {Stack, Button, Grid, Icon} from "@mui/material";
-import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
+import {Box, Checkbox, FormGroup, FormControlLabel, Card, CardContent, CardMedia, TextField, Typography} from '@mui/material';
 
 import '@fontsource/raleway/300.css';
 import '@fontsource/raleway/400.css';
@@ -46,7 +32,7 @@ export default function MediaControlCard() {
                     </Typography>
                 </CardContent>
             </Box>
-            <Box sx={{flexDirection: 'column', backgroundColor: '#B1A18B', borderLeft: '3px solid #776D61', width: '30%', padding: '5px'}}>
+            <Box sx={{flexDirection: 'column', backgroundColor: '#D8D0C5', borderLeft: '3px solid #776D61', width: '30%', padding: '5px'}}>
                 <Box marginTop={1}>
                     <FormGroup>
                         <FormControlLabel control={<Checkbox  color='secondary'/>} label="Дезинфекция"/>

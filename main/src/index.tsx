@@ -7,6 +7,7 @@ import Services from './Services';
 import DopServices from './DopServices';
 import SignIn from './SignIn';
 import SignOn from './SignOn';
+import Filters from './Filters';
 import reportWebVitals from './reportWebVitals';
 import {Stack} from "@mui/material";
 import { createTheme, ThemeProvider, makeStyles } from '@mui/material/styles';
@@ -46,7 +47,7 @@ ReactDOM.render(
       <Stack direction="row" spacing={3}>
         <SideBar />
         <SignOn />
-        <Address />
+        <Filters />
       </Stack>
     </ThemeProvider>
 
