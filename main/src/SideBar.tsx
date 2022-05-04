@@ -4,10 +4,13 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import {useNavigate} from 'react-router-dom';
 
 function SideBar() {
     const [expanded, setExpanded] = React.useState(false);
     const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
+    
     const openService = () => {
       setOpen(true);
       //navigate("/main/src/Services.tsx");
@@ -23,16 +26,16 @@ function SideBar() {
             <Typography variant="h6" style={{color: 'white'}}>Adam</Typography>
           </Stack>
           <Stack spacing={1} marginTop={8}>
-            <Button variant="contained" color="secondary" disableElevation style={{ borderRadius: '10px'}} startIcon={<AccountCircleOutlinedIcon />}>
+            <Button variant="contained" color="secondary" disableElevation style={{ borderRadius: '10px'}} startIcon={<AccountCircleOutlinedIcon />}  onClick={() => {navigate("/Profile")}}>
               Профиль
             </Button>
             <Button variant="contained" color="secondary" disableElevation style={{ borderRadius: '10px'}} startIcon={<HomeOutlinedIcon />}>
               Мои уборки
             </Button>
-            <Button variant="contained" color="secondary" disableElevation style={{ borderRadius: '10px'}} startIcon={<ListAltOutlinedIcon />} onClick={openService}>
+            <Button variant="contained" color="secondary" disableElevation style={{ borderRadius: '10px'}} startIcon={<ListAltOutlinedIcon />} onClick={() => {navigate("/Services")}}>
               Услуги
             </Button>
-            <Button variant="contained" color="secondary" disableElevation style={{ borderRadius: '10px'}} startIcon={<AddCircleOutlineOutlinedIcon />}>
+            <Button variant="contained" color="secondary" disableElevation style={{ borderRadius: '10px'}} startIcon={<AddCircleOutlineOutlinedIcon />} onClick={() => {navigate("/")}}>
               Заказать
             </Button>
           </Stack>

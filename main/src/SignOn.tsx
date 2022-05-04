@@ -90,7 +90,7 @@ function SignOn() {
       }
 
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '40%'}}>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '50%'}}>
         <Typography variant="h4" color="primary" align='center' style={{fontWeight: '500'}}>Регистрация</Typography>
         <Stack
           component="form"

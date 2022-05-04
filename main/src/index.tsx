@@ -5,12 +5,14 @@ import SideBar from './SideBar';
 import Address from './Address';
 import Services from './Services';
 import DopServices from './DopServices';
-import SignIn from './SignIn';
-import SignOn from './SignOn';
+import AuthGroup from './AuthGroup';
+import ServicesGroup from './ServicesGroup'
 import Filters from './Filters';
+import ProfileGroup from './ProfileGroup'
 import reportWebVitals from './reportWebVitals';
 import {Stack} from "@mui/material";
 import { createTheme, ThemeProvider, makeStyles } from '@mui/material/styles';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const outerTheme = createTheme({
   palette: {
@@ -44,11 +46,16 @@ const outerTheme = createTheme({
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={outerTheme}>
-      <Stack direction="row" spacing={3}>
-        <SideBar />
-        <SignOn />
-        <Filters />
-      </Stack>
+      <BrowserRouter>
+        <Stack direction="row" spacing={3}>
+          <SideBar />
+          <Routes>
+            <Route path={"/"} element={<AuthGroup />} />
+            <Route path={"/Profile"} element={<ProfileGroup />} />
+            <Route path={"/Services"} element={<ServicesGroup />} />
+          </Routes>
+        </Stack>
+      </BrowserRouter>
     </ThemeProvider>
 
   </React.StrictMode>,
