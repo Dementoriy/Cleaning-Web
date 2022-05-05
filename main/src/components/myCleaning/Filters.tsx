@@ -36,7 +36,7 @@ function getStyles(name: string, string: readonly string[], theme: Theme) {
     };
   }
 
-function Filters() {
+export default function Filters() {
 
     const theme = useTheme();
     const [address, setAddress] = React.useState<string[]>([]);
@@ -47,7 +47,6 @@ function Filters() {
         target: { value },
       } = event;
       setAddress(
-        // On autofill we get a stringified value.
         typeof value === 'string' ? value.split(',') : value,
       );
     };
@@ -56,22 +55,29 @@ function Filters() {
           target: { value },
         } = event;
         setСonsumable(
-          // On autofill we get a stringified value.
           typeof value === 'string' ? value.split(',') : value,
         );
       };
   
       const [value, setValue] = React.useState<Date | null>(
-        new Date('2014-08-18T21:11:54'),
+        new Date('2022-05-01T08:00:00'),
+      );
+
+      const [value2, setValue2] = React.useState<Date | null>(
+        new Date('2022-05-31T08:00:00'),
       );
     
-      const handleChange = (newValue: Date | null) => {
+      const handleChangeOt = (newValue: Date | null) => {
         setValue(newValue);
       };
 
+      const handleChangeDo = (newValue: Date | null) => {
+        setValue2(newValue);
+      };
+
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '20%'}}>
-        <Typography variant="h4" color="primary" align='center' style={{fontWeight: '500'}}>Фильтры</Typography>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '20%', minWidth: '300px'}}>
+        <Typography variant="h4" color="primary" align='center' sx={{fw: '500'}}>Фильтры</Typography>
         <Stack spacing={2} sx={{width: '100%', marginTop: '30px'}}>
             <FormControl sx={{width: '100%'}}>
                 <InputLabel id="address-chip-label">Адреса</InputLabel>
@@ -104,17 +110,26 @@ function Filters() {
                 </Select>
             </FormControl>
             
-            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
-                label="Date&Time picker"
+                label="От"
                 value={value}
-                onChange={handleChange}
+                onChange={handleChangeOt}
                 renderInput={(params) => <TextField {...params} />}
                 />
-            </LocalizationProvider> */}
+            </LocalizationProvider>
+
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                label="До"
+                value={value2}
+                onChange={handleChangeDo}
+                renderInput={(params) => <TextField {...params} />}
+                />
+            </LocalizationProvider>
 
             <FormControl sx={{width: '100%'}}>
-                <InputLabel id="consumable-chip-label">Расходуемые средства</InputLabel>
+                <InputLabel id="consumable-chip-label">Средства уборки</InputLabel>
                 <Select
                 labelId="consumable-chip-label"
                 id="consumable-chip"
@@ -147,5 +162,3 @@ function Filters() {
     </div>
   );
 }
-
-export default Filters;

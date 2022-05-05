@@ -5,7 +5,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import sha256 from 'sha256';
 import axios from 'axios';
 import {setCookie} from 'typescript-cookie';
-import {useNavigate} from 'react-router-dom';
 
 interface RegisterData {
     surname: string;
@@ -28,7 +27,7 @@ type Request = {
   email: string,
 }
 
-function SignOn() {
+export default function SignOn() {
 
 
     const [values, setValues] = React.useState<RegisterData>({
@@ -90,7 +89,7 @@ function SignOn() {
       }
 
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '50%'}}>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '100%'}}>
         <Typography variant="h4" color="primary" align='center' style={{fontWeight: '500'}}>Регистрация</Typography>
         <Stack
           component="form"
@@ -148,5 +147,3 @@ function SignOn() {
     </div>
   );
 }
-
-export default SignOn;

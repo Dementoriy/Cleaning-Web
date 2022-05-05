@@ -3,7 +3,7 @@ import SignIn from './SignIn';
 import SignOn from './SignOn';
 import {Stack} from "@mui/material";
 
-function Auth()
+export default function Auth()
 {
     return(
         <Stack direction="row" spacing={3}>
@@ -12,4 +12,3 @@ function Auth()
         </Stack>
     );
 }
-export default Auth;

@@ -1,17 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import SideBar from './SideBar';
-import Address from './Address';
-import Services from './Services';
-import DopServices from './DopServices';
-import AuthGroup from './AuthGroup';
-import ServicesGroup from './ServicesGroup'
-import Filters from './Filters';
-import ProfileGroup from './ProfileGroup'
+import SideBar from './components/sideBar/SideBar';
+import AuthGroup from './components/auth/AuthGroup';
+import ServicesGroup from './components/services/ServicesGroup'
+import ProfileGroup from './components/profile/ProfileGroup'
+import MyCleaningGroup from './components/myCleaning/MyCleaningGroup'
 import reportWebVitals from './reportWebVitals';
 import {Stack} from "@mui/material";
-import { createTheme, ThemeProvider, makeStyles } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const outerTheme = createTheme({
@@ -22,6 +18,9 @@ const outerTheme = createTheme({
     secondary: {
       main: '#D8D0C5',
     },
+    success: {
+      main: '#FFFFFF'
+    }
   },
   typography: {
     fontFamily: [
@@ -53,6 +52,7 @@ ReactDOM.render(
             <Route path={"/"} element={<AuthGroup />} />
             <Route path={"/Profile"} element={<ProfileGroup />} />
             <Route path={"/Services"} element={<ServicesGroup />} />
+            <Route path={"/MyCleaning"} element={<MyCleaningGroup />} />
           </Routes>
         </Stack>
       </BrowserRouter>

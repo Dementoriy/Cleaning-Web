@@ -1,13 +1,13 @@
 import React from 'react';
 import {TextField, Typography, Avatar, Stack, Button} from "@mui/material"; 
 
-function App() {
+export default function Profile() {
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '48%'}}>
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '48%', minWidth: '700px'}}>
         <Stack direction="row" spacing={2}>
-            <Avatar alt="Avatar" src="./assets/image/ava.png" sx={{ width: 120, height: 120 }}/>
+            <Avatar alt="Avatar" src="/image/ava.png" sx={{ width: 120, height: 120 }}/>
             <Stack spacing={1}>
-              <Typography color="primary" variant="h4" style={{fontWeight: '500'}}>Вафлев Адам Неадамович</Typography>
+              <Typography color="primary" variant="h4" sx={{fw: '500'}}>Вафлев Адам Неадамович</Typography>
               <Typography color="primary" variant="h5">@Adam</Typography>
             </Stack>
         </Stack>
@@ -15,11 +15,11 @@ function App() {
           component="form"
           sx={{
             width: '60%',
-            marginTop: '30px',
+            mt: '30px',
             fontFamily: 'Raleway',
-            fontWeight: '500'
+            fw: '500'
           }}
-          spacing={3}
+          spacing={2}
           noValidate
           autoComplete="off"
         >
@@ -27,11 +27,11 @@ function App() {
           <TextField label="Имя" size='small' />
           <TextField label="Отчество" size='small'/>
           <TextField label="Номер телефона" size='small' />
-          <TextField label="Почта" size='small' />
+          <TextField label="Email" size='small' />
         </Stack>
-        <Button variant="outlined" size="large" color="primary" sx={{mt: '10px'}}>Сохранить</Button>
+        <Button variant="contained" color="secondary" size="large" disableElevation sx={{ borderRadius: '10px', mt: '10px', ml: '40%'}}>
+        Сохранить
+        </Button>
     </div>
   );
 }
-
-export default App;
