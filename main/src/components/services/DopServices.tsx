@@ -3,8 +3,8 @@ import {Box, Checkbox, FormGroup, FormControlLabel, Card, CardContent, CardMedia
 
 export default function DopServices() {
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '33%', minWidth: '450px'}}>
-        <Typography variant="h4" color="primary" align='center' sx={{fw: '500'}}>Дополнительные услуги</Typography>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '90%', marginRight: '17px'}}>
+        <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Дополнительные услуги</Typography>
         <Card sx={{ display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px" }}>
             <CardMedia
                 component="img"
@@ -14,7 +14,7 @@ export default function DopServices() {
             />
             <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
-                    <Typography variant="h6" color="primary" sx={{fw: '500'}}>
+                    <Typography variant="h6" color="primary" sx={{fontWeight: '500'}}>
                     Дезинфекция
                     </Typography>
                     <Typography variant="subtitle2">
@@ -29,7 +29,7 @@ export default function DopServices() {
                 <Box marginTop={1}>
                     <FormGroup>
                         <FormControlLabel control={<Checkbox  color='primary'/>} label="Дезинфекция"/>
-                        <TextField label="Количество" color='primary' size='small' sx={{fw: '500', mt: '10%', width: '98%'}} />
+                        <TextField label="Количество" color='primary' size='small' sx={{fontWeight: '500', mt: '10%', width: '98%'}} />
                     </FormGroup>
                 </Box>
             </Box>

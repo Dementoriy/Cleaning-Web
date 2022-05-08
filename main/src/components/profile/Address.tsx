@@ -17,30 +17,29 @@ import { YMaps, Map } from 'react-yandex-maps';
     };
 
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', marginRight: '17px', width: '33%', minWidth: '410px'}}>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px',  width: '60%', marginRight: '17px'}}>
       <Typography variant="h4" color="primary" align='center' style={{fontWeight: '500'}}>Мои адреса</Typography>
-      <Card sx={{ width: '100%', backgroundColor: '#B1A18B', borderRadius:"10px", marginTop: '5px'}}>
-      <CardHeader
+      <Card sx={{ width: '100%', backgroundColor: '#B1A18B', borderRadius:"10px", marginTop: '20px'}}>
+        <CardHeader
           action={
           <IconButton aria-label="delete" onClick={handleClickOpen}>
-              <DeleteOutlineOutlinedIcon />
+            <DeleteOutlineOutlinedIcon />
           </IconButton>
-          
           }
           title="Работа"
-      />
-      <CardContent>
-        <YMaps>
-          <div>
-              <Map defaultState={{ center: [58.60, 49.66], zoom: 11 }} /*state={{width: "100%"}}*/ />
-          </div>
-      </YMaps>
-      </CardContent>
-      <CardActions disableSpacing>
-          <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px', width: '100%'}} endIcon={<EditOutlinedIcon />}>
+        />
+        <CardContent sx={{ mt: '-5%'}}>
+          <YMaps>
+            <div>
+              <Map defaultState={{ center: [58.60, 49.66], zoom: 11 }} style={{height: "300px"}} />
+            </div>
+          </YMaps>
+        </CardContent>
+        <CardActions disableSpacing>
+            <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px', width: '100%'}} endIcon={<EditOutlinedIcon />}>
               <Typography>Воровского 101, кв. 6</Typography>
-          </Button>
-      </CardActions>
+            </Button>
+        </CardActions>
       </Card>
       <Stack
         component="form"
@@ -54,7 +53,7 @@ import { YMaps, Map } from 'react-yandex-maps';
       >
         <Fab color="secondary" aria-label="add">
           <AddIcon />
-      </Fab>
+        </Fab>
       </Stack>
       <Dialog
         open={open}

@@ -1,21 +1,42 @@
 import React from 'react';
-import { Button, Typography, Stack, CardContent, Card, Box, Rating, Dialog, DialogActions, DialogContent, DialogContentText} from "@mui/material";
+import { Button, Typography, Stack, CardContent, Card, Box, Rating, Dialog, DialogActions, DialogContent, DialogContentText, Modal, TextField } from "@mui/material";
 
 export default function MyCleaning() {
+
     const [value, setValue] = React.useState<number | null>(0);
 
-    const [open, setOpen] = React.useState(false);
-    const handleClickOpen = () => {
-      setOpen(true);
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const [openModal, setOpenModal] = React.useState(false);
+    const handleDialogOpen = () => {
+        setOpenDialog(true);
+    };
+    const handleModalOpen = () => {
+        setOpenModal(true);
+      };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+    const handleCloseModal = () => {
+        setOpenModal(false);
     };
 
-    const handleClose = () => {
-      setOpen(false);
-    };
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '80%',
+        bgcolor: '#F0EDE8',
+        border: '2px solid #776D61',
+        borderRadius: '20px',
+        boxShadow: 24,
+        p: 4,
+      };
 
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '48%', minWidth: '810px'}}>
-        <Typography variant="h4" color="primary" align='center' sx={{fw: '500'}}>Мои уборки</Typography>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '250%'}}>
+        <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Мои уборки</Typography>
         <Box sx={{ borderBottom: '3px solid #776D61'}}>
             <Typography variant="h5" color="primary">
             Активные заявки
@@ -60,10 +81,10 @@ export default function MyCleaning() {
                     </Typography>
                 </Stack>
                 <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="flex-end">
-                    <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}}>
+                    <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}} onClick={handleModalOpen}>
                         Подробнее
                     </Button>
-                    <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}} onClick={handleClickOpen}>
+                    <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}} onClick={handleDialogOpen}>
                         Отменить
                     </Button>
                 </Stack>
@@ -117,15 +138,15 @@ export default function MyCleaning() {
                         setValue(newValue);
                         }}
                     />
-                    <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}}>
+                    <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}} onClick={handleModalOpen}>
                     Подробнее
                     </Button>
                 </Stack>
             </Box>
         </Card>
         <Dialog
-            open={open}
-            onClose={handleClose}
+            open={openDialog}
+            onClose={handleCloseDialog}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
@@ -135,12 +156,69 @@ export default function MyCleaning() {
             </DialogContentText>
             </DialogContent>
             <DialogActions>
-            <Button onClick={handleClose}>Нет</Button>
-            <Button onClick={handleClose} autoFocus>
+            <Button onClick={handleCloseDialog}>Нет</Button>
+            <Button onClick={handleCloseDialog} autoFocus>
                 Да
             </Button>
             </DialogActions>
         </Dialog>
+        <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={style}>
+            <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Полная информация</Typography>
+        
+            <Stack direction="row" spacing={6} padding={4}>
+                <Stack spacing={1} width={"50%"}>
+                    <Box sx={{ borderBottom: '3px solid #776D61'}}>
+                        <Typography variant="h5" color="primary">
+                        Место уборки
+                        </Typography>
+                    </Box>
+                    <TextField label="Адрес" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                    <TextField label="Тип помещения" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+
+                    <Box sx={{ borderBottom: '3px solid #776D61'}}>
+                        <Typography variant="h5" color="primary">
+                        Время уборки
+                        </Typography>
+                    </Box>
+                    <TextField label="Уборка запланирована на" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                    <TextField label="Время уборки" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                    <TextField label="Статус заявки" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                </Stack>
+                <Stack spacing={1} width={"50%"}>
+                    <Box sx={{ borderBottom: '3px solid #776D61'}}>
+                        <Typography variant="h5" color="primary">
+                        Услуга
+                        </Typography>
+                    </Box>
+                    <TextField label="Тип уборки" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                    <TextField label="Площадь" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                    
+                    <Box sx={{ borderBottom: '3px solid #776D61'}}>
+                        <Typography variant="h5" color="primary">
+                        Дополнительные услуги
+                        </Typography>
+                    </Box>
+                    <Stack direction="row" spacing={2}>
+                        <TextField label="Доп. услуга" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                        <TextField label="Количество" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                    </Stack>
+
+                    <TextField
+                    id="outlined-multiline-static"
+                    label="Расходуемые средства"
+                    multiline
+                    rows={6}
+                    />
+                </Stack>
+            </Stack>
+            </Box>
+        </Modal>
     </div>
   );
 }

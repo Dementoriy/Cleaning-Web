@@ -11,18 +11,18 @@ export default function Calculator() {
     };
 
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '33%', minWidth: '450px'}}>
-        <Typography variant="h4" color="primary" align='center' sx={{fw: '500'}}>Калькулятор</Typography>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '90%', marginRight: '17px'}}>
+        <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Калькулятор</Typography>
         <Stack spacing={2} mt={1} alignItems="center">
-            <TextField label="Площадь:" color='primary' size='small' sx={{fw: '500', width: '80%'}} />
+            <TextField label="Площадь:" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
             <Box width='80%'>
                 <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Тип:</InputLabel>
+                    <InputLabel id="demo-simple-select-label" style={{lineHeight: '0.8em'}}>Тип:</InputLabel>
                     <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={name}
-                    label="Age"
+                    label="Тип:"
                     onChange={handleChange}
                     sx={{height: '40px'}}
                     >
@@ -33,8 +33,8 @@ export default function Calculator() {
                     </Select>
                 </FormControl>
             </Box>
-            <TextField disabled label="Цена:" color='primary' size='small' sx={{fw: '500', width: '80%'}} />
-            <TextField disabled label="≈Время:" color='primary' size='small' sx={{fw: '500', width: '80%'}} />     
+            <TextField disabled label="Цена" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
+            <TextField disabled label="≈Время" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />     
         </Stack>
     </div>
   );

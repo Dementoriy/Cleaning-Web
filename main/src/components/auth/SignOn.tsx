@@ -3,8 +3,10 @@ import { Typography, Stack, Button, IconButton, OutlinedInput, InputLabel, Input
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import sha256 from 'sha256';
-import axios from 'axios';
-import {setCookie} from 'typescript-cookie';
+import AuthService from '../../redux/services/AuthService';
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../redux/store";
+import {RegistrationModel} from "../../models/RequestModels"
 
 interface RegisterData {
     surname: string;
@@ -17,30 +19,24 @@ interface RegisterData {
     passwordCheck: string;
     showPassword: boolean;
   }
-type Request = {
-  login: string,
-  password: string,
-  surname: string,
-  name: string,
-  middlename: string,
-  phoneNumber: string,
-  email: string,
-}
 
 export default function SignOn() {
 
+  const user = useSelector((state: RootState) => state);
+  const dispatch = useDispatch<AppDispatch>();
 
-    const [values, setValues] = React.useState<RegisterData>({
-        surname: "",
-        name: "",
-        middleName: "",
-        phoneNumber: "",
-        email: "",
-        login: "",
-        password: "",
-        passwordCheck: "",
-        showPassword: false,
-      });
+
+  const [values, setValues] = React.useState<RegisterData>({
+      surname: "",
+      name: "",
+      middleName: "",
+      phoneNumber: "",
+      email: "",
+      login: "",
+      password: "",
+      passwordCheck: "",
+      showPassword: false,
+    });
     
       const handleChange =
         (prop: keyof RegisterData) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,34 +59,23 @@ export default function SignOn() {
           alert("Пароли не совпадают, повторите попытку.");
           return;
         } 
-        const data : Request = {
+        const data : RegistrationModel = {
           login: values.login,
           password: sha256(values.password),
           surname: values.surname,
           name: values.name,
           middlename: values.middleName,
-          phoneNumber: values.phoneNumber,
+          phone: values.phoneNumber,
           email: values.email,
         }
-        axios.post("http://localhost:8080/cleaning/registration", data).then((str) => {
-          if(str.data.status){
-            setCookie("token", str.data.answer.token, {
-              expires : 1,
-              path: "",
-            })
-            alert("Регистрация прошла успешно!");
-          }
-          else{
-            alert("Не удалось зарегистрироваться");
-          }
-        }).catch((e) => {
-          alert(e);
+        AuthService.register(data).then((res) => {
+          dispatch(res);
         })
       }
 
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '100%'}}>
-        <Typography variant="h4" color="primary" align='center' style={{fontWeight: '500'}}>Регистрация</Typography>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%'}}>
+        <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Регистрация</Typography>
         <Stack
           component="form"
           sx={{
@@ -134,13 +119,12 @@ export default function SignOn() {
             <Stack
             component="form"
             sx={{marginTop: '20px',}}
-            spacing={5}
-            noValidate
-            autoComplete="off"
             direction="row"
+            justifyContent="space-between"
+            alignItems="center"
             >
-                <Button variant="text" size="large" color="primary" disableElevation>Авторизация</Button>
-                <Button variant="contained" size="large" color="secondary" onClick={onClick} disableElevation>Далее</Button>
+              <Button variant="text" size="large" color="primary" disableElevation>Авторизация</Button>
+              <Button variant="contained" size="large" color="secondary" onClick={onClick} sx={{ borderRadius: '10px'}} disableElevation>Далее</Button>
             </Stack>
         </Stack>
         

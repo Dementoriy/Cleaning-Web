@@ -6,7 +6,7 @@ using Trivial.Security;
 
 namespace WebServer.Requests;
 
-[RequestHandlerPath("/cleaning")]
+[RequestHandlerPath("/auth")]
 public class AuthHandler : RequestHandler
 {
     private string GenerateToken(Client client)
@@ -26,12 +26,38 @@ public class AuthHandler : RequestHandler
             Send(new AnswerModel(false, null, 1, "Ошибка!"));
             return;
         }
-        var client = new Client(body!.surname, body.name, body.middlename, body.phoneNumber, false, body.login, body.password, body.email);
+        var client = new Client(body!.surname, body.name, body.middlename, body.phone, false, body.login, body.password, body.email);
         if (!client.AddClient())
         {
             Send(new AnswerModel(false, null, 1, "Ошибка!"));
             return;
         }
         Send(new AnswerModel(true, new {token = GenerateToken(client) }, null, null));
+    }
+    [Post("/authorization")]
+    public void Authorization()
+    {
+        var body = Bind<AuthModel>();
+        if (body is null || string.IsNullOrEmpty(body.login) || string.IsNullOrEmpty(body.password))
+        {
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+
+        var client = Profile.GetClientAuth(body.login, body.password);
+        if (client is null)
+        {
+            Send(new AnswerModel(false, null, 401, "incorrect request body"));
+            return;
+        }
+
+        var tokens = GenerateToken(client.Profile!);
+        Send(new AnswerModel(true, new
+        {
+            access_token = tokens.Item1,
+            user = new ClientModel(client.Id,
+                client.Surname, client.Name, client.MiddleName, client.Email!, client.PhoneNumber,
+                client.Profile!.Login, client.IsOld, client.Avatar)
+        }, null, null));
     }
 }

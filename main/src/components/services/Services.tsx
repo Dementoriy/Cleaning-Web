@@ -6,8 +6,8 @@ import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
 export default function Services() {
     const theme = useTheme();
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '50px', padding: '22px', marginTop: '17px', width: '48%', minWidth: '660px'}}>
-        <Typography variant="h4" color="primary" align='center' sx={{fw: '500'}}>Услуги</Typography>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '130%'}}>
+        <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Услуги</Typography>
         <Card sx={{ display: 'flex', border: "3px solid #776D61", borderRadius: "10px", marginTop: "10px"}}>
             <CardMedia
                 component="img"
@@ -17,7 +17,7 @@ export default function Services() {
             />
             <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
-                    <Typography color="primary" variant="h6" sx={{fw: '500'}}>
+                    <Typography color="primary" variant="h6" sx={{fontWeight: '500'}}>
                     Экспресс-уборка
                     </Typography>
                     <Typography variant="subtitle2">

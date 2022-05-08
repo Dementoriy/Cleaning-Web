@@ -5,10 +5,15 @@ import AuthGroup from './components/auth/AuthGroup';
 import ServicesGroup from './components/services/ServicesGroup'
 import ProfileGroup from './components/profile/ProfileGroup'
 import MyCleaningGroup from './components/myCleaning/MyCleaningGroup'
+import ToOrderGroup from './components/toOrder/ToOrderGroup'
 import reportWebVitals from './reportWebVitals';
 import {Stack} from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {Provider} from "react-redux";
+import {store} from './redux/store';
+
+
 
 const outerTheme = createTheme({
   palette: {
@@ -44,20 +49,22 @@ const outerTheme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={outerTheme}>
-      <BrowserRouter>
-        <Stack direction="row" spacing={3}>
-          <SideBar />
-          <Routes>
-            <Route path={"/"} element={<AuthGroup />} />
-            <Route path={"/Profile"} element={<ProfileGroup />} />
-            <Route path={"/Services"} element={<ServicesGroup />} />
-            <Route path={"/MyCleaning"} element={<MyCleaningGroup />} />
-          </Routes>
-        </Stack>
-      </BrowserRouter>
-    </ThemeProvider>
-
+    <Provider store={store}>
+      <ThemeProvider theme={outerTheme}>
+        <BrowserRouter>
+          <Stack direction="row" spacing={3}>
+            <SideBar />
+            <Routes>
+              <Route path={"/"} element={<AuthGroup />} />
+              <Route path={"/profile"} element={<ProfileGroup />} />
+              <Route path={"/services"} element={<ServicesGroup />} />
+              <Route path={"/my-cleaning"} element={<MyCleaningGroup />} />
+              <Route path={"/to-order"} element={<ToOrderGroup />} />
+            </Routes>
+          </Stack>
+        </BrowserRouter>
+      </ThemeProvider>
+		</Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -9,7 +9,7 @@ export default function ServicesGroup()
     return(
         <Stack direction="row" spacing={3}>
             <Services />
-            <Stack spacing={3}>
+            <Stack spacing={3} width='100%'>
                 <Calculator />
                 <DopServices />
             </Stack>

@@ -11,7 +11,7 @@ namespace WebServer.Models
         public string surname { get; set; }
         public string name { get; set; }
         public string middlename { get; set; }
-        public string phoneNumber { get; set; }
+        public string phone { get; set; }
         public string email { get; set; }
         public string login { get; set; }
         public string password { get; set; }
@@ -19,7 +19,7 @@ namespace WebServer.Models
         public static bool Check(RegModel? model)
         {
             return model is null || string.IsNullOrEmpty(model.surname) || string.IsNullOrEmpty(model.name)
-                || string.IsNullOrEmpty(model.phoneNumber) || string.IsNullOrEmpty(model.email)
+                || string.IsNullOrEmpty(model.phone) || string.IsNullOrEmpty(model.email)
                 || string.IsNullOrEmpty(model.login) || string.IsNullOrEmpty(model.password);
         }
     }
