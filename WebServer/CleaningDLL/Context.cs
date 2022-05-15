@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Npgsql;
 
 namespace CleaningDLL
 {
     public class Context
     {
         public static ApplicationContext Db { get; private set; }
-        internal static void AddDb(ApplicationContext application)
-        {
-            Db = application;
-        }
+        public static NpgsqlConnection npgsql { get; private set; }
         public Context(ApplicationContext applicationContext)
         {
             Db = applicationContext;
+            npgsql = new NpgsqlConnection(ApplicationContext.ConnectionString);
+            npgsql.Open();
         }
     }
 }

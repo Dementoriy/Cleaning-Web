@@ -10,7 +10,7 @@ namespace CleaningDLL.Entity
         public string Type { get; set; }
         public decimal Сoefficient { get; set; }
         private static ApplicationContext db = Context.Db;
-        public RoomType(string type, int coefficient)
+        public RoomType(string type, decimal coefficient)
         {
             this.Type = type;
             this.Сoefficient = coefficient;
@@ -30,6 +30,10 @@ namespace CleaningDLL.Entity
         public static List<string> GetRoomType()
         {
             return db.RoomType.Select(c => c.Type).ToList();
+        }
+        public static RoomType GetRoomTypeByName(string name)
+        {
+            return db.RoomType.First(e => e.Type == name);
         }
     }
 }

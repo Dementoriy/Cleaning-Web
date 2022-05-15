@@ -9,7 +9,7 @@ namespace CleaningDLL.Entity
     {
         public enum Status
         {
-            [Description("Оплачена")] scheduledDeparture = 1,//ожидает
+            [Description("Оплачена")] scheduledDeparture = 1,
             [Description("В процессе")] inProcessing = 2,
             [Description("Завершена")] сompleted = 3,
             [Description("Отменена")] canceled = 4,

@@ -11,28 +11,44 @@ public class AuthHandler : RequestHandler
 {
     private string GenerateToken(Client client)
     {
-        var model = new JsonWebTokenPayload { Id = Guid.NewGuid().ToString("n"), Issuer = $"{client.Login},{client.Surname}" };
+        var model = new JsonWebTokenPayload { Id = Guid.NewGuid().ToString("n"), Issuer = $"{client.Login}", Expiration = DateTime.Now + new TimeSpan(1, 0, 0) };
+        var refreshModel = new JsonWebTokenPayload
+        {
+            Id = Guid.NewGuid().ToString("n"),
+            Issuer = $"{client.Login}",
+            IssuedAt = DateTime.Now
+        };
         var jwt = new JsonWebToken<JsonWebTokenPayload>(model, Program.Sign);
         var jwtStr = jwt.ToEncodedString();
         AuthToken.RemoveToken(new TimeSpan(1, 0, 0, 0));
         return AuthToken.AddToken(jwtStr) ? jwtStr : "";
     }
+
     [Post("/registration")]
     public void Regisration()
     {
         var body = Bind<RegModel>();
         if(RegModel.Check(body))
         {
-            Send(new AnswerModel(false, null, 1, "Ошибка!"));
+            Send(new AnswerModel(false, null, 401, "incorrect request"));
             return;
         }
-        var client = new Client(body!.surname, body.name, body.middlename, body.phone, false, body.login, body.password, body.email);
+        var client = new Client(body!.surname, body.name, body.middlename, body.phone, false, body.login, body.password, body.email, null);
         if (!client.AddClient())
         {
-            Send(new AnswerModel(false, null, 1, "Ошибка!"));
+            Send(new AnswerModel(false, null, 401, "incorrect request"));
             return;
         }
-        Send(new AnswerModel(true, new {token = GenerateToken(client) }, null, null));
+
+        var tokens = GenerateToken(client);
+        Send(new AnswerModel(true, new
+        {
+            access_token = tokens,
+            user = new ClientModel(client.ID,
+                client.Surname, client.Name, client.MiddleName, client.Email!,
+                client.PhoneNumber,
+                client.Login, client.IsOldClient, client.Avatar)
+        }, null, null));
     }
     [Post("/authorization")]
     public void Authorization()
@@ -44,20 +60,20 @@ public class AuthHandler : RequestHandler
             return;
         }
 
-        var client = Profile.GetClientAuth(body.login, body.password);
+        var client = Client.GetClient(body.login, body.password);
         if (client is null)
         {
             Send(new AnswerModel(false, null, 401, "incorrect request body"));
             return;
         }
 
-        var tokens = GenerateToken(client.Profile!);
+        var tokens = GenerateToken(client);
         Send(new AnswerModel(true, new
         {
-            access_token = tokens.Item1,
-            user = new ClientModel(client.Id,
+            access_token = tokens,
+            user = new ClientModel(client.ID,
                 client.Surname, client.Name, client.MiddleName, client.Email!, client.PhoneNumber,
-                client.Profile!.Login, client.IsOld, client.Avatar)
+                client.Login, client.IsOldClient, client.Avatar)
         }, null, null));
     }
 }

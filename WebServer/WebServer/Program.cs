@@ -7,8 +7,8 @@ namespace WebServer;
 
 internal class Program
 {
-    internal static HashSignatureProvider Sign { get; private set; }
-    private static void Main()
+    internal static HashSignatureProvider Sign { get; private set; } = null!;
+    private static void Main(string[] args)
     {
         new ApplicationContext(ApplicationContext.GetDb());
         Sign = HashSignatureProvider.CreateHS256("myString");

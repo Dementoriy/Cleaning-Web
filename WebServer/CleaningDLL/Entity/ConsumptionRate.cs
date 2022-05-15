@@ -2,7 +2,7 @@
 
 namespace CleaningDLL.Entity
 {
-    public class ConsumptionRate //Норма расхода
+    public class ConsumptionRate
     {
         public int ID { get; set; }
         [Required]

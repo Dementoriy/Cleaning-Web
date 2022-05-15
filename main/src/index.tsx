@@ -13,8 +13,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {Provider} from "react-redux";
 import {store} from './redux/store';
 
-
-
 const outerTheme = createTheme({
   palette: {
     primary: {
@@ -56,10 +54,10 @@ ReactDOM.render(
             <SideBar />
             <Routes>
               <Route path={"/"} element={<AuthGroup />} />
-              <Route path={"/profile"} element={<ProfileGroup />} />
-              <Route path={"/services"} element={<ServicesGroup />} />
-              <Route path={"/my-cleaning"} element={<MyCleaningGroup />} />
-              <Route path={"/to-order"} element={<ToOrderGroup />} />
+              <Route path={"profile"} element={<ProfileGroup />} />
+              <Route path={"services"} element={<ServicesGroup />} />
+              <Route path={"my-cleaning"} element={<MyCleaningGroup />} />
+              <Route path={"to-order"} element={<ToOrderGroup />} />
             </Routes>
           </Stack>
         </BrowserRouter>

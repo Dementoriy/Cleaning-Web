@@ -2,7 +2,7 @@
 
 namespace CleaningDLL.Entity
 {
-    public class DeliveryContent //Содержимое поставки
+    public class DeliveryContent
     {
         public int ID { get; set; }
         [Required]

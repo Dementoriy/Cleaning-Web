@@ -42,108 +42,112 @@ export default function MyCleaning() {
             Активные заявки
             </Typography>
         </Box>
-        <Card sx={{ display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
-                <CardContent sx={{ flex: '1 0 auto' }}>
-                    <Typography variant="subtitle1">
-                    Дом. Воровского 101, кв. 6.
-                    </Typography>
-                    <Typography variant="subtitle1">
-                    Тип помещения: Квартира
-                    </Typography>
-                    <Typography variant="subtitle1">
-                    Тип уборки: Генеральная уборка
-                    </Typography>
-                    <Typography variant="subtitle1">
-                    Площадь: 40м2
-                    </Typography>
-                    <Typography variant="subtitle1">
-                    Дополнительные услуги: мойка окон, химчистка.
-                    </Typography>
-                </CardContent>
-            </Box>
-            <Box sx={{flexDirection: 'column', backgroundColor: '#D8D0C5', borderLeft: '3px solid #776D61', width: '50%', padding: '5px'}}>
-                <Stack spacing={0.5}>
-                    <Typography variant="subtitle2">
-                    Уборка запланирована на 18.04.2022
-                    </Typography>
-                    <Typography variant="subtitle2">
-                    Время прибытия: 11:00
-                    </Typography>
-                    <Typography variant="subtitle2">
-                    Статус заявки: назначен выезд.
-                    </Typography>
-                    <Typography variant="subtitle2">
-                    Время на приборку: 4 часа
-                    </Typography>
-                    <Typography variant="subtitle2">
-                    Итог: 3000 руб.
-                    </Typography>
-                </Stack>
-                <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="flex-end">
-                    <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}} onClick={handleModalOpen}>
-                        Подробнее
-                    </Button>
-                    <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}} onClick={handleDialogOpen}>
-                        Отменить
-                    </Button>
-                </Stack>
-            </Box>
-        </Card>
+        <Stack spacing={2}>
+            <Card sx={{ display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
+                    <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography variant="subtitle1">
+                        Дом. Воровского 101, кв. 6.
+                        </Typography>
+                        <Typography variant="subtitle1">
+                        Тип помещения: Квартира
+                        </Typography>
+                        <Typography variant="subtitle1">
+                        Тип уборки: Генеральная уборка
+                        </Typography>
+                        <Typography variant="subtitle1">
+                        Площадь: 40м2
+                        </Typography>
+                        <Typography variant="subtitle1">
+                        Дополнительные услуги: мойка окон, химчистка.
+                        </Typography>
+                    </CardContent>
+                </Box>
+                <Box sx={{flexDirection: 'column', backgroundColor: '#D8D0C5', borderLeft: '3px solid #776D61', width: '50%', padding: '5px'}}>
+                    <Stack spacing={0.5}>
+                        <Typography variant="subtitle2">
+                        Уборка запланирована на 18.04.2022
+                        </Typography>
+                        <Typography variant="subtitle2">
+                        Время прибытия: 11:00
+                        </Typography>
+                        <Typography variant="subtitle2">
+                        Статус заявки: назначен выезд.
+                        </Typography>
+                        <Typography variant="subtitle2">
+                        Время на приборку: 4 часа
+                        </Typography>
+                        <Typography variant="subtitle2">
+                        Итог: 3000 руб.
+                        </Typography>
+                    </Stack>
+                    <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="flex-end">
+                        <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}} onClick={handleModalOpen}>
+                            Подробнее
+                        </Button>
+                        <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}} onClick={handleDialogOpen}>
+                            Отменить
+                        </Button>
+                    </Stack>
+                </Box>
+            </Card>
+        </Stack>
         <Box sx={{ borderBottom: '3px solid #776D61', marginTop: '20px'}}>
             <Typography variant="h5" color="primary">
             Архив заявок
             </Typography>
         </Box>
-        <Card sx={{ display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
-                <CardContent sx={{ flex: '1 0 auto' }}>
-                    <Typography variant="subtitle1">
-                    Дом. Воровского 101, кв. 6.
-                    </Typography>
-                    <Typography variant="subtitle1">
-                    Тип помещения: Квартира
-                    </Typography>
-                    <Typography variant="subtitle1">
-                    Тип уборки: Генеральная уборка
-                    </Typography>
-                    <Typography variant="subtitle1">
-                    Площадь: 40м2
-                    </Typography>
-                    <Typography variant="subtitle1">
-                    Дополнительные услуги: мойка окон, химчистка.
-                    </Typography>
-                </CardContent>
-            </Box>
-            <Box sx={{flexDirection: 'column', backgroundColor: '#D8D0C5', borderLeft: '3px solid #776D61', width: '50%', padding: '5px'}}>
-                <Stack spacing={0.5}>
-                    <Typography variant="subtitle2">
-                    Уборка запланирована на 18.04.2022
-                    </Typography>
-                    <Typography variant="subtitle2">
-                    Время прибытия: 11:00
-                    </Typography>
-                    <Typography variant="subtitle2">
-                    Статус заявки: назначен выезд.
-                    </Typography>
-                    <Typography variant="subtitle2">
-                    Время на приборку: 4 часа
-                    </Typography>
-                    <Typography variant="subtitle2">
-                    Итог: 3000 руб.
-                    </Typography>
-                </Stack>
-                <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="space-between">
-                    <Rating name="simple-controlled" value={value} onChange={(event, newValue) => {
-                        setValue(newValue);
-                        }}
-                    />
-                    <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}} onClick={handleModalOpen}>
-                    Подробнее
-                    </Button>
-                </Stack>
-            </Box>
-        </Card>
+        <Stack spacing={2}>
+            <Card sx={{ display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
+                    <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography variant="subtitle1">
+                        Дом. Воровского 101, кв. 6.
+                        </Typography>
+                        <Typography variant="subtitle1">
+                        Тип помещения: Квартира
+                        </Typography>
+                        <Typography variant="subtitle1">
+                        Тип уборки: Генеральная уборка
+                        </Typography>
+                        <Typography variant="subtitle1">
+                        Площадь: 40м2
+                        </Typography>
+                        <Typography variant="subtitle1">
+                        Дополнительные услуги: мойка окон, химчистка.
+                        </Typography>
+                    </CardContent>
+                </Box>
+                <Box sx={{flexDirection: 'column', backgroundColor: '#D8D0C5', borderLeft: '3px solid #776D61', width: '50%', padding: '5px'}}>
+                    <Stack spacing={0.5}>
+                        <Typography variant="subtitle2">
+                        Уборка запланирована на 18.04.2022
+                        </Typography>
+                        <Typography variant="subtitle2">
+                        Время прибытия: 11:00
+                        </Typography>
+                        <Typography variant="subtitle2">
+                        Статус заявки: назначен выезд.
+                        </Typography>
+                        <Typography variant="subtitle2">
+                        Время на приборку: 4 часа
+                        </Typography>
+                        <Typography variant="subtitle2">
+                        Итог: 3000 руб.
+                        </Typography>
+                    </Stack>
+                    <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="space-between">
+                        <Rating name="simple-controlled" value={value} onChange={(event, newValue) => {
+                            setValue(newValue);
+                            }}
+                        />
+                        <Button variant="contained" color="success" size="small" disableElevation sx={{ borderRadius: '10px'}} onClick={handleModalOpen}>
+                        Подробнее
+                        </Button>
+                    </Stack>
+                </Box>
+            </Card>
+        </Stack>
         <Dialog
             open={openDialog}
             onClose={handleCloseDialog}

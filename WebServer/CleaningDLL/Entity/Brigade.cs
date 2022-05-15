@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CleaningDLL.Entity
 {
-    public class Brigade //Бригада
+    public class Brigade 
     {
         public int ID { get; set; }
         [Required]
@@ -21,7 +21,7 @@ namespace CleaningDLL.Entity
         }
         public static Brigade GetBrigadeByID(int id)
         {
-            return db.Brigade.Where(e => e.ID == id).FirstOrDefault();
+            return db.Brigade.FirstOrDefault(e => e.ID == id);
         }
     }
 }

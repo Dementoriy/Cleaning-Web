@@ -1,24 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Typography, Stack, Button, IconButton, OutlinedInput, InputLabel, InputAdornment, FormControl, TextField} from "@mui/material";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {LoginModel} from '../../models/RequestModels';
+import AuthService from '../../redux/services/AuthService';
+import {LoginSuccess} from "../../redux/actions/authActions";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../redux/store";
+import sha256 from "sha256";
+import {useNavigate} from 'react-router-dom';
+import {clientActions} from '../../redux/slices/clientSlice';
 
 interface State {
-    amount: string;
+    login: string;
     password: string;
-    weight: string;
-    weightRange: string;
     showPassword: boolean;
   }
+  
 
 export default function SignIn() {
 
   const [values, setValues] = React.useState<State>({
-      amount: '',
+      login: '',
       password: '',
-      weight: '',
-      weightRange: '',
-      showPassword: false,
+      showPassword: false
   });
   
   const handleChange =
@@ -29,13 +34,31 @@ export default function SignIn() {
   const handleClickShowPassword = () => {
     setValues({
       ...values,
-      showPassword: !values.showPassword,
     });
   };
   
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
+
+  const onClick = () => {
+		const data: LoginModel = {
+			login: values.login,
+			password: sha256(values.password)
+		};
+		AuthService.login(data).then((res) => {
+			dispatch(res)
+			if (res.type === clientActions.loginSuccess.type) {
+				navigate("/");
+        //handleClose();
+			}
+		})
+	};
+
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
 
   return (
     <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%', marginRight: '17px'}}>
@@ -51,7 +74,7 @@ export default function SignIn() {
         autoComplete="off"
         alignItems="center"
       >
-        <TextField sx={{ width: '40ch' }} label="Логин" size='small' />
+        <TextField sx={{ width: '40ch' }} label="Логин" size='small' value={values.login} onChange={handleChange('login')}/>
         <FormControl sx={{ width: '40ch' }} variant="outlined" size='small'>
           <InputLabel htmlFor="outlined-adornment-password">Пароль</InputLabel>
           <OutlinedInput
@@ -84,7 +107,7 @@ export default function SignIn() {
         justifyContent="space-between"
         >
           <Button variant="text" size="large" color="primary" disableElevation>Регистрация</Button>
-          <Button variant="contained" size="large" color="secondary" sx={{ borderRadius: '10px'}} disableElevation>Войти</Button>
+          <Button variant="contained" size="large" color="secondary" sx={{ borderRadius: '10px'}} onClick={onClick} disableElevation>Войти</Button>
         </Stack>
       </Stack>
     </div>

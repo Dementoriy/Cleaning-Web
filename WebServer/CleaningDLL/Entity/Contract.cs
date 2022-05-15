@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CleaningDLL.Entity
 {
-    public class Contract //Договор с клиентом
+    public class Contract
     {
         public int ID { get; set; }
         [Required]
@@ -27,7 +27,7 @@ namespace CleaningDLL.Entity
         }
         public static Contract GetContractById(int id)
         {
-            return db.Contract.Where(c => c.ID == id).FirstOrDefault();
+            return db.Contract.FirstOrDefault(c => c.ID == id);
         }
     }
 }

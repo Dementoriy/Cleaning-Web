@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Npgsql;
 
 namespace CleaningDLL.Entity
 {
-    public class Order //Заявка
+    public class Order 
     {
         public int ID { get; set; }
         [Required]
@@ -49,17 +50,8 @@ namespace CleaningDLL.Entity
         }
 
         private static ApplicationContext db = Context.Db;
+        private static NpgsqlConnection npgsql = Context.npgsql;
 
-        //отмена заявки
-        //public static void CheckOrder()
-        //{
-        //    List<Order> orders = db.Order.Where(o => o.Status == EnumStatus.GetDescription(EnumStatus.Status.scheduledDeparture) && o.Date < DateTime.Today).ToList();
-        //    foreach (var d in orders)
-        //    {
-        //        d.Status = EnumStatus.GetDescription(EnumStatus.Status.canceled);
-        //    }
-        //    db.SaveChanges();
-        //}
         public static bool IsOldClienCheck(int clientId)
         {
             List<Order> ordersByClientID = db.Order.Where(o => o.Client.ID == clientId && o.Status == EnumStatus.GetDescription(EnumStatus.Status.сompleted)).ToList();
@@ -70,7 +62,7 @@ namespace CleaningDLL.Entity
 
         public static Order GetOrderById(int id)
         {
-            return db.Order.Where(e => e.ID == id).FirstOrDefault();
+            return db.Order.FirstOrDefault(e => e.ID == id);
         }
 
         public static List<OrderInfo> GetOrderInfo()
@@ -120,6 +112,39 @@ namespace CleaningDLL.Entity
             int h = t / 60;
             int m = t % 60;
             return (h + "ч. " + m + "мин.");
+        }
+        public static bool UpdateOrder(Order order)
+        {
+            var command = new NpgsqlCommand("UPDATE \"Order\" SET " +
+                                            "\"Status\" = @status, \"BrigadeID\" = @brigade, " +
+                                            "\"Date\" = @date, \"FinalPrice\" = @price, " +
+                                            "\"Comment\" = @comment " +
+                                            "WHERE \"ID\" = @orderId", npgsql);
+            NpgsqlParameter orderParam = new NpgsqlParameter("@orderId", order.ID);
+            NpgsqlParameter statusParam = new NpgsqlParameter("@status", order.Status);
+            NpgsqlParameter brigadeParam = new NpgsqlParameter("@brigade", order.BrigadeID);
+            NpgsqlParameter dateParam = new NpgsqlParameter("@date", order.Date);
+            NpgsqlParameter priceParam = new NpgsqlParameter("@price", order.FinalPrice);
+            NpgsqlParameter commentParam = new NpgsqlParameter("@comment", order.Comment);
+            command.Parameters.Add(orderParam);
+            command.Parameters.Add(statusParam);
+            command.Parameters.Add(brigadeParam);
+            command.Parameters.Add(dateParam);
+            command.Parameters.Add(priceParam);
+            command.Parameters.Add(commentParam);
+            var query = command.ExecuteNonQuery();
+            db.Entry(order).Reload();
+            return query > 0;
+        }
+        public static void Add(Order order)
+        {
+            db.Order.Add(order);
+            db.SaveChanges();
+        }
+        public static void Update(Order order)
+        {
+            db.Order.Update(order);
+            db.SaveChanges();
         }
     }
 }

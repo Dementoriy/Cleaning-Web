@@ -45,18 +45,34 @@ namespace CleaningDLL
             builder.HasData(new InventoryType("Вакуумный очиститель") { ID = 3 });
             builder.HasData(new InventoryType("Дезинфектор") { ID = 4 });
         }
+        public static void ReferenceUnitsOfMeasurementConfigure(EntityTypeBuilder<ReferenceUnitsOfMeasurement> builder)
+        {
+            builder.HasData(new ReferenceUnitsOfMeasurement("м2", "Измеряется в метрах квадратных") { ID = 1 });
+            builder.HasData(new ReferenceUnitsOfMeasurement("шт", "Измеряется в штуках") { ID = 2 });
+            builder.HasData(new ReferenceUnitsOfMeasurement("упаковка", "Измеряется в упаковках") { ID = 3 });
+            builder.HasData(new ReferenceUnitsOfMeasurement("л", "Измеряется в литрах") { ID = 4 });
+            builder.HasData(new ReferenceUnitsOfMeasurement("кг", "Измеряется в килограммах") { ID = 5 });
+            builder.HasData(new ReferenceUnitsOfMeasurement("г", "Измеряется в граммах") { ID = 6 });
+        }
         public static void ServiceConfigure(EntityTypeBuilder<Service> builder)
         {
-            builder.HasData(new Service("Экспресс уборка", "Поддерживающая уборка. Объект должен быть в незапущенном состоянии. Цена за 1м2.", 40, 1, 100) { ID = 1 });
-            builder.HasData(new Service("Генеральная уборка", "Генеральная уборка. Цена за 1м2.", 70, 1, 220) { ID = 2 });
-            builder.HasData(new Service("Послестроительная уборка", "Уборка на объекте после ремонта/стройки (Обильное загрязнение). Цена за 1м2.", 80, 1, 220) { ID = 3 });
-            builder.HasData(new Service("Комплексная уборка", "Комплексная уборка помещений нужна, чтобы более тщательно убрать квартиру, в которой периодически убираются. Цена за 1м2.", 50, 1, 100) { ID = 4 });
-            builder.HasData(new Service("Мойка окон", "Мойка окон. Цена за 1 створу.", 250, 2, 60) { ID = 5 });
-            builder.HasData(new Service("Мойка стеклянных дверей", "Мойка стеклянных дверей балконов и лоджий. Цена за 1 дверь.", 500, 2, 120) { ID = 6 });
-            builder.HasData(new Service("Химчистка диванов", "Химчистка диванов. Мягкой мебели. Цена за 1 место.", 300, 3, 3600) { ID = 7 });
-            builder.HasData(new Service("Химчистка кресел", "Химчистка кресел. Мягкой мебели. Цена за 1 кресло.", 300, 3, 3600) { ID = 8 });
-            builder.HasData(new Service("Химчистка ковров", "Химчистка ковров, матрасов. Цена за 1м2.", 150, 3, 300) { ID = 9 });
-            builder.HasData(new Service("Дезинфекция", "Дезинфекция помещений, твердых поверхносте, воздуха. Цена за 1м2.", 40, 4, 30) { ID = 10 });
+            builder.HasData(new Service("Экспресс уборка", "Поддерживающая уборка. Объект должен быть в незапущенном состоянии. Цена за 1м2.", 40, 1, 100, null) { ID = 1, UnitsID = 1 });
+            builder.HasData(new Service("Генеральная уборка", "Генеральная уборка. Цена за 1м2.", 70, 1, 220, null) { ID = 2, UnitsID = 1 });
+            builder.HasData(new Service("Послестроительная уборка", "Уборка на объекте после ремонта/стройки (Обильное загрязнение). Цена за 1м2.", 80, 1, 220, null) { ID = 3, UnitsID = 1 });
+            builder.HasData(new Service("Комплексная уборка", "Комплексная уборка помещений нужна, чтобы более тщательно убрать квартиру, в которой периодически убираются. Цена за 1м2.", 50, 1, 100, null) { ID = 4, UnitsID = 1 });
+            builder.HasData(new Service("Мойка окон", "Мойка окон. Цена за 1 створу.", 250, 2, 60, null) { ID = 5, UnitsID = 2 });
+            builder.HasData(new Service("Мойка стеклянных дверей", "Мойка стеклянных дверей балконов и лоджий. Цена за 1 дверь.", 500, 2, 120, null) { ID = 6, UnitsID = 2 });
+            builder.HasData(new Service("Химчистка диванов", "Химчистка диванов. Мягкой мебели. Цена за 1 место.", 300, 3, 3600, null) { ID = 7, UnitsID = 2 });
+            builder.HasData(new Service("Химчистка кресел", "Химчистка кресел. Мягкой мебели. Цена за 1 кресло.", 300, 3, 3600, null) { ID = 8, UnitsID = 2 });
+            builder.HasData(new Service("Химчистка ковров", "Химчистка ковров, матрасов. Цена за 1м2.", 150, 3, 300, null) { ID = 9, UnitsID = 1 });
+            builder.HasData(new Service("Дезинфекция", "Дезинфекция помещений, твердых поверхносте, воздуха. Цена за 1м2.", 40, 4, 30, null) { ID = 10, UnitsID = 2 });
+        }
+        public static void RoomTypeConfigure(EntityTypeBuilder<RoomType> builder)
+        {
+            builder.HasData(new RoomType("Квартира", (decimal)1.2) { ID = 1 });
+            builder.HasData(new RoomType("Дом", (decimal)1.3) { ID = 2 });
+            builder.HasData(new RoomType("Офис", (decimal)1) { ID = 3 });
+            builder.HasData(new RoomType("Другое", (decimal)1.5) { ID = 4 });
         }
     }
 }

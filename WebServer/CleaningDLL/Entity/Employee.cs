@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Npgsql;
 
 namespace CleaningDLL.Entity
 {
-    public class Employee : Human //Сотрудник
+    public class Employee : Human
     {
         public int ID { get; set; }
         [Required]
@@ -22,7 +23,7 @@ namespace CleaningDLL.Entity
         [MaxLength(64)] [MinLength(64)] public string? Password { get; set; }
 
         private static ApplicationContext db = Context.Db;
-
+        private static NpgsqlConnection npgsql = Context.npgsql;
 
         public Employee()
         {
@@ -58,34 +59,64 @@ namespace CleaningDLL.Entity
 
         public static Employee GetBrigadirByBrigada(int id)
         {
-            return db.Employee.Where(a => a.BrigadeID == id && a.Position.ID == 2).FirstOrDefault();
+            return db.Employee.FirstOrDefault(a => a.BrigadeID == id && a.Position.ID == 2);
         }
         public static Employee GetEmployee(string Login, string Password)
         {
-            return db.Employee.Where(a => a.Login == Login && a.Password == Password).FirstOrDefault();
+            return db.Employee.FirstOrDefault(a => a.Login == Login && a.Password == Password);
         }
         public static Employee GetEmployeeBrigade(int Brigade)
         {
-            return db.Employee.Where(a => a.BrigadeID == Brigade).FirstOrDefault();
+            return db.Employee.FirstOrDefault(a => a.BrigadeID == Brigade);
         }
 
-        
-        public static List<EmployeeFullInfo> GetEmployeeFullInfo()
+
+        //public static IEnumerable<EmployeeFullInfo> GetEmployeeFullInfo()
+        //{
+        //    return (from e in db.Employee
+        //            join p in db.Position on e.PositionID equals p.ID
+        //            select new EmployeeFullInfo()
+
+        //            {
+        //                ID = e.ID,
+        //                Cleaner = e.AddFIO(),
+        //                Positions = p.NamePosition,
+        //                WorkExperience = e.EmploymentDate.ToString("d"),
+        //                Brigade = e.Brigade.ID,
+        //                Telefone = e.PhoneNumber,
+        //            });
+        //}
+
+        public static IEnumerable<EmployeeFullInfo> GetEmployeeFullInfo()
         {
-            return (from e in db.Employee
-                    join p in db.Position on e.PositionID equals p.ID
-                    select new EmployeeFullInfo()
+            var command = new NpgsqlCommand("SELECT e.\"ID\", e.\"Surname\", e.\"Name\", e.\"MiddleName\", p.\"NamePosition\", e.\"EmploymentDate\"," +
+                                                    "e.\"BrigadeID\", e.\"PhoneNumber\" FROM \"Employee\" AS e " +
+                                                    "JOIN \"Position\" AS p ON(e.\"PositionID\" = p.\"ID\")", npgsql);
 
+            EmployeeFullInfo employeeFullInfo = new EmployeeFullInfo();
+
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
                     {
-                        ID = e.ID,
-                        Cleaner = e.AddFIO(),
-                        Positions = p.NamePosition,
-                        WorkExperience = e.EmploymentDate.ToString("d"), 
-                        Brigade = e.Brigade.ID,
-                        Telefone = e.PhoneNumber,
-                    }).ToList();
+                        string fio = $"{"Surname"} {"Name".Substring(0, 1)}.";
+                        if ("MiddleName" != "") fio += $"{"MiddleName".Substring(0, 1)}.";
+
+                        employeeFullInfo.ID = reader.GetInt32(reader.GetOrdinal("ID"));
+                        employeeFullInfo.Cleaner = reader.GetString(reader.GetOrdinal(fio));
+                        employeeFullInfo.Positions = reader.GetString(reader.GetOrdinal("NamePosition"));
+                        employeeFullInfo.WorkExperience = reader.GetString(reader.GetOrdinal("EmploymentDate"));
+                        employeeFullInfo.Brigade = reader.GetInt32(reader.GetOrdinal("BrigadeID"));
+                        employeeFullInfo.Telefone = reader.GetString(reader.GetOrdinal("PhoneNumber"));
+                    }
+                }
+            }
+            return (IEnumerable<EmployeeFullInfo>) employeeFullInfo;
         }
-        public class EmployeeFullInfo
+
+    public class EmployeeFullInfo
         {
             public int ID { get; set; }
             public string Cleaner { get; set; }

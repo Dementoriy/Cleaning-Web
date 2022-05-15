@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CleaningDLL.Entity
 {
-    public class Delivery //Поставка
+    public class Delivery
     {
         public int ID { get; set; }
         [Required]

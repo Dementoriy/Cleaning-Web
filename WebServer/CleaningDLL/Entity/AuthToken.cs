@@ -8,7 +8,7 @@ public class AuthToken
     [Key]
     public string Token { get; set; }
     public DateTime TokenTime  { get; set; }
-    private static ApplicationContext db = Context.Db;
+    private static ApplicationContext db = Context.Db!;
 
     internal AuthToken()
     {

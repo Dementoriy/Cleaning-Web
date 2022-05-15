@@ -2,7 +2,7 @@
 
 namespace CleaningDLL.Entity
 {
-    public class Provider //Поставщик
+    public class Provider
     {
         public int ID { get; set; }
         [Required]

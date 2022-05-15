@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CleaningDLL.Entity
 {
-    public class ProvidedService //Оказываемая услуга
+    public class ProvidedService
     {
         public int ID { get; set; }
         [Required]
@@ -35,6 +35,11 @@ namespace CleaningDLL.Entity
                     where ps.OrderID == id
                     select ps
                     ).ToList();
+        }
+        public static void Add(ProvidedService providedService)
+        {
+            db.ProvidedService.Add(providedService);
+            db.SaveChanges();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace CleaningDLL.Entity
 {
-    public class InventoryType //Тип инвентаря
+    public class InventoryType
     {
         public int ID { get; set; }
         [Required]

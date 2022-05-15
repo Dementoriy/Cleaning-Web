@@ -124,7 +124,7 @@ export default function SignOn() {
             alignItems="center"
             >
               <Button variant="text" size="large" color="primary" disableElevation>Авторизация</Button>
-              <Button variant="contained" size="large" color="secondary" onClick={onClick} sx={{ borderRadius: '10px'}} disableElevation>Далее</Button>
+              <Button variant="contained" size="large" color="secondary" onClick={onClick} sx={{ borderRadius: '10px'}} disableElevation>Зарегистрироваться</Button>
             </Stack>
         </Stack>
         

@@ -2,7 +2,7 @@
 
 namespace CleaningDLL.Entity
 {
-    public class BrigadeInventory //Инвентарь бригады
+    public class BrigadeInventory
     {
         public int ID { get; set; }
         [Required]

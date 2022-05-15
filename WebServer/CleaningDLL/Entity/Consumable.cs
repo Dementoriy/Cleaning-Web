@@ -2,7 +2,7 @@
 
 namespace CleaningDLL.Entity
 {
-    public class Consumable //Расходник
+    public class Consumable
     {
         public int ID { get; set; }
         [Required]

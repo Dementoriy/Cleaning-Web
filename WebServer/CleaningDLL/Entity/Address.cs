@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CleaningDLL.Entity
 {
-    public class Address //Адрес
+    public class Address
     {
         public int ID { get; set; }
         public string? CityDistrict { get; set; }
@@ -15,15 +15,17 @@ namespace CleaningDLL.Entity
         [MaxLength(10)] public string HouseNumber { get; set; }
         [MaxLength(10)] public string? Block { get; set; }
         [MaxLength(10)] public string? ApartmentNumber { get; set; }
-        //[Required]
-        //public RoomType RoomType { get; set; }
+        [Required]
+        public RoomType RoomType { get; set; }
+        [Required]
+        public string AddressName { get; set; }
         private static ApplicationContext db = Context.Db;
         public Address()
         {
 
         }
         public Address(string? CityDistrict, string? Settlement, string Street, string HouseNumber, string? Block, 
-            string? ApartmentNumber/*, RoomType RoomType*/)
+            string? ApartmentNumber, RoomType RoomType, string AddressName)
         {
             this.CityDistrict = CityDistrict;
             this.Settlement = Settlement;
@@ -31,7 +33,8 @@ namespace CleaningDLL.Entity
             this.HouseNumber = HouseNumber;
             this.Block = Block;
             this.ApartmentNumber = ApartmentNumber;
-            //this.RoomType = RoomType;
+            this.RoomType = RoomType;
+            this.AddressName = AddressName;
         }
         public string AddAddress()
         {
@@ -61,14 +64,20 @@ namespace CleaningDLL.Entity
         public static Address GetAddress(string cityDistrict, string settlement, string street, 
             string houseNumber, string block, string apartmentNumber)
         {
-            return db.Address.Where(e => e.CityDistrict == cityDistrict && e.Settlement == settlement && e.Street == street
-            && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber).ToList()[0];
+            return db.Address.FirstOrDefault(e => e.CityDistrict == cityDistrict && e.Settlement == settlement && e.Street == street
+            && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber);
         }
         public static bool CheckAddress(string cityDistrict, string settlement, string street,
             string houseNumber, string block, string apartmentNumber)
         {
-            return !db.Address.Where(e => e.CityDistrict == cityDistrict && e.Settlement == settlement && e.Street == street
-            && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber).Any();
+            return !db.Address.Any(e => e.CityDistrict == cityDistrict && e.Settlement == settlement && e.Street == street
+            && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber);
+        }
+
+        public static void Add(Address address)
+        {
+            db.Address.Add(address);
+            db.SaveChanges();
         }
     }
 }
