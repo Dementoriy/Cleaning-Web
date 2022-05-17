@@ -8,10 +8,12 @@ class ServiceService {
     GetService() {
 		return axios.get(API_URL + "get")
         .then((response) => {
-            console.log(response.data);
             const data: Answer = response.data;
-            const service: Service[] = data.answer.routes
-            return service;
+            if (data.status)
+            {
+              return data.answer.services as Service[];
+            }
+            return [];
           })
           .catch((error) => {
             console.log(error);
