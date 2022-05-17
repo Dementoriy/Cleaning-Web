@@ -10,7 +10,7 @@ namespace CleaningDLL.Entity
         [Required]
         [MaxLength(100)] public string ServiceName { get; set; }
         [Required]
-        [MaxLength(200)] public string Description { get; set; }
+        public string Description { get; set; }
         [Required]
         public decimal Price { get; set; }
         public InventoryType? InventoryType { get; set; }

@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CleaningDLL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220515152029_MyFirstMigration")]
-    partial class MyFirstMigration
+    [Migration("20220517185136_fixDescription")]
+    partial class fixDescription
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,6 +64,19 @@ namespace CleaningDLL.Migrations
                     b.HasIndex("RoomTypeID");
 
                     b.ToTable("Address");
+                });
+
+            modelBuilder.Entity("CleaningDLL.Entity.AuthToken", b =>
+                {
+                    b.Property<string>("Token")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("TokenTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Token");
+
+                    b.ToTable("AuthTokens");
                 });
 
             modelBuilder.Entity("CleaningDLL.Entity.Brigade", b =>
@@ -939,14 +952,16 @@ namespace CleaningDLL.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Image")
                         .HasColumnType("text");
 
                     b.Property<int>("InventoryTypeID")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("boolean");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
@@ -974,8 +989,9 @@ namespace CleaningDLL.Migrations
                         new
                         {
                             ID = 1,
-                            Description = "Поддерживающая уборка. Объект должен быть в незапущенном состоянии. Цена за 1м2.",
+                            Description = "Сухая, влажная уборка полов, плинтусов. Протирка пыли на доступных поверхностях. Чистка и дезинфекция сантехники. Протирка фасадов кухонного гарнитура. Чисткка стеновой панели фартука. Мытьё кухонной плиты снаружи. Удаление пыли с кухонной техники. Мытьё посуды \"Одна заполненная раковина\" Проветривание помещения Вынос мусора.",
                             InventoryTypeID = 1,
+                            IsMain = true,
                             Price = 40m,
                             ServiceName = "Экспресс уборка",
                             Time = 100,
@@ -984,8 +1000,9 @@ namespace CleaningDLL.Migrations
                         new
                         {
                             ID = 2,
-                            Description = "Генеральная уборка. Цена за 1м2.",
+                            Description = "C помощью пылесоса и парогенератора удаляется пыль. Устраняется грязь с поверхности кроватей, диванов, кресел, мебели, электроники, люстр, стеклянных перегородок и зеркал, штор. Дезинфекция сантехники: унитазов, ванн, душевых кабин, раковин.Устранение следов жира, обработка кухонной техники снаружи и внутри. Мойка кафельной плитки и очистка швов в ванной комнате.",
                             InventoryTypeID = 1,
+                            IsMain = true,
                             Price = 70m,
                             ServiceName = "Генеральная уборка",
                             Time = 220,
@@ -994,8 +1011,9 @@ namespace CleaningDLL.Migrations
                         new
                         {
                             ID = 3,
-                            Description = "Уборка на объекте после ремонта/стройки (Обильное загрязнение). Цена за 1м2.",
+                            Description = "Расширенная генеральная уборка, включающая в себя: устранение остатков лакокрасочных составов, извести, скотча. Мытье стеклянных и зеркальных поверхностей без разводов. Тщательная очистка напольных покрытий. Обеззараживание сантехники. Сбор и вывоз строительного мусора.",
                             InventoryTypeID = 1,
+                            IsMain = true,
                             Price = 80m,
                             ServiceName = "Послестроительная уборка",
                             Time = 220,
@@ -1004,8 +1022,9 @@ namespace CleaningDLL.Migrations
                         new
                         {
                             ID = 4,
-                            Description = "Комплексная уборка помещений нужна, чтобы более тщательно убрать квартиру, в которой периодически убираются. Цена за 1м2.",
+                            Description = "Мойка полов, плинтусов, стекляных и зеркальных поверхностей. Удаление загрязнений с подоконников. Удаление пыли с оргтехники и горизонтальных поверхностей. Полив цветов. Вынос мусора. Пылесосим ковры. Раскладываем вещи на места. Застилаем кровать и меняем постельное.",
                             InventoryTypeID = 1,
+                            IsMain = true,
                             Price = 50m,
                             ServiceName = "Комплексная уборка",
                             Time = 100,
@@ -1014,8 +1033,9 @@ namespace CleaningDLL.Migrations
                         new
                         {
                             ID = 5,
-                            Description = "Мойка окон. Цена за 1 створу.",
+                            Description = "Мойка стекляных окон и дверей.",
                             InventoryTypeID = 2,
+                            IsMain = false,
                             Price = 250m,
                             ServiceName = "Мойка окон",
                             Time = 60,
@@ -1026,6 +1046,7 @@ namespace CleaningDLL.Migrations
                             ID = 6,
                             Description = "Мойка стеклянных дверей балконов и лоджий. Цена за 1 дверь.",
                             InventoryTypeID = 2,
+                            IsMain = false,
                             Price = 500m,
                             ServiceName = "Мойка стеклянных дверей",
                             Time = 120,
@@ -1034,8 +1055,9 @@ namespace CleaningDLL.Migrations
                         new
                         {
                             ID = 7,
-                            Description = "Химчистка диванов. Мягкой мебели. Цена за 1 место.",
+                            Description = "Профессиональная очистка мягкой мебели и ковров химией.",
                             InventoryTypeID = 3,
+                            IsMain = false,
                             Price = 300m,
                             ServiceName = "Химчистка диванов",
                             Time = 3600,
@@ -1046,6 +1068,7 @@ namespace CleaningDLL.Migrations
                             ID = 8,
                             Description = "Химчистка кресел. Мягкой мебели. Цена за 1 кресло.",
                             InventoryTypeID = 3,
+                            IsMain = false,
                             Price = 300m,
                             ServiceName = "Химчистка кресел",
                             Time = 3600,
@@ -1056,6 +1079,7 @@ namespace CleaningDLL.Migrations
                             ID = 9,
                             Description = "Химчистка ковров, матрасов. Цена за 1м2.",
                             InventoryTypeID = 3,
+                            IsMain = false,
                             Price = 150m,
                             ServiceName = "Химчистка ковров",
                             Time = 300,
@@ -1064,13 +1088,30 @@ namespace CleaningDLL.Migrations
                         new
                         {
                             ID = 10,
-                            Description = "Дезинфекция помещений, твердых поверхносте, воздуха. Цена за 1м2.",
+                            Description = "Дезинфекция воздуха и поверхностей.",
                             InventoryTypeID = 4,
+                            IsMain = false,
                             Price = 40m,
                             ServiceName = "Дезинфекция",
                             Time = 30,
                             UnitsID = 2
                         });
+                });
+
+            modelBuilder.Entity("CleaningDLL.Entity.Status", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Status");
                 });
 
             modelBuilder.Entity("CleaningDLL.Entity.Address", b =>

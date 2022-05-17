@@ -4,10 +4,22 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CleaningDLL.Migrations
 {
-    public partial class MyFirstMigration : Migration
+    public partial class fixDescription : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AuthTokens",
+                columns: table => new
+                {
+                    Token = table.Column<string>(type: "text", nullable: false),
+                    TokenTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuthTokens", x => x.Token);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Brigade",
                 columns: table => new
@@ -98,6 +110,19 @@ namespace CleaningDLL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Status",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    status = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Status", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Inventory",
                 columns: table => new
                 {
@@ -185,12 +210,13 @@ namespace CleaningDLL.Migrations
                     ID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ServiceName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     InventoryTypeID = table.Column<int>(type: "integer", nullable: false),
                     Time = table.Column<int>(type: "integer", nullable: false),
                     UnitsID = table.Column<int>(type: "integer", nullable: false),
-                    Image = table.Column<string>(type: "text", nullable: true)
+                    Image = table.Column<string>(type: "text", nullable: true),
+                    IsMain = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -675,19 +701,19 @@ namespace CleaningDLL.Migrations
 
             migrationBuilder.InsertData(
                 table: "Service",
-                columns: new[] { "ID", "Description", "Image", "InventoryTypeID", "Price", "ServiceName", "Time", "UnitsID" },
+                columns: new[] { "ID", "Description", "Image", "InventoryTypeID", "IsMain", "Price", "ServiceName", "Time", "UnitsID" },
                 values: new object[,]
                 {
-                    { 7, "Химчистка диванов. Мягкой мебели. Цена за 1 место.", null, 3, 300m, "Химчистка диванов", 3600, 2 },
-                    { 6, "Мойка стеклянных дверей балконов и лоджий. Цена за 1 дверь.", null, 2, 500m, "Мойка стеклянных дверей", 120, 2 },
-                    { 5, "Мойка окон. Цена за 1 створу.", null, 2, 250m, "Мойка окон", 60, 2 },
-                    { 9, "Химчистка ковров, матрасов. Цена за 1м2.", null, 3, 150m, "Химчистка ковров", 300, 1 },
-                    { 2, "Генеральная уборка. Цена за 1м2.", null, 1, 70m, "Генеральная уборка", 220, 1 },
-                    { 3, "Уборка на объекте после ремонта/стройки (Обильное загрязнение). Цена за 1м2.", null, 1, 80m, "Послестроительная уборка", 220, 1 },
-                    { 8, "Химчистка кресел. Мягкой мебели. Цена за 1 кресло.", null, 3, 300m, "Химчистка кресел", 3600, 2 },
-                    { 1, "Поддерживающая уборка. Объект должен быть в незапущенном состоянии. Цена за 1м2.", null, 1, 40m, "Экспресс уборка", 100, 1 },
-                    { 4, "Комплексная уборка помещений нужна, чтобы более тщательно убрать квартиру, в которой периодически убираются. Цена за 1м2.", null, 1, 50m, "Комплексная уборка", 100, 1 },
-                    { 10, "Дезинфекция помещений, твердых поверхносте, воздуха. Цена за 1м2.", null, 4, 40m, "Дезинфекция", 30, 2 }
+                    { 7, "Профессиональная очистка мягкой мебели и ковров химией.", null, 3, false, 300m, "Химчистка диванов", 3600, 2 },
+                    { 6, "Мойка стеклянных дверей балконов и лоджий. Цена за 1 дверь.", null, 2, false, 500m, "Мойка стеклянных дверей", 120, 2 },
+                    { 5, "Мойка стекляных окон и дверей.", null, 2, false, 250m, "Мойка окон", 60, 2 },
+                    { 9, "Химчистка ковров, матрасов. Цена за 1м2.", null, 3, false, 150m, "Химчистка ковров", 300, 1 },
+                    { 2, "C помощью пылесоса и парогенератора удаляется пыль. Устраняется грязь с поверхности кроватей, диванов, кресел, мебели, электроники, люстр, стеклянных перегородок и зеркал, штор. Дезинфекция сантехники: унитазов, ванн, душевых кабин, раковин.Устранение следов жира, обработка кухонной техники снаружи и внутри. Мойка кафельной плитки и очистка швов в ванной комнате.", null, 1, true, 70m, "Генеральная уборка", 220, 1 },
+                    { 3, "Расширенная генеральная уборка, включающая в себя: устранение остатков лакокрасочных составов, извести, скотча. Мытье стеклянных и зеркальных поверхностей без разводов. Тщательная очистка напольных покрытий. Обеззараживание сантехники. Сбор и вывоз строительного мусора.", null, 1, true, 80m, "Послестроительная уборка", 220, 1 },
+                    { 8, "Химчистка кресел. Мягкой мебели. Цена за 1 кресло.", null, 3, false, 300m, "Химчистка кресел", 3600, 2 },
+                    { 1, "Сухая, влажная уборка полов, плинтусов. Протирка пыли на доступных поверхностях. Чистка и дезинфекция сантехники. Протирка фасадов кухонного гарнитура. Чисткка стеновой панели фартука. Мытьё кухонной плиты снаружи. Удаление пыли с кухонной техники. Мытьё посуды \"Одна заполненная раковина\" Проветривание помещения Вынос мусора.", null, 1, true, 40m, "Экспресс уборка", 100, 1 },
+                    { 4, "Мойка полов, плинтусов, стекляных и зеркальных поверхностей. Удаление загрязнений с подоконников. Удаление пыли с оргтехники и горизонтальных поверхностей. Полив цветов. Вынос мусора. Пылесосим ковры. Раскладываем вещи на места. Застилаем кровать и меняем постельное.", null, 1, true, 50m, "Комплексная уборка", 100, 1 },
+                    { 10, "Дезинфекция воздуха и поверхностей.", null, 4, false, 40m, "Дезинфекция", 30, 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -923,6 +949,9 @@ namespace CleaningDLL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AuthTokens");
+
+            migrationBuilder.DropTable(
                 name: "BrigadeInventory");
 
             migrationBuilder.DropTable(
@@ -939,6 +968,9 @@ namespace CleaningDLL.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProvidedService");
+
+            migrationBuilder.DropTable(
+                name: "Status");
 
             migrationBuilder.DropTable(
                 name: "Inventory");
