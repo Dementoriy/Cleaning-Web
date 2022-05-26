@@ -23,12 +23,13 @@ namespace CleaningDLL.Entity
         public int UnitsID { get; set; }
         public string? Image { get; set; }
         public bool IsMain { get; set; }
+        public string ApproximateTime { get; set; }
 
         public Service()
         {
 
         }
-        public Service(string ServiceName, string Description, decimal Price, int InventoryTypeID, int Time, string? Image, bool IsMain)
+        public Service(string ServiceName, string Description, decimal Price, int InventoryTypeID, int Time, string? Image, bool IsMain, string ApproximateTime)
         {
             this.ServiceName = ServiceName;
             this.Description = Description;
@@ -37,6 +38,7 @@ namespace CleaningDLL.Entity
             this.Time = Time;
             this.Image = Image;
             this.IsMain = IsMain;
+            this.ApproximateTime = ApproximateTime;
         }
 
         private static ApplicationContext db = Context.Db;

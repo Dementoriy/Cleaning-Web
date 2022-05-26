@@ -42,6 +42,10 @@ namespace CleaningDLL.Entity
             db.ProvidedService.Add(providedService);
             db.SaveChanges();
         }
+        public static List<ProvidedService> GetProvidedServicesByOrderId(int id)
+        {
+            return db.ProvidedService.Where(e => e.Order.ID == id).ToList();
+        }
 
     }
 }

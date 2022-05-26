@@ -12,6 +12,7 @@ class OrderService {
             const data: Answer = response.data;
             if (data.status)
             {
+              console.log(data.answer);
               return data.answer.orders as Order[];
             }
             return [];

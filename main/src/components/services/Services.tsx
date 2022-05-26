@@ -42,7 +42,7 @@ export default function Services() {
                             <QueryBuilderOutlinedIcon fontSize="large"/>
                             <Typography variant="subtitle2" sx={{whiteSpace: 'nowrap'}}>Время уборки</Typography>
                         </Stack>
-                        <Typography variant="subtitle2" color="text.primary" align="center" component="div" marginLeft="14%" mt="-10%">2 - 4 часа</Typography>
+                        <Typography variant="subtitle2" color="text.primary" align="center" component="div" marginLeft="14%" mt="-10%">{service.ApproximateTime}</Typography>
                         <Typography variant="subtitle2" color="text.primary" align="center" component="div" sx={{ mt: '20%'}}>От {service.Price} руб./{service.Units.Unit}</Typography>
                         <Button variant="contained" color="success" disableElevation sx={{ borderRadius: '10px', mt: '26%', width: '100%'}}>
                             Выбрать

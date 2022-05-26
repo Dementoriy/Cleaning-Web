@@ -7,5 +7,6 @@ export interface Address {
     Block: string | null,
     ApartmentNumber: string, 
     RoomTypeID: string, 
-    AddressName: string
+    AddressName: string,
+    FullAddress: string
 }

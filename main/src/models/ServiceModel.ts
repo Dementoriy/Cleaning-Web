@@ -7,5 +7,6 @@ export interface Service {
     Time: number,
     Units: {ID: number, Unit: string, Description: string},
     Image: string,
-    IsMain: boolean
+    IsMain: boolean,
+    ApproximateTime: string
 }

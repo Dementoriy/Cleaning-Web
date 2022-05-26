@@ -7,24 +7,17 @@ import { useStateIfMounted } from 'use-state-if-mounted';
 
 export default function MyCleaning() {
 
-    //const [orders, setOrders] = React.useState<Order[]>([]);
     const [orders, setOrders] = useStateIfMounted<Order[]>([]);
     const isMounted = useRef(false);
-    //const [text, setText] = useStateIfMounted("waiting...");
-    //const [count, setCount] = useStateIfMounted(0);
 
     React.useEffect(() => {
-        //isMounted.current = true;
         if (orders.length !== 0) return;
         OrderService.GetOrder().then((res) => {
-            //if (isMounted) this.setState;
             setOrders(res);
             console.log(res);
         })
         return () => { };
     }, [orders])
-
-    //return isMounted
 
     const [value, setValue] = React.useState<number | null>(0);
 
@@ -66,28 +59,27 @@ export default function MyCleaning() {
             </Typography>
         </Box>
         <Stack spacing={2}>
-            {orders.map((order)=>(<div key={order.ID}>
+            {orders.map((order)=>(<div key={order.order.ID}>
             <Card sx={{ display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                         <Typography variant="subtitle1">
-                            {order.Address.AddressName}. Ул. {order.Address.Street} {order.Address.HouseNumber}, кв.
-                            {/* {
-                                (order.Address.Block !== null && 
-                                    {order.Address.Block}
-                                )
-                            }  */}
-                            {order.Address.ApartmentNumber}
+                            {order.order.Address.FullAddress}
                         </Typography>
                         <Typography variant="subtitle1">
-                        Тип помещения: {order.Address.RoomTypeID}
+                        Тип помещения: {order.order.Address.RoomTypeID}
                         </Typography>
-                        <Typography variant="subtitle1">
-                        Тип уборки: Генеральная уборка
-                        </Typography>
-                        <Typography variant="subtitle1">
-                        Площадь:
-                        </Typography>
+                        {order.services.Service.IsMain &&
+                        <>
+                            <Typography variant="subtitle1">
+                            Тип уборки: {order.services.Service.ServiceName}
+                            </Typography>
+                            
+                            <Typography variant="subtitle1">
+                            Площадь: {order.services.Amount}
+                            </Typography>
+                        </>
+                        }
                         <Typography variant="subtitle1">
                         Дополнительные услуги: мойка окон, химчистка.
                         </Typography>
@@ -96,19 +88,19 @@ export default function MyCleaning() {
                 <Box sx={{flexDirection: 'column', backgroundColor: '#D8D0C5', borderLeft: '3px solid #776D61', width: '50%', padding: '5px'}}>
                     <Stack spacing={0.5}>
                         <Typography variant="subtitle2">
-                        Уборка запланирована на {order.Date}
+                        Уборка запланирована на {order.order.Date}
                         </Typography>
                         <Typography variant="subtitle2">
                         Время прибытия: 
                         </Typography>
                         <Typography variant="subtitle2">
-                        Статус заявки: {order.Status}
+                        Статус заявки: {order.order.Status}
                         </Typography>
                         <Typography variant="subtitle2">
-                        Время на уборку: {order.ApproximateTime}
+                        Время на уборку: {order.order.ApproximateTime}
                         </Typography>
                         <Typography variant="subtitle2">
-                        Итог: {order.FinalPrice} руб.
+                        Итог: {order.order.FinalPrice} руб.
                         </Typography>
                     </Stack>
                     <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="flex-end">

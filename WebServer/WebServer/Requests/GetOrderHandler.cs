@@ -24,6 +24,18 @@ namespace WebServer.Requests
                 return;
             }
             List<Order> orders = Order.GetClientOrder(client.ID);
+            List<Object> objects = new List<Object>();
+            foreach(var order in orders)
+            {
+                List<ProvidedService> providedServices = ProvidedService.GetProvidedServicesByOrderId(order.ID);
+                var obj = new
+                {
+                    order = order,
+                    services = providedServices
+                };
+                objects.Add(obj);
+            }
+            
 
             if (!orders.Any())
             {
@@ -31,7 +43,7 @@ namespace WebServer.Requests
                 return;
             }
 
-            Send(new AnswerModel(true, new { orders = orders }, null, null));
+            Send(new AnswerModel(true, new { objects = objects }, null, null));
         }
     }
 }
