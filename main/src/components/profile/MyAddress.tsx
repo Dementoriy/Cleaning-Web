@@ -5,8 +5,14 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import { YMaps, Map } from 'react-yandex-maps';
+import {Address} from "../../models/AddressModel";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../redux/store";
+import AddressService from '../../redux/services/AddressService';
 
-  export default function Address() {
+
+  export default function MyAddress() {
+    const user = useSelector((state: RootState) => state);
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
       setOpen(true);
@@ -16,10 +22,21 @@ import { YMaps, Map } from 'react-yandex-maps';
       setOpen(false);
     };
 
+    const [addresses, setAddresses] = React.useState<Address[]>([]);
+
+    React.useEffect(() => {
+        if (addresses.length !== 0) return;
+        AddressService.GetAddress().then((res) => {
+          setAddresses(res);
+        })
+        console.log(addresses);
+    }, [addresses])
+
   return (
     <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px',  width: '60%', marginRight: '17px'}}>
       <Typography variant="h4" color="primary" align='center' style={{fontWeight: '500'}}>Мои адреса</Typography>
       <Stack spacing={2}>
+      {addresses.map((address)=>(<div>
         <Card sx={{ width: '100%', backgroundColor: '#B1A18B', borderRadius:"10px", marginTop: '20px'}}>
           <CardHeader
             action={
@@ -27,7 +44,7 @@ import { YMaps, Map } from 'react-yandex-maps';
               <DeleteOutlineOutlinedIcon />
             </IconButton>
             }
-            title="Работа"
+            title={address.AddressName}
           />
           <CardContent sx={{ mt: '-5%'}}>
             <YMaps>
@@ -38,10 +55,13 @@ import { YMaps, Map } from 'react-yandex-maps';
           </CardContent>
           <CardActions disableSpacing>
               <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px', width: '100%'}} endIcon={<EditOutlinedIcon />}>
-                <Typography>Воровского 101, кв. 6</Typography>
+                <Typography>
+                ул. {address.Street} {address.HouseNumber}, кв.{address.ApartmentNumber}
+                </Typography>
               </Button>
           </CardActions>
         </Card>
+        </div>))}
       </Stack>
       
       <Stack

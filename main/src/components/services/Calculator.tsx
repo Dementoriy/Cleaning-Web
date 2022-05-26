@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Stack, InputLabel, MenuItem, FormControl, TextField, Typography} from '@mui/material';
+import {Box, Stack, InputLabel, MenuItem, FormControl, TextField, Typography, Button} from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 export default function Calculator() {
@@ -34,7 +34,10 @@ export default function Calculator() {
                 </FormControl>
             </Box>
             <TextField disabled label="Цена" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
-            <TextField disabled label="≈Время" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />     
+            <TextField disabled label="≈Время" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
+            <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}}>
+            Доп. услуги
+            </Button>
         </Stack>
     </div>
   );

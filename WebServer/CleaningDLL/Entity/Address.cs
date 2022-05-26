@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace CleaningDLL.Entity
@@ -60,6 +61,10 @@ namespace CleaningDLL.Entity
                 str += $", кв.{ApartmentNumber}.";
             }
             return str;
+        }
+        public static List<Address> GetAddress()
+        {
+            return db.Address.ToList();
         }
         public static Address GetAddress(string cityDistrict, string settlement, string street, 
             string houseNumber, string block, string apartmentNumber)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -54,7 +55,8 @@ namespace CleaningDLL.Entity
         }
         public static List<Service> GetService()
         {
-            return db.Service.ToList();
+            return db.Service.Include(u => u.Units).OrderBy(x => x.ID).ToList();
         }
+        
     }
 }

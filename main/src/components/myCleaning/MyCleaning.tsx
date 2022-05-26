@@ -1,7 +1,30 @@
 import React from 'react';
 import { Button, Typography, Stack, CardContent, Card, Box, Rating, Dialog, DialogActions, DialogContent, DialogContentText, Modal, TextField } from "@mui/material";
+import OrderService from '../../redux/services/OrderService';
+import {Order} from "../../models/OrderModel";
+import { useRef, useEffect } from 'react';
+import { useStateIfMounted } from 'use-state-if-mounted';
 
 export default function MyCleaning() {
+
+    //const [orders, setOrders] = React.useState<Order[]>([]);
+    const [orders, setOrders] = useStateIfMounted<Order[]>([]);
+    const isMounted = useRef(false);
+    //const [text, setText] = useStateIfMounted("waiting...");
+    //const [count, setCount] = useStateIfMounted(0);
+
+    React.useEffect(() => {
+        //isMounted.current = true;
+        if (orders.length !== 0) return;
+        OrderService.GetOrder().then((res) => {
+            //if (isMounted) this.setState;
+            setOrders(res);
+            console.log(res);
+        })
+        return () => { };
+    }, [orders])
+
+    //return isMounted
 
     const [value, setValue] = React.useState<number | null>(0);
 
@@ -43,20 +66,27 @@ export default function MyCleaning() {
             </Typography>
         </Box>
         <Stack spacing={2}>
+            {orders.map((order)=>(<div key={order.ID}>
             <Card sx={{ display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                         <Typography variant="subtitle1">
-                        Дом. Воровского 101, кв. 6.
+                            {order.Address.AddressName}. Ул. {order.Address.Street} {order.Address.HouseNumber}, кв.
+                            {/* {
+                                (order.Address.Block !== null && 
+                                    {order.Address.Block}
+                                )
+                            }  */}
+                            {order.Address.ApartmentNumber}
                         </Typography>
                         <Typography variant="subtitle1">
-                        Тип помещения: Квартира
+                        Тип помещения: {order.Address.RoomTypeID}
                         </Typography>
                         <Typography variant="subtitle1">
                         Тип уборки: Генеральная уборка
                         </Typography>
                         <Typography variant="subtitle1">
-                        Площадь: 40м2
+                        Площадь:
                         </Typography>
                         <Typography variant="subtitle1">
                         Дополнительные услуги: мойка окон, химчистка.
@@ -66,19 +96,19 @@ export default function MyCleaning() {
                 <Box sx={{flexDirection: 'column', backgroundColor: '#D8D0C5', borderLeft: '3px solid #776D61', width: '50%', padding: '5px'}}>
                     <Stack spacing={0.5}>
                         <Typography variant="subtitle2">
-                        Уборка запланирована на 18.04.2022
+                        Уборка запланирована на {order.Date}
                         </Typography>
                         <Typography variant="subtitle2">
-                        Время прибытия: 11:00
+                        Время прибытия: 
                         </Typography>
                         <Typography variant="subtitle2">
-                        Статус заявки: назначен выезд.
+                        Статус заявки: {order.Status}
                         </Typography>
                         <Typography variant="subtitle2">
-                        Время на приборку: 4 часа
+                        Время на уборку: {order.ApproximateTime}
                         </Typography>
                         <Typography variant="subtitle2">
-                        Итог: 3000 руб.
+                        Итог: {order.FinalPrice} руб.
                         </Typography>
                     </Stack>
                     <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="flex-end">
@@ -91,6 +121,7 @@ export default function MyCleaning() {
                     </Stack>
                 </Box>
             </Card>
+            </div>))}
         </Stack>
         <Box sx={{ borderBottom: '3px solid #776D61', marginTop: '20px'}}>
             <Typography variant="h5" color="primary">

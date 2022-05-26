@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
 namespace CleaningDLL.Entity
@@ -145,6 +146,15 @@ namespace CleaningDLL.Entity
         {
             db.Order.Update(order);
             db.SaveChanges();
+        }
+        public static List<Order> GetOrder()
+        {
+            return db.Order.Include(a => a.Address).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).ToList();
+        }
+
+        public static List<Order> GetClientOrder(int id)
+        {
+            return db.Order.Include(a => a.Address).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).Where(a => a.Client.ID == id).ToList();
         }
     }
 }

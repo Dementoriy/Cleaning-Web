@@ -24,8 +24,8 @@ class AuthService {
 	}
 
 	login(login: LoginModel) {
-		return axios.post(API_URL + "authorization", login).then(
-			(res) => {
+		return axios.post(API_URL + "authorization", login)
+		.then((res) => {
 				const data: Answer = res.data;
 				if (data.status) {
 					setCookie("access_token", data.answer.access_token, {expires: 1, path: ''});

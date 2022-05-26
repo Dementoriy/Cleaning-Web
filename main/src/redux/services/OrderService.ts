@@ -1,18 +1,18 @@
 import axios from "axios";
 import authHeader from '../AuthHeader';
 import {Answer} from "../../models/RequestModels";
-import {Service} from "../../models/ServiceModel";
+import {Order} from "../../models/OrderModel";
 
-const API_URL = "http://localhost:8080/service/";
+const API_URL = "http://localhost:8080/my-cleaning/";
 
-class ServiceService {
-    GetService() {
-		return axios.get(API_URL + "get")
+class OrderService {
+    GetOrder() {
+		return axios.get(API_URL + "get" , {headers: authHeader()})
         .then((response) => {
             const data: Answer = response.data;
             if (data.status)
             {
-              return data.answer.services as Service[];
+              return data.answer.orders as Order[];
             }
             return [];
           })
@@ -23,4 +23,4 @@ class ServiceService {
 	}
 }
 
-export default new ServiceService();
+export default new OrderService();

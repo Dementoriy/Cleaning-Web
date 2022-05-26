@@ -1,18 +1,20 @@
 import axios from "axios";
 import authHeader from '../AuthHeader';
 import {Answer} from "../../models/RequestModels";
-import {Service} from "../../models/ServiceModel";
+import {Address} from "../../models/AddressModel";
 
-const API_URL = "http://localhost:8080/service/";
+const API_URL = "http://localhost:8080/profile/";
 
-class ServiceService {
-    GetService() {
-		return axios.get(API_URL + "get")
+class AddressService {
+    GetAddress() {
+		return axios.get(API_URL + "get", {headers: authHeader()})
         .then((response) => {
             const data: Answer = response.data;
             if (data.status)
             {
-              return data.answer.services as Service[];
+              console.log(data.answer);
+              
+              return data.answer.addresses as Address[];
             }
             return [];
           })
@@ -23,4 +25,4 @@ class ServiceService {
 	}
 }
 
-export default new ServiceService();
+export default new AddressService();

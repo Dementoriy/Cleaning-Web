@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -41,5 +42,6 @@ namespace CleaningDLL.Entity
             db.ProvidedService.Add(providedService);
             db.SaveChanges();
         }
+
     }
 }

@@ -5,7 +5,7 @@ export interface Service {
 	Price: number,
     InventoryTypeID: {ID: number, Name: string},
     Time: number,
-    UnitsID: {ID: number, Unit: string, Description: string},
+    Units: {ID: number, Unit: string, Description: string},
     Image: string,
     IsMain: boolean
 }

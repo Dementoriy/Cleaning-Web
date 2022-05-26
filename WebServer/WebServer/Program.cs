@@ -10,7 +10,7 @@ internal class Program
     internal static HashSignatureProvider Sign { get; private set; } = null!;
     private static void Main(string[] args)
     {
-        new ApplicationContext(ApplicationContext.GetDb());
+        using var db = new ApplicationContext(ApplicationContext.GetDb());
         Sign = HashSignatureProvider.CreateHS256("myString");
         var config = new PandaConfig();
         config.AddHeader("access-control-allow-origin", "*");

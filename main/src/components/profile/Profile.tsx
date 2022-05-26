@@ -36,7 +36,11 @@ export default function Profile() {
         >
           <TextField label="Фамилия" size='small' value={user.client.client!.surname} onChange={handleChange} />
           <TextField label="Имя" size='small' value={user.client.client!.name} onChange={handleChange} />
-          <TextField label="Отчество" size='small' value={user.client.client!.middleName} onChange={handleChange} />
+          {
+            (user.client.client!.middleName !== null && 
+            <TextField label="Отчество" size='small' value={user.client.client!.middleName} onChange={handleChange} />
+            )
+          }
           <TextField label="Номер телефона" size='small' value={user.client.client!.phone} onChange={handleChange} />
           <TextField label="Email" size='small' value={user.client.client!.email} onChange={handleChange} />
         </Stack>

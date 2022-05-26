@@ -37,6 +37,7 @@
     "sha256": "^0.2.0",
     "typescript": "^4.6.3",
     "typescript-cookie": "^1.0.3",
+    "use-state-if-mounted": "^1.0.7",
     "web-vitals": "^2.1.4"
   },
   "eslintConfig": {
