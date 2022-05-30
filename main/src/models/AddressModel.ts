@@ -1,5 +1,5 @@
 export interface Address {
-	ID: number
+	ID: number,
 	CityDistrict: string | null,
 	Settlement: string | null,
     Street: string,
@@ -8,5 +8,6 @@ export interface Address {
     ApartmentNumber: string, 
     RoomTypeID: string, 
     AddressName: string,
-    FullAddress: string
+    FullAddress: string,
+    СurrentAddress: boolean
 }

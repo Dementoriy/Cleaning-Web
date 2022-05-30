@@ -1,4 +1,4 @@
 export interface Brigade {
-	id: number
+	id: number,
 	SmenaNumber: string
 }

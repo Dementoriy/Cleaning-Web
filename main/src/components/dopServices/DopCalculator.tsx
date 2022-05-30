@@ -3,7 +3,7 @@ import {Box, Stack, InputLabel, MenuItem, FormControl, TextField, Typography, Bu
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {useNavigate} from 'react-router-dom';
 
-export default function Calculator() {
+export default function DopCalculator() {
     const navigate = useNavigate();
 
     const [name, setName] = React.useState('');
@@ -13,7 +13,7 @@ export default function Calculator() {
     };
 
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '50%', marginRight: '17px', height: '26%'}}>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '60%', marginRight: '17px', height: '26%'}}>
         <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Калькулятор</Typography>
         <Stack spacing={2} mt={1} alignItems="center">
             <TextField label="Площадь:" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
@@ -37,8 +37,8 @@ export default function Calculator() {
             </Box>
             <TextField disabled label="Цена" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
             <TextField disabled label="≈Время" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
-            <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={() => {navigate("/dop-services")}}>
-            Доп. услуги
+            <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}}  onClick={() => {navigate("/services")}}>
+            Назад
             </Button>
         </Stack>
     </div>

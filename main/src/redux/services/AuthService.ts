@@ -12,7 +12,7 @@ class AuthService {
 			.then((res) => {
 				const data: Answer = res.data;
 				if (data.status) {
-					setCookie("access_token", data.answer.access_token, {expires: 1, path: ''});
+					setCookie("access_token", data.answer.access_token, {expires: 31, path: ''});
 					const client: Client = data.answer.user;
 					localStorage.setItem('user', JSON.stringify(client))
 					return clientActions.registerSuccess({isAuth: true, client: client});
@@ -28,7 +28,7 @@ class AuthService {
 		.then((res) => {
 				const data: Answer = res.data;
 				if (data.status) {
-					setCookie("access_token", data.answer.access_token, {expires: 1, path: ''});
+					setCookie("access_token", data.answer.access_token, {expires: 31, path: ''});
 					const client: Client = data.answer.user;
 					localStorage.setItem('user', JSON.stringify(client));
 					return clientActions.loginSuccess({isAuth: true, client: client});

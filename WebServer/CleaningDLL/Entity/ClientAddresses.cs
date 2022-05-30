@@ -13,14 +13,12 @@ namespace CleaningDLL.Entity
         public Address Address { get; set; }
         [Required]
         public Client Client { get; set; }
-        public string Name { get; set; }
         private static ApplicationContext db = Context.Db;
 
-        public ClientAddresses(Address address, Client client, string Name)
+        public ClientAddresses(Address address, Client client)
         {
             this.Address = address;
             this.Client = client;
-            this.Name = Name;
         }
 
         public ClientAddresses()
@@ -46,7 +44,7 @@ namespace CleaningDLL.Entity
         }
         public static IEnumerable<Address> GetClientAddressesById(int id)
         {
-            return db.ClientAddresses.Include(c => c.Client).Include(c => c.Address).Where(a => a.Client.ID == id).Select(x => x.Address);
+            return db.ClientAddresses.Include(c => c.Client).Include(c => c.Address).Where(a => a.Client.ID == id && a.Address.CurrentAddress == true).Select(x => x.Address);
         }
     }
 }

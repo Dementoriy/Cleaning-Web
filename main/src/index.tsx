@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SideBar from './components/sideBar/SideBar';
 import AuthGroup from './components/auth/AuthGroup';
-import ServicesGroup from './components/services/ServicesGroup'
-import ProfileGroup from './components/profile/ProfileGroup'
-import MyCleaningGroup from './components/myCleaning/MyCleaningGroup'
-import ToOrderGroup from './components/toOrder/ToOrderGroup'
+import ServicesGroup from './components/services/ServicesGroup';
+import DopServicesGroup from './components/dopServices/DopServicesGroup';
+import ProfileGroup from './components/profile/ProfileGroup';
+import MyCleaningGroup from './components/myCleaning/MyCleaningGroup';
+import ToOrderGroup from './components/toOrder/ToOrderGroup';
 import reportWebVitals from './reportWebVitals';
 import {Stack} from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -50,12 +51,13 @@ ReactDOM.render(
     <Provider store={store}>
       <ThemeProvider theme={outerTheme}>
         <BrowserRouter>
-          <Stack direction="row" spacing={3}>
+          <Stack direction="row" spacing={3} height="100%">
             <SideBar />
             <Routes>
               <Route path={"/"} element={<AuthGroup />} />
               <Route path={"profile"} element={<ProfileGroup />} />
               <Route path={"services"} element={<ServicesGroup />} />
+              <Route path={"dop-services"} element={<DopServicesGroup />} />
               <Route path={"my-cleaning"} element={<MyCleaningGroup />} />
               <Route path={"to-order"} element={<ToOrderGroup />} />
             </Routes>

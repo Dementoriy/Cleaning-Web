@@ -17,7 +17,7 @@ export default function SideBar() {
     const dispatch = useDispatch<AppDispatch>();
     
     return (
-      <div style={{backgroundColor: '#B1A18B', marginTop: '-7px', height: 'auto', padding: '10px', width: '13%', minWidth: '220px', paddingBottom: '270px'}}>
+      <div style={{backgroundColor: '#B1A18B', marginTop: '-7px', height: '58%', padding: '10px', width: '13%', minWidth: '220px', paddingBottom: '50px'}}>
           <Stack direction="row" alignItems="stretch">
             <img src="./icons/logo.png" alt="logo" width="40px" height="40px"></img>
             <Typography sx={{fontSize: '30px', color: 'white', fontWeight: '500'}}>Чистый дом</Typography>
@@ -44,7 +44,7 @@ export default function SideBar() {
               Заказать
             </Button>
           </Stack>
-          <Button variant="contained" color="secondary" disableElevation sx={{ width: '100%', borderRadius: '10px', mt: '60%'}} startIcon={<ExitToAppIcon />} onClick={() => {navigate("/")}}>
+          <Button variant="contained" color="secondary" disableElevation sx={{ width: '100%', borderRadius: '10px', mt: '30%'}} startIcon={<ExitToAppIcon />} onClick={() => {navigate("/")}}>
               Войти
           </Button>
           <Button variant="contained" color="secondary" disableElevation sx={{ width: '100%', borderRadius: '10px', mt: '5%'}} startIcon={<ExitToAppIcon />} onClick={() => {dispatch(AuthService.logout())}}>

@@ -7,7 +7,7 @@ const API_URL = "http://localhost:8080/service/";
 
 class ServiceService {
     GetService() {
-		return axios.get(API_URL + "get")
+		return axios.get(API_URL + "get", {headers: authHeader()})
         .then((response) => {
             const data: Answer = response.data;
             if (data.status)

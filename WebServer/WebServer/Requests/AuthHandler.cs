@@ -16,11 +16,12 @@ public class AuthHandler : RequestHandler
         {
             Id = Guid.NewGuid().ToString("n"),
             Issuer = $"{client.Login}",
-            IssuedAt = DateTime.Now
+            //IssuedAt = DateTime.Now,
+            Expiration = DateTime.Now + new TimeSpan(31, 0, 0),
         };
         var jwt = new JsonWebToken<JsonWebTokenPayload>(model, Program.Sign);
         var jwtStr = jwt.ToEncodedString();
-        AuthToken.RemoveToken(new TimeSpan(1, 0, 0, 0));
+        //AuthToken.RemoveToken(new TimeSpan(1, 0, 0, 0));
         return AuthToken.AddToken(jwtStr) ? jwtStr : "";
     }
 

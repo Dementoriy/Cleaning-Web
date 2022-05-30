@@ -1,5 +1,5 @@
 export interface Client {
-	id: number
+	id: number,
 	surname: string,
 	name: string,
 	middleName: string | null,

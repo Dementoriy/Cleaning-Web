@@ -1,5 +1,5 @@
 export interface Position {
-	id: number
+	id: number,
     NamePosition: string,
 	Description: string
 }

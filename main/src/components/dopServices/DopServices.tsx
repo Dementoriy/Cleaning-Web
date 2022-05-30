@@ -13,7 +13,7 @@ export default function DopServices() {
         })
     }, [services])
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '90%', marginRight: '17px'}}>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '130%', height: '54%', overflowY: 'scroll'}}>
         <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Дополнительные услуги</Typography>
         <Stack spacing={2}>
         {services.map((service)=>(<div key={service.ID}>

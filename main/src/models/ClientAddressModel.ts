@@ -2,8 +2,7 @@ import {Client} from "./ClientModel";
 import {Address} from "./AddressModel";
 
 export interface ClientAddress {
-	id: number
+	id: number,
 	AddressID: Address,
-    ClientID: Client,
-    Name: string
+    ClientID: Client
 }

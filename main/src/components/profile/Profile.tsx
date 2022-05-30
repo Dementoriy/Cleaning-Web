@@ -10,7 +10,7 @@ export default function Profile() {
     setName(event.target.value);
   };
   return (
-    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px',  width: '100%'}}>
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px',  width: '100%', height: '54%'}}>
       {user.client.isAuth && (
         <>
         <Stack direction="row" spacing={2}>

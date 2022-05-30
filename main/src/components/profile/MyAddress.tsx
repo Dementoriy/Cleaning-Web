@@ -32,8 +32,16 @@ import AddressService from '../../redux/services/AddressService';
         console.log(addresses);
     }, [addresses])
 
+  //   const myPlacemark = new YMaps.GeoObject({
+  //     geometry: {
+  //         type: "Point",
+  //         coordinates: [55.76, 37.56]
+  //     }
+  // });
+  //var myPlacemark = new YMaps.Placemark([55.8, 37.6]);
+
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px',  width: '60%', marginRight: '17px'}}>
+    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px',  width: '60%', marginRight: '17px', height: '54%', overflowY: 'scroll'}}>
       <Typography variant="h4" color="primary" align='center' style={{fontWeight: '500'}}>Мои адреса</Typography>
       <Stack spacing={2}>
       {addresses.map((address)=>(<div>
@@ -49,14 +57,14 @@ import AddressService from '../../redux/services/AddressService';
           <CardContent sx={{ mt: '-5%'}}>
             <YMaps>
               <div>
-                <Map defaultState={{ center: [58.60, 49.66], zoom: 11 }} style={{height: "300px"}} />
+                <Map defaultState={{ center: [58.60, 49.66], zoom: 11}} style={{height: "300px"}} />
               </div>
             </YMaps>
           </CardContent>
           <CardActions disableSpacing>
               <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px', width: '100%'}} endIcon={<EditOutlinedIcon />}>
                 <Typography>
-                ул. {address.Street} {address.HouseNumber}, кв.{address.ApartmentNumber}
+                  {address.FullAddress}
                 </Typography>
               </Button>
           </CardActions>

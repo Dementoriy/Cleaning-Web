@@ -2,22 +2,21 @@ import React from 'react';
 import { Button, Typography, Stack, CardContent, Card, Box, Rating, Dialog, DialogActions, DialogContent, DialogContentText, Modal, TextField } from "@mui/material";
 import OrderService from '../../redux/services/OrderService';
 import {Order} from "../../models/OrderModel";
-import { useRef, useEffect } from 'react';
-import { useStateIfMounted } from 'use-state-if-mounted';
 
 export default function MyCleaning() {
 
-    const [orders, setOrders] = useStateIfMounted<Order[]>([]);
-    const isMounted = useRef(false);
+    const [orders, setOrders] = React.useState<Order[]>([]);
+    const [services, setServices] = React.useState<Order[]>([]);
 
     React.useEffect(() => {
-        if (orders.length !== 0) return;
-        OrderService.GetOrder().then((res) => {
+        if (orders.length !== 0 || services.length !== 0) return;
+        OrderService.GetOrder().then((res: any) => {
             setOrders(res);
+            setServices(res);
             console.log(res);
         })
         return () => { };
-    }, [orders])
+    }, [orders, services])
 
     const [value, setValue] = React.useState<number | null>(0);
 
@@ -82,6 +81,7 @@ export default function MyCleaning() {
                         }
                         <Typography variant="subtitle1">
                         Дополнительные услуги: мойка окон, химчистка.
+                        
                         </Typography>
                     </CardContent>
                 </Box>

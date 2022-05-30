@@ -2,7 +2,7 @@ import {Position} from "./PositionModel";
 import {Brigade} from "./BrigadeModel";
 
 export interface Employee {
-	id: number
+	id: number,
     PassportData: string,
     PositionID: Position,
     BrigadeID: Brigade | null,
