@@ -24,5 +24,5 @@ export interface Order {
         ID: number,
         Service: Service,
         Amount: number
-    }
+    }[]
 }

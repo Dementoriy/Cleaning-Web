@@ -6,7 +6,10 @@ import ServicesGroup from './components/services/ServicesGroup';
 import DopServicesGroup from './components/dopServices/DopServicesGroup';
 import ProfileGroup from './components/profile/ProfileGroup';
 import MyCleaningGroup from './components/myCleaning/MyCleaningGroup';
-import ToOrderGroup from './components/toOrder/ToOrderGroup';
+import ToOrderGroupOne from './components/toOrder/stepOne/ToOrderGroupOne';
+import ToOrderGroupTwo from './components/toOrder/stepTwo/ToOrderGroupTwo';
+import ToOrderGroupThree from './components/toOrder/stepThree/ToOrderGroupThree';
+import ToOrderGroupFour from './components/toOrder/stepFour/ToOrderGroupFour';
 import reportWebVitals from './reportWebVitals';
 import {Stack} from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -59,7 +62,10 @@ ReactDOM.render(
               <Route path={"services"} element={<ServicesGroup />} />
               <Route path={"dop-services"} element={<DopServicesGroup />} />
               <Route path={"my-cleaning"} element={<MyCleaningGroup />} />
-              <Route path={"to-order"} element={<ToOrderGroup />} />
+              <Route path={"to-order-one"} element={<ToOrderGroupOne />} />
+              <Route path={"to-order-two"} element={<ToOrderGroupTwo />} />
+              <Route path={"to-order-three"} element={<ToOrderGroupThree />} />
+              <Route path={"to-order-four"} element={<ToOrderGroupFour />} />
             </Routes>
           </Stack>
         </BrowserRouter>

@@ -1,0 +1,22 @@
+.selected{
+    border-radius: '50px';
+    background-color: '#D8D0C5';
+    color: '#776D61';
+    border: '2px solid #776D61';
+    width: '40px';
+    height: '40px';
+    font-size: '30px';
+    text-align: 'center';
+}
+.unselected{
+    border-radius: '50px';
+    color: '#776D61';
+    border: '2px solid #776D61';
+    width: '34px';
+    height: '34px';
+    font-size: '30px';
+    display: 'flex';
+    justify-content: 'center';
+    align-items: 'center';
+    margin-left: '5px';
+  } 

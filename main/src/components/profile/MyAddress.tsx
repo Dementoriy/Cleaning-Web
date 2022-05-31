@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Button, Stack, Card, CardHeader, CardContent, CardActions, Fab, Typography, Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material";
+import {Button, Stack, TextField, Box, Card, Modal, CardHeader, CardContent, CardActions, Fab, Typography, Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -40,9 +40,29 @@ import AddressService from '../../redux/services/AddressService';
   // });
   //var myPlacemark = new YMaps.Placemark([55.8, 37.6]);
 
+  const [openModal, setOpenModal] = React.useState(false);
+  const handleModalOpen = () => {
+    setOpenModal(true);
+  };
+  const handleCloseModal = () => {
+      setOpenModal(false);
+  };
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '80%',
+    bgcolor: '#F0EDE8',
+    border: '2px solid #776D61',
+    borderRadius: '20px',
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px',  width: '60%', marginRight: '17px', height: '54%', overflowY: 'scroll'}}>
-      <Typography variant="h4" color="primary" align='center' style={{fontWeight: '500'}}>Мои адреса</Typography>
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px',  width: '100%', height: '100%', overflowY: 'scroll'}}>
+      <Typography variant="h5" color="primary" align='center' style={{fontWeight: '500'}}>Мои адреса</Typography>
       <Stack spacing={2}>
       {addresses.map((address)=>(<div>
         <Card sx={{ width: '100%', backgroundColor: '#B1A18B', borderRadius:"10px", marginTop: '20px'}}>
@@ -82,7 +102,7 @@ import AddressService from '../../redux/services/AddressService';
         autoComplete="off"
         alignItems="center"
       >
-        <Fab color="secondary" aria-label="add">
+        <Fab color="secondary" aria-label="add"  onClick={handleModalOpen}>
           <AddIcon />
         </Fab>
       </Stack>
@@ -91,6 +111,7 @@ import AddressService from '../../redux/services/AddressService';
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        // style={{marginLeft: '64%', marginBottom: '20%'}}
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -104,6 +125,24 @@ import AddressService from '../../redux/services/AddressService';
           </Button>
         </DialogActions>
       </Dialog>
+      <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={style}>
+              <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Новый адрес</Typography>
+                <Stack spacing={1} width={"50%"}>
+                  <TextField label="Район города" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                  <TextField label="Населенный пункт" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                  <TextField label="Улица" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                  <TextField label="Дом" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                  <TextField label="Корпус/строение" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                  <TextField label="Квартира" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+                </Stack>
+            </Box>
+        </Modal>
     </div>
   );
 }

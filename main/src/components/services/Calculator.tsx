@@ -12,11 +12,16 @@ export default function Calculator() {
         setName(event.target.value as string);
     };
 
+    //const square :string = '';
+    //const square = (document.getElementById('#square') as HTMLInputElement).value;
+    //let squareValue : string = (document.getElementById("#square") as HTMLInputElement).value;
+    const squareValue = 20;
+
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '50%', marginRight: '17px', height: '26%'}}>
-        <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Калькулятор</Typography>
-        <Stack spacing={2} mt={1} alignItems="center">
-            <TextField label="Площадь:" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%'}}>
+        <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Калькулятор</Typography>
+        <Stack spacing={2.5} mt={2} alignItems="center">
+            <TextField type='text' label="Площадь:" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} id="square" /*value={square} onChange={handleChange("square")}*/ />
             <Box width='80%'>
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label" style={{lineHeight: '0.8em'}}>Тип:</InputLabel>
@@ -37,7 +42,7 @@ export default function Calculator() {
             </Box>
             <TextField disabled label="Цена" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
             <TextField disabled label="≈Время" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
-            <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={() => {navigate("/dop-services")}}>
+            <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={() => {navigate("/dop-services?square=" + squareValue)}}>
             Доп. услуги
             </Button>
         </Stack>

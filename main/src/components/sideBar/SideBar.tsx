@@ -40,7 +40,7 @@ export default function SideBar() {
             <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px'}} startIcon={<ListAltOutlinedIcon />} onClick={() => {navigate("services")}}>
               Услуги
             </Button>
-            <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px'}} startIcon={<AddCircleOutlineOutlinedIcon />} onClick={() => {navigate("to-order")}}>
+            <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px'}} startIcon={<AddCircleOutlineOutlinedIcon />} onClick={() => {navigate("to-order-one")}}>
               Заказать
             </Button>
           </Stack>

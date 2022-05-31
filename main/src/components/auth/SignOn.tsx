@@ -74,7 +74,7 @@ export default function SignOn() {
       }
 
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%'}}>
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%'}}>
         <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Регистрация</Typography>
         <Stack
           component="form"

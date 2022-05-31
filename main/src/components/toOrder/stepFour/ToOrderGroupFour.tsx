@@ -1,14 +1,14 @@
 import React from 'react';
 import Stepper from './Stepper';
-import StepOne from './StepOne';
+import Payment from './Payment';
 import {Stack} from "@mui/material";
 
-export default function ToOrderGroup()
+export default function ToOrderGroupFour()
 {
     return(
         <Stack spacing={3} width='78%'>
             <Stepper />
-            <StepOne />
+            <Payment />
         </Stack>
     );
 }

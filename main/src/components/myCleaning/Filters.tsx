@@ -57,8 +57,8 @@ export default function Filters() {
       };
 
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '94%', marginRight: '17px'}}>
-        <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Фильтры</Typography>
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '94%', marginRight: '17px'}}>
+        <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Фильтры</Typography>
         <Stack spacing={2} sx={{width: '100%', marginTop: '30px'}}>
           <FormControl sx={{width: '100%'}}>
             <InputLabel id="address-chip-label">Адреса</InputLabel>

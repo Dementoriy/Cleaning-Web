@@ -10,16 +10,17 @@ export default function Profile() {
     setName(event.target.value);
   };
   return (
-    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px',  width: '100%', height: '54%'}}>
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px',  width: '100%', height: '100%'}}>
       {user.client.isAuth && (
         <>
         <Stack direction="row" spacing={2}>
           <Avatar alt={user.client.client!.login.toUpperCase()} src={user.client.client!.avatar} sx={{ width: 120, height: 120 }}/>
-          <Stack spacing={1}>
-            <Typography color="primary" variant="h4" sx={{fontWeight: '500'}}>
+          <Stack spacing={0.5}>
+            <div style={{height: '10px'}} />
+            <Typography color="primary" variant="h5" sx={{fontWeight: '500'}}>
               {user.client.client!.surname} {user.client.client!.name} {user.client.client!.middleName}
             </Typography>
-            <Typography color="primary" variant="h5">@{user.client.client!.login}</Typography>
+            <Typography color="primary" variant="h6">@{user.client.client!.login}</Typography>
           </Stack>
         </Stack>
         <Stack

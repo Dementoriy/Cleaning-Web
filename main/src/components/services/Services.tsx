@@ -15,11 +15,12 @@ export default function Services() {
     }, [services])
 
     return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '130%', height: '54%', overflowY: 'scroll'}}>
-        <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Услуги</Typography>
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: '100%', width: '100%', overflowY: 'auto'}}>
+        <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Услуги</Typography>
         <Stack spacing={2}>
-            {services.map((service)=>(<div key={service.ID}>
+            {services.map((service)=>(<>
                 {service.IsMain &&
+                <div key={service.ID}>
                 <Card sx={{ display: 'flex', border: "3px solid #776D61", borderRadius: "10px", marginTop: "10px"}}>
                     <CardMedia
                         component="img"
@@ -44,12 +45,12 @@ export default function Services() {
                         </Stack>
                         <Typography variant="subtitle2" color="text.primary" align="center" component="div" marginLeft="14%" mt="-10%">{service.ApproximateTime}</Typography>
                         <Typography variant="subtitle2" color="text.primary" align="center" component="div" sx={{ mt: '20%'}}>От {service.Price} руб./{service.Units.Unit}</Typography>
-                        <Button variant="contained" color="success" disableElevation sx={{ borderRadius: '10px', mt: '26%', width: '100%'}}>
+                        <Button variant="contained" color="success" disableElevation sx={{ borderRadius: '10px', mt: '10%', width: '100%'}}>
                             Выбрать
                         </Button>
                     </Box>
                 </Card>
-            }</div>))}
+                </div>}</>))}
         </Stack>
     </div>
   );

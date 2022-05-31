@@ -1,11 +1,44 @@
 import React from 'react';
-import {Box, Stack, InputLabel, MenuItem, FormControl, TextField, Typography, Button, Card, CardHeader, CardContent, CardActions, Fab, Dialog, DialogActions, DialogContent, DialogContentText} from '@mui/material';
+import {Box, Stack, InputLabel, MenuItem, FormControl, TextField, Typography, Button, Card, CardHeader, CardContent, CardActions, Fab, Dialog, DialogActions, DialogContent, DialogContentText, Tabs, Tab} from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import { YMaps, Map } from 'react-yandex-maps';
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
 export default function Stepper() {
 
@@ -24,18 +57,23 @@ export default function Stepper() {
       setOpen(false);
     };
 
+    const [value, setValue] = React.useState(0);
+
+    const handleChangeStep = (event: React.SyntheticEvent, newValue: number) => {
+      setValue(newValue);
+    };
+
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px',  width: '100%', marginRight: '17px'}}>
-        <Stack direction='row' width='100%' justifyContent="center" mt={2}>
-          <Button variant='text' color='primary' size="large">
-            <Typography variant="h5" sx={{fontWeight: '500'}}>Разовая уборка</Typography>
-          </Button>
-          <Typography color='primary' variant="h5" mt='7px'>/</Typography>
-          <Button variant='text' color='secondary' size='large'>
-            <Typography variant="h5" sx={{fontWeight: '500'}}>Периодическая уборка</Typography>
-          </Button>
-        </Stack>
-        <Stack direction='row' width='100%' mt={3} spacing={6} justifyContent="center">
+
+    <Box sx={{ width: '100%', height: '100%',backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px'}}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={value} onChange={handleChangeStep} aria-label="basic tabs example" centered>
+          <Tab label="Разовая уборка" {...a11yProps(0)} />
+          <Tab label="Периодическая уборка" {...a11yProps(1)} />
+        </Tabs>
+      </Box>
+      <TabPanel value={value} index={0}>
+        <Stack direction='row' width='100%' spacing={6} justifyContent="center">
           <Stack width='30%' spacing={2}>
             <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Выбор адреса</Typography>
             <FormControl fullWidth>
@@ -62,12 +100,12 @@ export default function Stepper() {
               }}
             />
 
-          <TextField
-            id="outlined-multiline-static"
-            label="Комментарий"
-            multiline
-            rows={6}
-          />
+            <TextField
+              id="outlined-multiline-static"
+              label="Комментарий"
+              multiline
+              rows={6}
+            />
 
           </Stack>
           <Stack width='30%'>
@@ -83,7 +121,7 @@ export default function Stepper() {
               <CardContent sx={{ mt: '-5%'}}>
                 <YMaps>
                   <div>
-                    <Map defaultState={{ center: [58.60, 49.66], zoom: 11 }} style={{height: "300px"}} />
+                    <Map defaultState={{ center: [58.60, 49.66], zoom: 11 }} style={{height: "240px"}} />
                   </div>
                 </YMaps>
               </CardContent>
@@ -95,25 +133,30 @@ export default function Stepper() {
             </Card>
           </Stack>
         </Stack>
-        
+          
         <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-      >
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Удалить адрес?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Нет</Button>
-          <Button onClick={handleClose} autoFocus>
-            Да
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        >
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Удалить адрес?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Нет</Button>
+            <Button onClick={handleClose} autoFocus>
+              Да
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </TabPanel>
+
+      <TabPanel value={value} index={1}>
+        Периодическая уборка
+      </TabPanel>
+    </Box>
   );
 }

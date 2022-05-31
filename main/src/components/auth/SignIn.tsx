@@ -61,7 +61,7 @@ export default function SignIn() {
   const handleClose = () => setShow(false);
 
   return (
-    <div style={{backgroundColor: '#FFFFFF', opacity: '70%', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%', marginRight: '17px'}}>
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%', marginRight: '17px'}}>
       <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Авторизация</Typography>
       <Stack
         component="form"
