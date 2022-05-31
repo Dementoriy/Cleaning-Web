@@ -78,17 +78,17 @@ export default function MyCleaning() {
                 </Typography>
             </Box>
             <Stack spacing={2}>
-                {orders.map((order) => (<div key={order.order.ID}>
+                {orders.map((order) => (<div key={order.ID}>
                     <Card sx={{display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
                         <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                             <CardContent sx={{flex: '1 0 auto'}}>
                                 <Typography variant="subtitle1">
-                                    {order.order.Address.FullAddress}
+                                    {order.Address.FullAddress}
                                 </Typography>
                                 <Typography variant="subtitle1">
-                                    Тип помещения: {order.order.Address.RoomTypeID}
+                                    Тип помещения: {order.Address.RoomType}
                                 </Typography>
-                                {order.services.map((service) => (<>
+                                {order.ProvidedServices.map((service) => (<>
                                     {service.Service.IsMain &&
                                         <>
                                             <Typography variant="subtitle1">
@@ -116,19 +116,19 @@ export default function MyCleaning() {
                         }}>
                             <Stack spacing={0.5}>
                                 <Typography variant="subtitle2">
-                                    Уборка запланирована на {order.order.Date}
+                                    Уборка запланирована на {order.Date}
                                 </Typography>
                                 <Typography variant="subtitle2">
                                     Время прибытия:
                                 </Typography>
                                 <Typography variant="subtitle2">
-                                    Статус заявки: {order.order.Status}
+                                    Статус заявки: {order.Status}
                                 </Typography>
                                 <Typography variant="subtitle2">
-                                    Время на уборку: {order.order.ApproximateTime}
+                                    Время на уборку: {order.ApproximateTime}
                                 </Typography>
                                 <Typography variant="subtitle2">
-                                    Итог: {order.order.FinalPrice} руб.
+                                    Итог: {order.FinalPrice} руб.
                                 </Typography>
                             </Stack>
                             <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="flex-end">

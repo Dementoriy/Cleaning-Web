@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../redux/store";
 import AddressService from '../../redux/services/AddressService';
 
+let key = false;
 
   export default function MyAddress() {
     const user = useSelector((state: RootState) => state);
@@ -25,11 +26,12 @@ import AddressService from '../../redux/services/AddressService';
     const [addresses, setAddresses] = React.useState<Address[]>([]);
 
     React.useEffect(() => {
-        if (addresses.length !== 0) return;
+        if (key) return;
         AddressService.GetAddress().then((res) => {
           setAddresses(res);
         })
         console.log(addresses);
+        key = true;
     }, [addresses])
 
   //   const myPlacemark = new YMaps.GeoObject({

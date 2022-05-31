@@ -5,8 +5,9 @@ export interface Address {
     Street: string,
     HouseNumber: string,
     Block: string | null,
-    ApartmentNumber: string, 
-    RoomTypeID: string, 
+    ApartmentNumber: string,
+    RoomType: string,
+    Сoefficient: number,
     AddressName: string,
     FullAddress: string,
     СurrentAddress: boolean

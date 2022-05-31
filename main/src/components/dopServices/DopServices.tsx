@@ -23,7 +23,7 @@ export default function DopServices() {
                 <CardMedia
                     component="img"
                     sx={{ width: 80, height: 80,  pl: "10px", pt: "6%" }}
-                    image={service.Image}
+                    image={service.Image!}
                     alt="Service"
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
@@ -35,7 +35,7 @@ export default function DopServices() {
                         {service.Description} 
                         </Typography>
                         <Typography variant="subtitle2">
-                        От {service.Price} руб./{service.Units.Unit}
+                        От {service.Price} руб./{service.UnitsTitle}
                         </Typography>
                     </CardContent>
                 </Box>

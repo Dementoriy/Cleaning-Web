@@ -3,10 +3,9 @@ export interface Service {
 	ServiceName: string,
     Description: string,
 	Price: number,
-    InventoryTypeID: {ID: number, Name: string},
     Time: number,
-    Units: {ID: number, Unit: string, Description: string},
-    Image: string,
+    UnitsTitle: string,
+    Image: string | null,
     IsMain: boolean,
     ApproximateTime: string
 }

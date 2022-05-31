@@ -44,7 +44,7 @@ namespace CleaningDLL.Entity
         }
         public static List<ProvidedService> GetProvidedServicesByOrderId(int id)
         {
-            return db.ProvidedService.Where(e => e.Order.ID == id).ToList();
+            return db.ProvidedService.Include(a => a.Service).ThenInclude(b => b.Units).Where(e => e.Order.ID == id).ToList();
         }
 
     }

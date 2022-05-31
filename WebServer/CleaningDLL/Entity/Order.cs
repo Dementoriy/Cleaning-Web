@@ -154,7 +154,7 @@ namespace CleaningDLL.Entity
 
         public static List<Order> GetClientOrder(int id)
         {
-            return db.Order.Include(a => a.Address).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).Where(a => a.Client.ID == id).ToList();
+            return db.Order.Include(a => a.Address).ThenInclude(a => a.RoomType).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).Where(a => a.Client.ID == id).ToList();
         }
     }
 }

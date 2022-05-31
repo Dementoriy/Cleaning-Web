@@ -11,6 +11,7 @@ export default function Services() {
         if (services.length !== 0) return;
         ServiceService.GetService().then((res) => {
             setServices(res);
+            console.log(res);
         })
     }, [services])
 
@@ -25,7 +26,7 @@ export default function Services() {
                     <CardMedia
                         component="img"
                         sx={{ width: 120, height: 120,  pl: "20px", pt: "6%" }}
-                        image={service.Image}
+                        image={service.Image!}
                         alt="Service"
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
@@ -44,7 +45,7 @@ export default function Services() {
                             <Typography variant="subtitle2" sx={{whiteSpace: 'nowrap'}}>Время уборки</Typography>
                         </Stack>
                         <Typography variant="subtitle2" color="text.primary" align="center" component="div" marginLeft="14%" mt="-10%">{service.ApproximateTime}</Typography>
-                        <Typography variant="subtitle2" color="text.primary" align="center" component="div" sx={{ mt: '20%'}}>От {service.Price} руб./{service.Units.Unit}</Typography>
+                        <Typography variant="subtitle2" color="text.primary" align="center" component="div" sx={{ mt: '20%'}}>От {service.Price} руб./{service.UnitsTitle}</Typography>
                         <Button variant="contained" color="success" disableElevation sx={{ borderRadius: '10px', mt: '10%', width: '100%'}}>
                             Выбрать
                         </Button>
