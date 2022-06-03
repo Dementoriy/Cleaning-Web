@@ -14,6 +14,7 @@ namespace WebServer.Models
         public decimal Price { get; set; }
         public int Time { get; set; }
         public string UnitsTitle { get; set; }
+
         public string? Image { get; set; }
         public bool IsMain { get; set; }
         public string ApproximateTime { get; set; }

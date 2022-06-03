@@ -57,7 +57,7 @@ export default function Filters() {
       };
 
   return (
-    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', paddingBottom: '40px', width: '94%', marginRight: '17px'}}>
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%', height: '100%'}}>
         <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Фильтры</Typography>
         <Stack spacing={2} sx={{width: '100%', marginTop: '30px'}}>
           <FormControl sx={{width: '100%'}}>

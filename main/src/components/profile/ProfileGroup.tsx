@@ -7,10 +7,10 @@ export default function ProfileGroup()
 {
     return(
         <Stack direction="row" justifyContent="space-between" width='78%'>
-            <div style={{width: "60%", height: "54%" }}>
+            <div style={{width: "60%", height: "54%", marginTop: "17px"}}>
                 <Profile />
             </div>
-            <div style={{width: "34%", height: "54%" , margin: "17px 0px 0px 0px"}}>
+            <div style={{width: "34%", height: "54%", marginTop: "17px"}}>
                 <MyAddress />
             </div>
         </Stack>

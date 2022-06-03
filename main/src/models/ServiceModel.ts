@@ -5,7 +5,7 @@ export interface Service {
 	Price: number,
     Time: number,
     UnitsTitle: string,
-    Image: string | null,
+    Image: string,
     IsMain: boolean,
     ApproximateTime: string
 }

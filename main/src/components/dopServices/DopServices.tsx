@@ -2,6 +2,7 @@ import React from 'react';
 import {Box, Checkbox, FormGroup, FormControlLabel, Card, CardContent, CardMedia, TextField, Typography, Stack} from '@mui/material';
 import ServiceService from '../../redux/services/ServiceService';
 import {Service} from "../../models/ServiceModel";
+import "../../assets/css/Scrollbar.css";
 
 export default function DopServices() {
     const [services, setServices] = React.useState<Service[]>([]);
@@ -13,7 +14,7 @@ export default function DopServices() {
         })
     }, [services])
   return (
-    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: '100%', width: '100%', overflowY: 'auto'}}>
+    <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: '100%', width: '100%'}}>
         <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Дополнительные услуги</Typography>
         <Stack spacing={2}>
         {services.map((service)=>(<>
@@ -22,8 +23,8 @@ export default function DopServices() {
             <Card sx={{ display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px" }}>
                 <CardMedia
                     component="img"
-                    sx={{ width: 80, height: 80,  pl: "10px", pt: "6%" }}
-                    image={service.Image!}
+                    sx={{ width: 80, height: 80,  pl: "10px", pt: "2%" }}
+                    image={service.Image}
                     alt="Service"
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>

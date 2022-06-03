@@ -17,19 +17,16 @@ import {
 import OrderService from '../../redux/services/OrderService';
 import {Order} from "../../models/OrderModel";
 
-let key = false;
-
 export default function MyCleaning() {
 
     const [orders, setOrders] = React.useState<Order[]>([]);
 
     React.useEffect(() => {
-        if (key) return;
+        if (orders.length !== 0) return;
         OrderService.GetOrder().then((res) => {
             setOrders(res);
             console.log(res);
         })
-        key = true;
     }, [orders])
 
     const [value, setValue] = React.useState<number | null>(0);
@@ -64,12 +61,12 @@ export default function MyCleaning() {
     };
 
     return (
-        <div style={{
+        <div className='section' style={{
             backgroundColor: '#F0EDE8',
             borderRadius: '20px',
             padding: '22px',
-            marginTop: '17px',
-            width: '250%'
+            width: '100%',
+            height: '100%'
         }}>
             <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Мои уборки</Typography>
             <Box sx={{borderBottom: '3px solid #776D61'}}>
@@ -79,6 +76,7 @@ export default function MyCleaning() {
             </Box>
             <Stack spacing={2}>
                 {orders.map((order) => (<div key={order.ID}>
+                    {(order.Status !== 'Отменена' && order.Status !== 'Завершена')  &&
                     <Card sx={{display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
                         <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                             <CardContent sx={{flex: '1 0 auto'}}>
@@ -100,11 +98,13 @@ export default function MyCleaning() {
                                             </Typography>
                                         </>
                                     }</>))}
-
-                                <Typography variant="subtitle1">
-                                    Дополнительные услуги: мойка окон, химчистка.
-
-                                </Typography>
+                                    <Typography variant="subtitle1">Дополнительные услуги:</Typography>
+                                    <Stack direction="row">
+                                        {order.ProvidedServices.map((service) => (<>
+                                        {!service.Service.IsMain &&
+                                            <Typography>{service.Service.ServiceName}, </Typography>
+                                        }</>))}   
+                                    </Stack>
                             </CardContent>
                         </Box>
                         <Box sx={{
@@ -143,7 +143,7 @@ export default function MyCleaning() {
                             </Stack>
                         </Box>
                     </Card>
-                </div>))}
+                }</div>))}
             </Stack>
             <Box sx={{borderBottom: '3px solid #776D61', marginTop: '20px'}}>
                 <Typography variant="h5" color="primary">
@@ -151,62 +151,75 @@ export default function MyCleaning() {
                 </Typography>
             </Box>
             <Stack spacing={2}>
-                <Card sx={{display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
-                    <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-                        <CardContent sx={{flex: '1 0 auto'}}>
-                            <Typography variant="subtitle1">
-                                Дом. Воровского 101, кв. 6.
-                            </Typography>
-                            <Typography variant="subtitle1">
-                                Тип помещения: Квартира
-                            </Typography>
-                            <Typography variant="subtitle1">
-                                Тип уборки: Генеральная уборка
-                            </Typography>
-                            <Typography variant="subtitle1">
-                                Площадь: 40м2
-                            </Typography>
-                            <Typography variant="subtitle1">
-                                Дополнительные услуги: мойка окон, химчистка.
-                            </Typography>
-                        </CardContent>
-                    </Box>
-                    <Box sx={{
-                        flexDirection: 'column',
-                        backgroundColor: '#D8D0C5',
-                        borderLeft: '3px solid #776D61',
-                        width: '50%',
-                        padding: '5px'
-                    }}>
-                        <Stack spacing={0.5}>
-                            <Typography variant="subtitle2">
-                                Уборка запланирована на 18.04.2022
-                            </Typography>
-                            <Typography variant="subtitle2">
-                                Время прибытия: 11:00
-                            </Typography>
-                            <Typography variant="subtitle2">
-                                Статус заявки: назначен выезд.
-                            </Typography>
-                            <Typography variant="subtitle2">
-                                Время на приборку: 4 часа
-                            </Typography>
-                            <Typography variant="subtitle2">
-                                Итог: 3000 руб.
-                            </Typography>
-                        </Stack>
-                        <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="space-between">
-                            <Rating name="simple-controlled" value={value} onChange={(event, newValue) => {
-                                setValue(newValue);
-                            }}
-                            />
-                            <Button variant="contained" color="success" size="small" disableElevation
-                                    sx={{borderRadius: '10px'}} onClick={handleModalOpen}>
-                                Подробнее
-                            </Button>
-                        </Stack>
-                    </Box>
-                </Card>
+                {orders.map((order) => (<div key={order.ID}>
+                    {(order.Status === 'Отменена' || order.Status === 'Завершена')  &&
+                    <Card sx={{display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
+                        <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
+                            <CardContent sx={{flex: '1 0 auto'}}>
+                                <Typography variant="subtitle1">
+                                    {order.Address.FullAddress}
+                                </Typography>
+                                <Typography variant="subtitle1">
+                                    Тип помещения: {order.Address.RoomType}
+                                </Typography>
+                                {order.ProvidedServices.map((service) => (<>
+                                    {service.Service.IsMain &&
+                                        <>
+                                            <Typography variant="subtitle1">
+                                                Тип уборки: {service.Service.ServiceName}
+                                            </Typography>
+
+                                            <Typography variant="subtitle1">
+                                                Площадь: {service.Amount}
+                                            </Typography>
+                                        </>
+                                    }</>))}
+                                    <Typography variant="subtitle1">Дополнительные услуги:</Typography>
+                                    <Stack direction="row">
+                                        {order.ProvidedServices.map((service) => (<>
+                                        {!service.Service.IsMain &&
+                                            <Typography>{service.Service.ServiceName}, </Typography>
+                                        }</>))}   
+                                    </Stack>
+                            </CardContent>
+                        </Box>
+                        <Box sx={{
+                            flexDirection: 'column',
+                            backgroundColor: '#D8D0C5',
+                            borderLeft: '3px solid #776D61',
+                            width: '50%',
+                            padding: '5px'
+                        }}>
+                            <Stack spacing={0.5}>
+                                <Typography variant="subtitle2">
+                                    Уборка запланирована на {order.Date}
+                                </Typography>
+                                <Typography variant="subtitle2">
+                                    Время прибытия:
+                                </Typography>
+                                <Typography variant="subtitle2">
+                                    Статус заявки: {order.Status}
+                                </Typography>
+                                <Typography variant="subtitle2">
+                                    Время на уборку: {order.ApproximateTime}
+                                </Typography>
+                                <Typography variant="subtitle2">
+                                    Итог: {order.FinalPrice} руб.
+                                </Typography>
+                            </Stack>
+                            <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="flex-end">
+                                <Button variant="contained" color="success" size="small" disableElevation
+                                        sx={{borderRadius: '10px'}} onClick={handleModalOpen}>
+                                    Подробнее
+                                </Button>
+                                <Button variant="contained" color="success" size="small" disableElevation
+                                        sx={{borderRadius: '10px'}} onClick={handleDialogOpen}>
+                                    Отменить
+                                </Button>
+                            </Stack>
+                        </Box>
+                    </Card>
+                }</div>))}
             </Stack>
             <Dialog
                 open={openDialog}

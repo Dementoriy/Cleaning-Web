@@ -3,6 +3,7 @@ import { Button, Typography, CardMedia, CardContent, Card, Box, Stack} from "@mu
 import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
 import ServiceService from '../../redux/services/ServiceService';
 import {Service} from "../../models/ServiceModel";
+import "../../assets/css/Scrollbar.css";
 
 export default function Services() {
     const [services, setServices] = React.useState<Service[]>([]);
@@ -16,7 +17,7 @@ export default function Services() {
     }, [services])
 
     return (
-    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: '100%', width: '100%', overflowY: 'auto'}}>
+    <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: '100%', width: '100%'}} >
         <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Услуги</Typography>
         <Stack spacing={2}>
             {services.map((service)=>(<>
@@ -25,8 +26,8 @@ export default function Services() {
                 <Card sx={{ display: 'flex', border: "3px solid #776D61", borderRadius: "10px", marginTop: "10px"}}>
                     <CardMedia
                         component="img"
-                        sx={{ width: 120, height: 120,  pl: "20px", pt: "6%" }}
-                        image={service.Image!}
+                        sx={{ width: 120, height: 120,  pl: "20px", pt: "4%" }}
+                        image={service.Image}
                         alt="Service"
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>

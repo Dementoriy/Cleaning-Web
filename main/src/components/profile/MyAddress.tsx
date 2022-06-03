@@ -9,8 +9,7 @@ import {Address} from "../../models/AddressModel";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../redux/store";
 import AddressService from '../../redux/services/AddressService';
-
-let key = false;
+import "../../assets/css/Scrollbar.css";
 
   export default function MyAddress() {
     const user = useSelector((state: RootState) => state);
@@ -26,12 +25,11 @@ let key = false;
     const [addresses, setAddresses] = React.useState<Address[]>([]);
 
     React.useEffect(() => {
-        if (key) return;
+        if (addresses.length !== 0) return;
         AddressService.GetAddress().then((res) => {
           setAddresses(res);
         })
         console.log(addresses);
-        key = true;
     }, [addresses])
 
   //   const myPlacemark = new YMaps.GeoObject({
@@ -63,7 +61,7 @@ let key = false;
   };
 
   return (
-    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px',  width: '100%', height: '100%', overflowY: 'scroll'}}>
+    <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px',  width: '100%', height: '100%'}}>
       <Typography variant="h5" color="primary" align='center' style={{fontWeight: '500'}}>Мои адреса</Typography>
       <Stack spacing={2}>
       {addresses.map((address)=>(<div>

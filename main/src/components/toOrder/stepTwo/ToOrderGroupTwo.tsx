@@ -10,7 +10,7 @@ export default function ToOrderGroupTwo()
         <Stack spacing={3} width='78%'>
             <Stepper />
             <Stack direction="row" justifyContent="space-between">
-                <div style={{width: "74%", height: "44%"}}>
+                <div style={{width: "74%", height: "47%"}}>
                     <Services />
                 </div>
                 <div style={{width: "20%", marginLeft: "26px"}}>
