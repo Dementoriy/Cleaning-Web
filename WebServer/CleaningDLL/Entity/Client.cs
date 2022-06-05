@@ -133,6 +133,7 @@ namespace CleaningDLL.Entity
 
         public static Client? GetClientLogin(string login)
         {
+            
             return db.Client.FirstOrDefault(c => c.Login == login);
         }
 

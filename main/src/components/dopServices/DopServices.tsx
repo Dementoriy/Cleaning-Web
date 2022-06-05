@@ -15,7 +15,7 @@ export default function DopServices() {
     }, [services])
   return (
     <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: '100%', width: '100%'}}>
-        <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Дополнительные услуги</Typography>
+        <Typography variant="h5" color="primary" align='center'>Дополнительные услуги</Typography>
         <Stack spacing={2}>
         {services.map((service)=>(<>
                 {!service.IsMain &&
@@ -29,7 +29,7 @@ export default function DopServices() {
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography variant="h6" color="primary" sx={{fontWeight: '500'}}>
+                        <Typography variant="h6" color="primary">
                         {service.ServiceName}
                         </Typography>
                         <Typography variant="subtitle2">
@@ -44,7 +44,7 @@ export default function DopServices() {
                     <Box marginTop={1}>
                         <FormGroup>
                             <FormControlLabel control={<Checkbox  color='primary'/>} label="Выбрать"/>
-                            <TextField label="Количество" color='primary' size='small' sx={{fontWeight: '500', mt: '10%', width: '98%'}} />
+                            <TextField label="Количество" color='primary' size='small' sx={{mt: '10%', width: '98%'}} />
                         </FormGroup>
                     </Box>
                 </Box>

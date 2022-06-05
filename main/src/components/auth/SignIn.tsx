@@ -49,8 +49,7 @@ export default function SignIn() {
 		AuthService.login(data).then((res) => {
 			dispatch(res)
 			if (res.type === clientActions.loginSuccess.type) {
-				navigate("/");
-        //handleClose();
+				navigate("/profile");
 			}
 		})
 	};
@@ -58,11 +57,10 @@ export default function SignIn() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
 
   return (
     <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%', marginRight: '17px'}}>
-      <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Авторизация</Typography>
+      <Typography variant="h5" color="primary" align='center'>Авторизация</Typography>
       <Stack
         component="form"
         sx={{
@@ -106,7 +104,7 @@ export default function SignIn() {
         direction="row"
         justifyContent="space-between"
         >
-          <Button variant="text" size="large" color="primary" disableElevation>Регистрация</Button>
+          <Button variant="text" size="large" color="primary" disableElevation onClick={() => {navigate("/registration")}}>Регистрация</Button>
           <Button variant="contained" size="large" color="secondary" sx={{ borderRadius: '10px'}} onClick={onClick} disableElevation>Войти</Button>
         </Stack>
       </Stack>

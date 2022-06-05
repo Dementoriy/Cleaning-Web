@@ -20,9 +20,9 @@ export default function DopCalculator() {
 
   return (
     <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%'}}>
-        <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Калькулятор</Typography>
+        <Typography variant="h5" color="primary" align='center'>Калькулятор</Typography>
         <Stack spacing={2.5} mt={2} alignItems="center">
-            <TextField label="Площадь:" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} value={square}/>
+            <TextField label="Площадь:" color='primary' size='small' sx={{ width: '80%'}} value={square}/>
             <Box width='80%'>
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label" style={{lineHeight: '0.8em'}}>Тип:</InputLabel>
@@ -41,8 +41,8 @@ export default function DopCalculator() {
                     </Select>
                 </FormControl>
             </Box>
-            <TextField disabled label="Цена" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
-            <TextField disabled label="≈Время" color='primary' size='small' sx={{fontWeight: '500', width: '80%'}} />
+            <TextField disabled label="Цена" color='primary' size='small' sx={{width: '80%'}} />
+            <TextField disabled label="≈Время" color='primary' size='small' sx={{width: '80%'}} />
             <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}}  onClick={() => {navigate("/services")}}>
             Назад
             </Button>

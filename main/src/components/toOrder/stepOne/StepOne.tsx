@@ -75,7 +75,7 @@ export default function Stepper() {
       <TabPanel value={value} index={0}>
         <Stack direction='row' width='100%' spacing={6} justifyContent="center">
           <Stack width='30%' spacing={2}>
-            <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Выбор адреса</Typography>
+            <Typography variant="h5" color="primary" align='center'>Выбор адреса</Typography>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Адрес</InputLabel>
               <Select

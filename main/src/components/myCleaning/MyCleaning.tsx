@@ -53,11 +53,12 @@ export default function MyCleaning() {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: '80%',
+        height: '80%',
         bgcolor: '#F0EDE8',
         border: '2px solid #776D61',
         borderRadius: '20px',
         boxShadow: 24,
-        p: 4,
+        p: 4
     };
 
     return (
@@ -68,7 +69,7 @@ export default function MyCleaning() {
             width: '100%',
             height: '100%'
         }}>
-            <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Мои уборки</Typography>
+            <Typography variant="h5" color="primary" align='center'>Мои уборки</Typography>
             <Box sx={{borderBottom: '3px solid #776D61'}}>
                 <Typography variant="h5" color="primary">
                     Активные заявки
@@ -116,10 +117,10 @@ export default function MyCleaning() {
                         }}>
                             <Stack spacing={0.5}>
                                 <Typography variant="subtitle2">
-                                    Уборка запланирована на {order.Date}
+                                    Уборка запланирована на {order.Date.getDate}.{order.Date.getMonth}.{order.Date.getFullYear}
                                 </Typography>
                                 <Typography variant="subtitle2">
-                                    Время прибытия:
+                                    Время прибытия: {order.Date.getHours}:{order.Date.getMinutes}
                                 </Typography>
                                 <Typography variant="subtitle2">
                                     Статус заявки: {order.Status}
@@ -207,14 +208,14 @@ export default function MyCleaning() {
                                     Итог: {order.FinalPrice} руб.
                                 </Typography>
                             </Stack>
-                            <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="flex-end">
+                            <Stack spacing={4} direction={'row'} marginTop={'2%'} justifyContent="flex-end">
+                                <Rating name="simple-controlled" value={value} onChange={(event, newValue) => {
+                                    setValue(newValue);
+                                }}
+                                />
                                 <Button variant="contained" color="success" size="small" disableElevation
                                         sx={{borderRadius: '10px'}} onClick={handleModalOpen}>
                                     Подробнее
-                                </Button>
-                                <Button variant="contained" color="success" size="small" disableElevation
-                                        sx={{borderRadius: '10px'}} onClick={handleDialogOpen}>
-                                    Отменить
                                 </Button>
                             </Stack>
                         </Box>
@@ -245,10 +246,8 @@ export default function MyCleaning() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
-                    <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Полная
-                        информация</Typography>
-
+                <Box sx={style} className='section'>
+                    <Typography variant="h5" color="primary" align='center'>Полная информация</Typography>
                     <Stack direction="row" spacing={6} padding={4}>
                         <Stack spacing={1} width={"50%"}>
                             <Box sx={{borderBottom: '3px solid #776D61'}}>
@@ -256,22 +255,17 @@ export default function MyCleaning() {
                                     Место уборки
                                 </Typography>
                             </Box>
-                            <TextField label="Адрес" color='primary' size='small'
-                                       sx={{fontWeight: '500', width: '100%'}}/>
-                            <TextField label="Тип помещения" color='primary' size='small'
-                                       sx={{fontWeight: '500', width: '100%'}}/>
+                            <TextField label="Адрес" color='primary' size='small'/>
+                            <TextField label="Тип помещения" color='primary' size='small'/>
 
                             <Box sx={{borderBottom: '3px solid #776D61'}}>
                                 <Typography variant="h5" color="primary">
                                     Время уборки
                                 </Typography>
                             </Box>
-                            <TextField label="Уборка запланирована на" color='primary' size='small'
-                                       sx={{fontWeight: '500', width: '100%'}}/>
-                            <TextField label="Время уборки" color='primary' size='small'
-                                       sx={{fontWeight: '500', width: '100%'}}/>
-                            <TextField label="Статус заявки" color='primary' size='small'
-                                       sx={{fontWeight: '500', width: '100%'}}/>
+                            <TextField label="Уборка запланирована на" color='primary' size='small'/>
+                            <TextField label="Уборка займет" color='primary' size='small'/>
+                            <TextField label="Статус заявки" color='primary' size='small'/>
                         </Stack>
                         <Stack spacing={1} width={"50%"}>
                             <Box sx={{borderBottom: '3px solid #776D61'}}>
@@ -279,10 +273,13 @@ export default function MyCleaning() {
                                     Услуга
                                 </Typography>
                             </Box>
-                            <TextField label="Тип уборки" color='primary' size='small'
-                                       sx={{fontWeight: '500', width: '100%'}}/>
-                            <TextField label="Площадь" color='primary' size='small'
-                                       sx={{fontWeight: '500', width: '100%'}}/>
+                            <Stack direction="row" spacing={2}>
+                                <TextField label="Доп. услуга" color='primary' size='small'/>
+                                <Stack direction="row" spacing={2}>
+                                    <TextField label="Количество" color='primary' size='small'/>
+                                    <TextField label="Цена" color='primary' size='small'/>
+                                </Stack>
+                            </Stack>
 
                             <Box sx={{borderBottom: '3px solid #776D61'}}>
                                 <Typography variant="h5" color="primary">
@@ -290,10 +287,11 @@ export default function MyCleaning() {
                                 </Typography>
                             </Box>
                             <Stack direction="row" spacing={2}>
-                                <TextField label="Доп. услуга" color='primary' size='small'
-                                           sx={{fontWeight: '500', width: '100%'}}/>
-                                <TextField label="Количество" color='primary' size='small'
-                                           sx={{fontWeight: '500', width: '100%'}}/>
+                                <TextField label="Доп. услуга" color='primary' size='small'/>
+                                <Stack direction="row" spacing={2}>
+                                    <TextField label="Количество" color='primary' size='small'/>
+                                    <TextField label="Цена" color='primary' size='small'/>
+                                </Stack>
                             </Stack>
 
                             <TextField
@@ -302,6 +300,23 @@ export default function MyCleaning() {
                                 multiline
                                 rows={6}
                             />
+
+                            <Box sx={{borderBottom: '3px solid #776D61'}}>
+                            <Typography variant="h5" color="primary">
+                                Итог
+                            </Typography>
+                            </Box>
+                            <Stack direction="row" justifyContent="space-between" spacing={2}>
+                                <div></div>
+                                <TextField label="Итоговая цена" color='primary' size='small' sx={{ width: '30%'}}/>
+                            </Stack>
+                            <TextField
+                                id="outlined-multiline-static"
+                                label="Комментарий"
+                                multiline
+                                rows={6}
+                            />
+
                         </Stack>
                     </Stack>
                 </Box>

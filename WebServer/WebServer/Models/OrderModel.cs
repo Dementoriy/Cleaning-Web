@@ -9,7 +9,7 @@ public class OrderModel
     public AddressModel Address { get; set; } = new AddressModel();
     public DateTime Date { get; set; }
     public int FinalPrice { get; set; }
-    public int ApproximateTime { get; set; }
+    public string ApproximateTime { get; set; }
     public string? Comment { get; set; }
     public int? Rating { get; set; }
     public List<ProvidedServiceModel> ProvidedServices { get; set; } = new List<ProvidedServiceModel>();
@@ -30,7 +30,7 @@ public class OrderModel
                 ID = order.ID,
                 Status = order.Status,
                 FinalPrice = order.FinalPrice,
-                ApproximateTime = order.ApproximateTime,
+                ApproximateTime = Order.GetTimeByInt(order.ApproximateTime),
                 Comment = order.Comment,
                 Rating = order.Rating,
                 Address = new AddressModel

@@ -7,6 +7,8 @@ import AuthService from '../../redux/services/AuthService';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../redux/store";
 import {RegistrationModel} from "../../models/RequestModels"
+import {useNavigate} from 'react-router-dom';
+import {clientActions} from '../../redux/slices/clientSlice';
 
 interface RegisterData {
     surname: string;
@@ -70,12 +72,14 @@ export default function SignOn() {
         }
         AuthService.register(data).then((res) => {
           dispatch(res);
+          navigate("/profile");
         })
       }
+      const navigate = useNavigate();
 
   return (
     <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%'}}>
-        <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Регистрация</Typography>
+        <Typography variant="h5" color="primary" align='center'>Регистрация</Typography>
         <Stack
           component="form"
           sx={{
@@ -123,7 +127,7 @@ export default function SignOn() {
             justifyContent="space-between"
             alignItems="center"
             >
-              <Button variant="text" size="large" color="primary" disableElevation>Авторизация</Button>
+              <Button variant="text" size="large" color="primary" disableElevation onClick={() => {navigate("/")}}>Авторизация</Button>
               <Button variant="contained" size="large" color="secondary" onClick={onClick} sx={{ borderRadius: '10px'}} disableElevation>Зарегистрироваться</Button>
             </Stack>
         </Stack>

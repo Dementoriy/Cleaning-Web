@@ -7,7 +7,7 @@ export interface Order {
         Address: Address,
         Date: Date,
         FinalPrice: number,
-        ApproximateTime: number,
+        ApproximateTime: string,
         Comment: string,
         Rating: number | null,
 

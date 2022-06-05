@@ -18,7 +18,7 @@ export default function Services() {
 
     return (
     <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: '100%', width: '100%'}} >
-        <Typography variant="h5" color="primary" align='center' sx={{fontWeight: '500'}}>Услуги</Typography>
+        <Typography variant="h5" color="primary" align='center'>Услуги</Typography>
         <Stack spacing={2}>
             {services.map((service)=>(<>
                 {service.IsMain &&
@@ -32,7 +32,7 @@ export default function Services() {
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
                         <CardContent sx={{ flex: '1 0 auto' }}>
-                            <Typography color="primary" variant="h6" sx={{fontWeight: '500'}}>
+                            <Typography color="primary" variant="h6">
                             {service.ServiceName}
                             </Typography>
                             <Typography variant="subtitle2">

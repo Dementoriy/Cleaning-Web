@@ -17,7 +17,7 @@ export default function Profile() {
           <Avatar alt={user.client.client!.login.toUpperCase()} src={user.client.client!.avatar} sx={{ width: 120, height: 120 }}/>
           <Stack spacing={0.5}>
             <div style={{height: '10px'}} />
-            <Typography color="primary" variant="h5" sx={{fontWeight: '500'}}>
+            <Typography color="primary" variant="h5">
               {user.client.client!.surname} {user.client.client!.name} {user.client.client!.middleName}
             </Typography>
             <Typography color="primary" variant="h6">@{user.client.client!.login}</Typography>
@@ -25,12 +25,7 @@ export default function Profile() {
         </Stack>
         <Stack
           component="form"
-          sx={{
-            width: '60%',
-            mt: '30px',
-            fontFamily: 'Raleway',
-            fontWeight: '500'
-          }}
+          sx={{width: '60%', mt: '30px',}}
           spacing={2}
           noValidate
           autoComplete="off"
@@ -42,7 +37,7 @@ export default function Profile() {
             <TextField label="Отчество" size='small' value={user.client.client!.middleName} onChange={handleChange} />
             )
           }
-          <TextField label="Номер телефона" size='small' value={user.client.client!.phone} onChange={handleChange} />
+          <TextField label="Номер телефона" size='small' sx={{fontFamily: "Roboto"}} value={user.client.client!.phone} onChange={handleChange} />
           <TextField label="Email" size='small' value={user.client.client!.email} onChange={handleChange} />
         </Stack>
         <Button variant="contained" color="secondary" size="medium" disableElevation sx={{ borderRadius: '10px', mt: '10px', ml: '43%'}}>

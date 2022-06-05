@@ -6,8 +6,8 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import { YMaps, Map } from 'react-yandex-maps';
 import {Address} from "../../models/AddressModel";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "../../redux/store";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
 import AddressService from '../../redux/services/AddressService';
 import "../../assets/css/Scrollbar.css";
 
@@ -29,7 +29,6 @@ import "../../assets/css/Scrollbar.css";
         AddressService.GetAddress().then((res) => {
           setAddresses(res);
         })
-        console.log(addresses);
     }, [addresses])
 
   //   const myPlacemark = new YMaps.GeoObject({
@@ -62,7 +61,7 @@ import "../../assets/css/Scrollbar.css";
 
   return (
     <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px',  width: '100%', height: '100%'}}>
-      <Typography variant="h5" color="primary" align='center' style={{fontWeight: '500'}}>Мои адреса</Typography>
+      <Typography variant="h5" color="primary" align='center'>Мои адреса</Typography>
       <Stack spacing={2}>
       {addresses.map((address)=>(<div>
         <Card sx={{ width: '100%', backgroundColor: '#B1A18B', borderRadius:"10px", marginTop: '20px'}}>
@@ -132,14 +131,14 @@ import "../../assets/css/Scrollbar.css";
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
-              <Typography variant="h4" color="primary" align='center' sx={{fontWeight: '500'}}>Новый адрес</Typography>
-                <Stack spacing={1} width={"50%"}>
-                  <TextField label="Район города" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
-                  <TextField label="Населенный пункт" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
-                  <TextField label="Улица" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
-                  <TextField label="Дом" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
-                  <TextField label="Корпус/строение" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
-                  <TextField label="Квартира" color='primary' size='small' sx={{fontWeight: '500', width: '100%'}} />
+              <Typography variant="h5" color="primary" align='center'>Новый адрес</Typography>
+                <Stack spacing={1} width={"50%"} marginTop={2}>
+                  <TextField label="Район города" color='primary' size='small'/>
+                  <TextField label="Населенный пункт" color='primary' size='small'/>
+                  <TextField label="Улица" color='primary' size='small'/>
+                  <TextField label="Дом" color='primary' size='small'/>
+                  <TextField label="Корпус/строение" color='primary' size='small'/>
+                  <TextField label="Квартира" color='primary' size='small'/>
                 </Stack>
             </Box>
         </Modal>
