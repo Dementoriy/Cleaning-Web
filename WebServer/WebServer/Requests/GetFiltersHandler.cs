@@ -5,8 +5,8 @@ using WebServer.Models;
 
 namespace WebServer.Requests
 {
-    [RequestHandlerPath("/profile")]
-    public class GetAddressHandler : RequestHandler
+    [RequestHandlerPath("/filters")]
+    public class GetFiltersHandler : RequestHandler
     {
         [Get("get")]
         public void GetAddress()
@@ -25,10 +25,23 @@ namespace WebServer.Requests
             }
 
             IEnumerable<Address> addresses = ClientAddresses.GetClientAddressesById(client.ID);
-            Send(new AnswerModel(true, new { addresses = addresses }, null, null));
 
-            //List<ClientAddresses> addresses2 = ClientAddresses.GetClientAddresses();
-            //Send(new AnswerModel(true, new { addresses = addresses2 }, null, null));
+            List<Consumable> consumables = Consumable.GetConsumable();
+
+            if (!consumables.Any())
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request body"));
+                return;
+            }
+            List<ConsumableModel> consumableModels = new List<ConsumableModel>();
+            foreach(var consumablee in consumables)
+            {
+                ConsumableModel consumableModel = new ConsumableModel(consumablee.ID, consumablee.ConsumableName, consumablee.Description);
+                consumableModels.Add(consumableModel);
+            }
+
+            Send(new AnswerModel(true, new { addresses = addresses, consumables  = consumableModels }, null, null));
+
         }
     }
 }

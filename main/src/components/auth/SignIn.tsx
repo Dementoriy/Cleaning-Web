@@ -59,7 +59,7 @@ export default function SignIn() {
   const [show, setShow] = useState(false);
 
   return (
-    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%', marginRight: '17px'}}>
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%', height: '54%', marginRight: '22px'}}>
       <Typography variant="h5" color="primary" align='center'>Авторизация</Typography>
       <Stack
         component="form"

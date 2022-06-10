@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { Typography, MenuItem, InputLabel,  FormControl, OutlinedInput, Box, Chip, Checkbox, Stack, TextField} from "@mui/material";
+import { Typography, MenuItem, InputLabel,  FormControl, OutlinedInput, Box, Chip, Checkbox, Stack, TextField, Button} from "@mui/material";
 import { Theme, useTheme } from '@mui/material/styles';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {Address} from "../../models/AddressModel";
-import AddressService from "../../redux/services/AddressService";
+import {Consumable} from "../../models/ConsumableModel";
+import FiltersService from "../../redux/services/FiltersService";
+import ConsumableService from "../../redux/services/ConsumableService";
 
 const ITEM_HEIGHT = 40; //высота списка
 const ITEM_PADDING_TOP = 8;
@@ -15,26 +17,6 @@ const MenuProps = {
     },
   },
 };
-
-// const [addresses, setAddresses] = React.useState<Address[]>([]);
-
-// React.useEffect(() => {
-//   if (addresses.length !== 0) return;
-//   AddressService.GetAddress().then((res) => {
-//     setAddresses(res);
-//   })
-//   console.log(addresses);
-// }, [addresses])
-
-// const addresses = [
-//   'Адрес1',
-//   'Адрес2',
-// ];
-
-const consumables = [
-    'Fairy',
-    'Доместос',
-  ];
 
 function getStyles(name: string, string: readonly string[], theme: Theme) {
     return {
@@ -68,11 +50,23 @@ export default function Filters() {
         );
       };
 
+    const [addresses, setAddresses] = React.useState<Address[]>([]);
+    const [consumables, setConsumables] = React.useState<Consumable[]>([]);
+
+    React.useEffect(() => {
+      if (addresses.length !== 0) return;
+      if (consumables.length !== 0) return;
+      FiltersService.GetFilters().then((res : any) => {
+        setAddresses(res.addresses);
+        setConsumables(res.consumables);
+      })
+    }, [addresses, consumables])
+
   return (
-    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%', height: '100%'}}>
+    <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%', height: '100%'}}>
         <Typography variant="h5" color="primary" align='center'>Фильтры</Typography>
-        <Stack spacing={2} sx={{width: '100%', marginTop: '30px'}}>
-          {/* <FormControl sx={{width: '100%'}}>
+        <Stack spacing={2} mt={2} sx={{width: '100%'}}>
+          <FormControl sx={{width: '100%'}}>
             <InputLabel id="address-chip-label">Адреса</InputLabel>
             <Select
             labelId="address-chip-label"
@@ -90,18 +84,18 @@ export default function Filters() {
             )}
             MenuProps={MenuProps}
             >
-            {addresses.map((addressIteam) => (
+            {addresses.map((addressItem) => (
                 <MenuItem
-                key={addressIteam.FullAddress}
-                value={addressIteam}
-                style={getStyles(addressIteam, address, theme)}
+                key={addressItem.ID}
+                value={addressItem.FullAddress}
+                style={getStyles(addressItem.FullAddress, address, theme)}
                 >
-                <Checkbox checked={address.indexOf(addressIteam.FullAddress) > -1} />
-                {addressIteam}
+                <Checkbox checked={address.indexOf(addressItem.FullAddress) > -1} />
+                {addressItem.FullAddress}
                 </MenuItem>
             ))}
             </Select>
-          </FormControl> */}
+          </FormControl>
             
           <TextField
             id="date"
@@ -141,19 +135,24 @@ export default function Filters() {
               )}
               MenuProps={MenuProps}
               >
-              {consumables.map((name) => (
+              {consumables.map((consumableItem) => (
                 <MenuItem
-                key={name}
-                value={name}
-                style={getStyles(name, consumable, theme)}
+                key={consumableItem.Id}
+                value={consumableItem.Name}
+                style={getStyles(consumableItem.Name, consumable, theme)}
                 >
-                <Checkbox checked={consumable.indexOf(name) > -1} />
-                {name}
+                <Checkbox checked={consumable.indexOf(consumableItem.Name) > -1} />
+                {consumableItem.Name}
                 </MenuItem>
               ))}
               </Select>
           </FormControl>
         </Stack>
+        <Box mt={2} sx={{ textAlign: 'center'}}>
+          <Button variant="contained" color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}}>
+            Применить
+          </Button>
+        </Box>
     </div>
   );
 }

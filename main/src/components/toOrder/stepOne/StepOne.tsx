@@ -7,7 +7,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import { YMaps, Map } from 'react-yandex-maps';
 import {Address} from "../../../models/AddressModel";
-import AddressService from "../../../redux/services/AddressService";
+import FiltersService from "../../../redux/services/FiltersService";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -41,16 +41,6 @@ function a11yProps(index: number) {
   };
 }
 
-// const [addresses, setAddresses] = React.useState<Address[]>([]);
-
-// React.useEffect(() => {
-//   if (addresses.length !== 0) return;
-//   AddressService.GetAddress().then((res) => {
-//     setAddresses(res);
-//   })
-//   console.log(addresses);
-// }, [addresses])
-
 export default function Stepper() {
 
     const [name, setName] = React.useState('');
@@ -73,6 +63,16 @@ export default function Stepper() {
     const handleChangeStep = (event: React.SyntheticEvent, newValue: number) => {
       setValue(newValue);
     };
+
+    const [addresses, setAddresses] = React.useState<Address[]>([]);
+
+  React.useEffect(() => {
+    if (addresses.length !== 0) return;
+    FiltersService.GetFilters().then((res : any) => {
+      setAddresses(res.addresses);
+    })
+    console.log(addresses);
+  }, [addresses])
 
   return (
 
@@ -97,9 +97,9 @@ export default function Stepper() {
                   label="Age"
                   onChange={handleChange}
                 >
-                  {/* {addresses.map((address) => (
+                  {addresses.map((address) => (
                     <MenuItem value={address.ID}>{address.FullAddress}</MenuItem>
-                  ))} */}
+                  ))}
                 </Select>
               </FormControl>
               <Stack

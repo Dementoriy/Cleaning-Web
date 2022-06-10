@@ -76,8 +76,8 @@ export default function MyCleaning() {
                 </Typography>
             </Box>
             <Stack spacing={2}>
-                {orders.map((order) => (<div key={order.ID}>
-                    {(order.Status !== 'Отменена' && order.Status !== 'Завершена')  &&
+                {orders.map((order) =>
+                    (order.Status !== 'Отменена' && order.Status !== 'Завершена')  &&
                     <Card sx={{display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
                         <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                             <CardContent sx={{flex: '1 0 auto'}}>
@@ -144,7 +144,7 @@ export default function MyCleaning() {
                             </Stack>
                         </Box>
                     </Card>
-                }</div>))}
+                )}
             </Stack>
             <Box sx={{borderBottom: '3px solid #776D61', marginTop: '20px'}}>
                 <Typography variant="h5" color="primary">
@@ -152,8 +152,7 @@ export default function MyCleaning() {
                 </Typography>
             </Box>
             <Stack spacing={2}>
-                {orders.map((order) => (<div key={order.ID}>
-                    {(order.Status === 'Отменена' || order.Status === 'Завершена')  &&
+                {orders.map((order) => (order.Status === 'Отменена' || order.Status === 'Завершена')  &&
                     <Card sx={{display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
                         <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                             <CardContent sx={{flex: '1 0 auto'}}>
@@ -220,7 +219,7 @@ export default function MyCleaning() {
                             </Stack>
                         </Box>
                     </Card>
-                }</div>))}
+                )}
             </Stack>
             <Dialog
                 open={openDialog}

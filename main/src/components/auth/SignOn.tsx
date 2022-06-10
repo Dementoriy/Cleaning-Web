@@ -78,7 +78,7 @@ export default function SignOn() {
       const navigate = useNavigate();
 
   return (
-    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%'}}>
+    <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%', height: '54%', marginRight: '22px'}}>
         <Typography variant="h5" color="primary" align='center'>Регистрация</Typography>
         <Stack
           component="form"

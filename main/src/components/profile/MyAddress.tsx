@@ -8,7 +8,7 @@ import { YMaps, Map } from 'react-yandex-maps';
 import {Address} from "../../models/AddressModel";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import AddressService from '../../redux/services/AddressService';
+import FiltersService from '../../redux/services/FiltersService';
 import "../../assets/css/Scrollbar.css";
 
   export default function MyAddress() {
@@ -26,8 +26,8 @@ import "../../assets/css/Scrollbar.css";
 
     React.useEffect(() => {
         if (addresses.length !== 0) return;
-        AddressService.GetAddress().then((res) => {
-          setAddresses(res);
+        FiltersService.GetFilters().then((res : any) => {
+          setAddresses(res.addresses);
         })
     }, [addresses])
 

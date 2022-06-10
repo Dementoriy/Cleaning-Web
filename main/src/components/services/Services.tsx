@@ -12,7 +12,6 @@ export default function Services() {
         if (services.length !== 0) return;
         ServiceService.GetService().then((res) => {
             setServices(res);
-            console.log(res);
         })
     }, [services])
 

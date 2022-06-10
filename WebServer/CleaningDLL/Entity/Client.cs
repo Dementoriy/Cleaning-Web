@@ -128,16 +128,17 @@ namespace CleaningDLL.Entity
                 return null;
             }
         }
+       
         public class ClientInfo
         {
             public int ID { get; set; }
             public string Surname { get; set; }
             public string Name { get; set; }
             public string? MiddleName { get; set; }
-            public string HouseNumber { get; set; }
+            public string? HouseNumber { get; set; }
             public string? CityDistrict { get; set; }
             public string? Settlement { get; set; }
-            public string Street { get; set; }
+            public string? Street { get; set; }
             public string? Block { get; set; }
             public string? ApartmentNumber { get; set; }
             public bool IsOldClient { get; set; }

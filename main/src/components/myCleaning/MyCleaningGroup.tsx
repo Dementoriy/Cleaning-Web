@@ -12,7 +12,7 @@ function MyCleaningGroup()
                 <MyCleaning />
             </div>
             <Stack spacing={10} width='28%' sx={{marginTop: "17px"}}>
-                <div style={{ height: "30%"}}>
+                <div style={{ height: "33%"}}>
                     <Filters />
                 </div>
                 <div style={{ height: "16%"}}>
