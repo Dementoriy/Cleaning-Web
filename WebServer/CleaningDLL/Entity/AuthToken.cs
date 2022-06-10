@@ -49,6 +49,14 @@ public class AuthToken
     }
     public static bool ContainsToken(string token)
     {
-        return db.AuthTokens.FirstOrDefault(a => a.Token == token) is not null;
+        try
+        {
+            return db.AuthTokens.FirstOrDefault(a => a.Token == token) is not null;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+
     }
 }

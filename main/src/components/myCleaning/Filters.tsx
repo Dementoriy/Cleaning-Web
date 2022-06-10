@@ -3,7 +3,7 @@ import { Typography, MenuItem, InputLabel,  FormControl, OutlinedInput, Box, Chi
 import { Theme, useTheme } from '@mui/material/styles';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {Address} from "../../models/AddressModel";
-import AddressService from '../../redux/services/AddressService';
+import AddressService from "../../redux/services/AddressService";
 
 const ITEM_HEIGHT = 40; //высота списка
 const ITEM_PADDING_TOP = 8;
@@ -26,10 +26,10 @@ const MenuProps = {
 //   console.log(addresses);
 // }, [addresses])
 
-const addresses = [
-  'Адрес1',
-  'Адрес2',
-];
+// const addresses = [
+//   'Адрес1',
+//   'Адрес2',
+// ];
 
 const consumables = [
     'Fairy',
@@ -72,7 +72,7 @@ export default function Filters() {
     <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%', height: '100%'}}>
         <Typography variant="h5" color="primary" align='center'>Фильтры</Typography>
         <Stack spacing={2} sx={{width: '100%', marginTop: '30px'}}>
-          <FormControl sx={{width: '100%'}}>
+          {/* <FormControl sx={{width: '100%'}}>
             <InputLabel id="address-chip-label">Адреса</InputLabel>
             <Select
             labelId="address-chip-label"
@@ -90,18 +90,18 @@ export default function Filters() {
             )}
             MenuProps={MenuProps}
             >
-            {addresses.map((name) => (
+            {addresses.map((addressIteam) => (
                 <MenuItem
-                key={name}
-                value={name}
-                style={getStyles(name, address, theme)}
+                key={addressIteam.FullAddress}
+                value={addressIteam}
+                style={getStyles(addressIteam, address, theme)}
                 >
-                <Checkbox checked={address.indexOf(name) > -1} />
-                {name}
+                <Checkbox checked={address.indexOf(addressIteam.FullAddress) > -1} />
+                {addressIteam}
                 </MenuItem>
             ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
             
           <TextField
             id="date"
@@ -115,7 +115,7 @@ export default function Filters() {
 
           <TextField
             id="date"
-            label="От"
+            label="До"
             type="date"
             defaultValue="2022-05-01"
             InputLabelProps={{

@@ -6,7 +6,8 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import { YMaps, Map } from 'react-yandex-maps';
-
+import {Address} from "../../../models/AddressModel";
+import AddressService from "../../../redux/services/AddressService";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -39,6 +40,16 @@ function a11yProps(index: number) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
+
+// const [addresses, setAddresses] = React.useState<Address[]>([]);
+
+// React.useEffect(() => {
+//   if (addresses.length !== 0) return;
+//   AddressService.GetAddress().then((res) => {
+//     setAddresses(res);
+//   })
+//   console.log(addresses);
+// }, [addresses])
 
 export default function Stepper() {
 
@@ -76,19 +87,33 @@ export default function Stepper() {
         <Stack direction='row' width='100%' spacing={6} justifyContent="center">
           <Stack width='30%' spacing={2}>
             <Typography variant="h5" color="primary" align='center'>Выбор адреса</Typography>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Адрес</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={name}
-                label="Age"
-                onChange={handleChange}
+            <Stack direction='row' justifyContent='space-between'>
+              <FormControl fullWidth sx={{width:'78%'}}>
+                <InputLabel id="demo-simple-select-label">Адрес</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={name}
+                  label="Age"
+                  onChange={handleChange}
+                >
+                  {/* {addresses.map((address) => (
+                    <MenuItem value={address.ID}>{address.FullAddress}</MenuItem>
+                  ))} */}
+                </Select>
+              </FormControl>
+              <Stack
+                component="form"
+                sx={{width: '20%'}}
+                noValidate
+                autoComplete="off"
+                alignItems="center"
               >
-                <MenuItem value={1}>Воровского 101, кв. 6.</MenuItem>
-                <MenuItem value={2}>пр. Строителей 98, кв. 105.</MenuItem>
-              </Select>
-            </FormControl>
+                <Fab color="secondary" aria-label="add">
+                  <AddIcon />
+                </Fab>
+              </Stack>
+            </Stack>
 
             <TextField
               id="datetime-local"
@@ -127,7 +152,7 @@ export default function Stepper() {
               </CardContent>
               <CardActions disableSpacing>
                   <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px', width: '100%'}} endIcon={<EditOutlinedIcon />}>
-                    <Typography>Воровского 101, кв. 6</Typography>
+                    <Typography>Адрес 1</Typography>
                   </Button>
               </CardActions>
             </Card>
@@ -153,9 +178,129 @@ export default function Stepper() {
           </DialogActions>
         </Dialog>
       </TabPanel>
-
+                
       <TabPanel value={value} index={1}>
-        Периодическая уборка
+        <Stack direction='row' width='100%' spacing={6} justifyContent="center">
+          <Stack width='30%' spacing={2}>
+            <Typography variant="h5" color="primary" align='center'>Выбор периода</Typography>
+            <TextField
+              id="datetime-local"
+              label="Начало периода"
+              type="datetime-local"
+              defaultValue="2022-05-01T08:00:00"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="datetime-local"
+              label="Конец периода"
+              type="datetime-local"
+              defaultValue="2022-05-01T08:00:00"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Периодичность</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={name}
+                  label="Age"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={1}>Каждый день</MenuItem>
+                  <MenuItem value={2}>Через день</MenuItem>
+                  <MenuItem value={3}>Через 2 дня</MenuItem>
+                  <MenuItem value={4}>Через 3 дня</MenuItem>
+                  <MenuItem value={5}>Через 4 дня</MenuItem>
+                  <MenuItem value={6}>Через 5 дня</MenuItem>
+                  <MenuItem value={7}>Через 6 дня</MenuItem>
+                </Select>
+              </FormControl>
+          </Stack>
+          <Stack width='30%' spacing={2}>
+            <Typography variant="h5" color="primary" align='center'>Выбор адреса</Typography>
+            <Stack direction='row' justifyContent='space-between'>
+              <FormControl fullWidth sx={{width:'78%'}}>
+                <InputLabel id="demo-simple-select-label">Адрес</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={name}
+                  label="Age"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={1}>Воровского 101, кв. 6.</MenuItem>
+                  <MenuItem value={2}>пр. Строителей 98, кв. 105.</MenuItem>
+                </Select>
+              </FormControl>
+              <Stack
+                component="form"
+                sx={{width: '20%'}}
+                noValidate
+                autoComplete="off"
+                alignItems="center"
+              >
+                <Fab color="secondary" aria-label="add">
+                  <AddIcon />
+                </Fab>
+              </Stack>
+            </Stack>
+
+            <TextField
+              id="outlined-multiline-static"
+              label="Комментарий"
+              multiline
+              rows={6}
+            />
+
+          </Stack>
+          <Stack width='30%'>
+            <Card sx={{ width: '100%', backgroundColor: '#B1A18B', borderRadius:"10px", marginTop: '5px'}}>
+              <CardHeader
+                action={
+                <IconButton aria-label="delete" onClick={handleClickOpen}>
+                  <DeleteOutlineOutlinedIcon />
+                </IconButton>
+                }
+                title="Работа"
+              />
+              <CardContent sx={{ mt: '-5%'}}>
+                <YMaps>
+                  <div>
+                    <Map defaultState={{ center: [58.60, 49.66], zoom: 11 }} style={{height: "240px"}} />
+                  </div>
+                </YMaps>
+              </CardContent>
+              <CardActions disableSpacing>
+                  <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px', width: '100%'}} endIcon={<EditOutlinedIcon />}>
+                    <Typography>Адрес 1</Typography>
+                  </Button>
+              </CardActions>
+            </Card>
+          </Stack>
+        </Stack>
+          
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        >
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Удалить адрес?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Нет</Button>
+            <Button onClick={handleClose} autoFocus>
+              Да
+            </Button>
+          </DialogActions>
+        </Dialog>
       </TabPanel>
     </Box>
   );

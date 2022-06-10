@@ -274,9 +274,9 @@ export default function MyCleaning() {
                                 </Typography>
                             </Box>
                             <Stack direction="row" spacing={2}>
-                                <TextField label="Доп. услуга" color='primary' size='small'/>
+                                <TextField label="Тип уборки" color='primary' size='small'/>
                                 <Stack direction="row" spacing={2}>
-                                    <TextField label="Количество" color='primary' size='small'/>
+                                    <TextField label="Площадь" color='primary' size='small'/>
                                     <TextField label="Цена" color='primary' size='small'/>
                                 </Stack>
                             </Stack>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -68,25 +69,57 @@ namespace CleaningDLL.Entity
         }
         public static List<Address> GetAddress()
         {
-            return db.Address.ToList();
+            try
+            {
+                return db.Address.ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
         }
         public static Address GetAddress(string cityDistrict, string settlement, string street, 
             string houseNumber, string block, string apartmentNumber)
         {
-            return db.Address.FirstOrDefault(e => e.CityDistrict == cityDistrict && e.Settlement == settlement && e.Street == street
-            && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber);
+            try
+            {
+                return db.Address.FirstOrDefault(e => e.CityDistrict == cityDistrict && e.Settlement == settlement && e.Street == street
+                && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
         }
         public static bool CheckAddress(string cityDistrict, string settlement, string street,
             string houseNumber, string block, string apartmentNumber)
         {
-            return !db.Address.Any(e => e.CityDistrict == cityDistrict && e.Settlement == settlement && e.Street == street
-            && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber);
+            try
+            {
+                return !db.Address.Any(e => e.CityDistrict == cityDistrict && e.Settlement == settlement && e.Street == street
+                && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
 
         public static void Add(Address address)
         {
-            db.Address.Add(address);
-            db.SaveChanges();
+
+            try
+            {
+                db.Address.Add(address);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return ;
+            }
         }
     }
 }

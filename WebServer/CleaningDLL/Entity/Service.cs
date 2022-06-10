@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -53,11 +54,26 @@ namespace CleaningDLL.Entity
 
         public static Service GetServiceById(int idService)
         {
-            return db.Service.FirstOrDefault(s => s.ID == idService);
+
+            try
+            {
+                return db.Service.FirstOrDefault(s => s.ID == idService);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         public static List<Service> GetService()
         {
-            return db.Service.Include(u => u.Units).OrderBy(x => x.ID).ToList();
+            try
+            {
+                return db.Service.Include(u => u.Units).OrderBy(x => x.ID).ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         
     }

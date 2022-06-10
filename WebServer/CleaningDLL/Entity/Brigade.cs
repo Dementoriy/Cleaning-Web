@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace CleaningDLL.Entity
@@ -21,7 +22,15 @@ namespace CleaningDLL.Entity
         }
         public static Brigade GetBrigadeByID(int id)
         {
-            return db.Brigade.FirstOrDefault(e => e.ID == id);
+            try
+            {
+                return db.Brigade.FirstOrDefault(e => e.ID == id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
         }
     }
 }

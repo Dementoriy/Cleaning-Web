@@ -25,7 +25,7 @@ export default function Payment() {
                   </Box>
                   <TextField label="Уборка запланирована на" color='primary' size='small'/>
                   <TextField label="Уборка займет" color='primary' size='small'/>
-                  <TextField label="Статус заявки" color='primary' size='small'/>
+                  <TextField label="Статус заявки" color='primary' size='small' value={"Сформирована"}/>
               </Stack>
               <Stack spacing={1} width={"50%"}>
                   <Box sx={{borderBottom: '3px solid #776D61'}}>

@@ -30,15 +30,15 @@ export default function Profile() {
           noValidate
           autoComplete="off"
         >
-          <TextField label="Фамилия" size='small' value={user.client.client!.surname} onChange={handleChange} />
-          <TextField label="Имя" size='small' value={user.client.client!.name} onChange={handleChange} />
+          <TextField label="Фамилия" size='small' defaultValue={user.client.client!.surname} onChange={handleChange} />
+          <TextField label="Имя" size='small' defaultValue={user.client.client!.name} onChange={handleChange} />
           {
             (user.client.client!.middleName !== null && 
-            <TextField label="Отчество" size='small' value={user.client.client!.middleName} onChange={handleChange} />
+            <TextField label="Отчество" size='small' defaultValue={user.client.client!.middleName} onChange={handleChange} />
             )
           }
-          <TextField label="Номер телефона" size='small' sx={{fontFamily: "Roboto"}} value={user.client.client!.phone} onChange={handleChange} />
-          <TextField label="Email" size='small' value={user.client.client!.email} onChange={handleChange} />
+          <TextField label="Номер телефона" size='small' sx={{fontFamily: "Roboto"}} defaultValue={user.client.client!.phone} onChange={handleChange} />
+          <TextField label="Email" size='small' defaultValue={user.client.client!.email} onChange={handleChange} />
         </Stack>
         <Button variant="contained" color="secondary" size="medium" disableElevation sx={{ borderRadius: '10px', mt: '10px', ml: '43%'}}>
         Сохранить

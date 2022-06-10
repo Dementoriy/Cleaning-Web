@@ -27,7 +27,15 @@ namespace CleaningDLL.Entity
         }
         public static Contract GetContractById(int id)
         {
-            return db.Contract.FirstOrDefault(c => c.ID == id);
+
+            try
+            {
+                return db.Contract.FirstOrDefault(c => c.ID == id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

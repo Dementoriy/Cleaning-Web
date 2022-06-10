@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -26,7 +27,15 @@ namespace CleaningDLL.Entity
         }
         public static Position GetByID(int id)
         {
-            return db.Position.FirstOrDefault(d => d.ID == id);
+
+            try
+            {
+                return db.Position.FirstOrDefault(d => d.ID == id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -20,20 +21,44 @@ namespace CleaningDLL.Entity
         }
         public static RoomType GetСoefficientByType(string type)
         {
-            if (type != "")
-            {
-                return db.RoomType.First(e => e.Type == type);
 
+            try
+            {
+                if (type != "")
+                {
+                    return db.RoomType.First(e => e.Type == type);
+
+                }
+                else return db.RoomType.First(e => e.Type == "Квартира");
             }
-            else return db.RoomType.First(e => e.Type == "Квартира");
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         public static List<string> GetRoomType()
         {
-            return db.RoomType.Select(c => c.Type).ToList();
+
+            try
+            {
+                return db.RoomType.Select(c => c.Type).ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         public static RoomType GetRoomTypeByName(string name)
         {
-            return db.RoomType.First(e => e.Type == name);
+
+            try
+            {
+                return db.RoomType.First(e => e.Type == name);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

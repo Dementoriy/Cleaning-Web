@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace CleaningDLL.Entity
@@ -24,7 +25,15 @@ namespace CleaningDLL.Entity
 
         public static ReferenceUnitsOfMeasurement GetUnitsById(int id)
         {
-            return db.ReferenceUnitsOfMeasurement.First(s => s.ID == id);
+
+            try
+            {
+                return db.ReferenceUnitsOfMeasurement.First(s => s.ID == id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

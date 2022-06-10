@@ -55,35 +55,59 @@ namespace CleaningDLL.Entity
 
         public static bool IsOldClienCheck(int clientId)
         {
-            List<Order> ordersByClientID = db.Order.Where(o => o.Client.ID == clientId && o.Status == EnumStatus.GetDescription(EnumStatus.Status.сompleted)).ToList();
-            if (ordersByClientID.Count >= 3)
-                return true;
-            return false;
+            try
+            {
+                List<Order> ordersByClientID = db.Order.Where(o => o.Client.ID == clientId && o.Status == EnumStatus.GetDescription(EnumStatus.Status.сompleted)).ToList();
+                if (ordersByClientID.Count >= 3)
+                    return true;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
 
         public static Order GetOrderById(int id)
         {
-            return db.Order.FirstOrDefault(e => e.ID == id);
+
+            try
+            {
+                return db.Order.FirstOrDefault(e => e.ID == id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public static List<OrderInfo> GetOrderInfo()
         {
+            try
+            {
             return (from o in db.Order
-                    join a in db.Address on o.Address.ID equals a.ID
-                    select new OrderInfo()
+                join a in db.Address on o.Address.ID equals a.ID
+                select new OrderInfo()
 
-                    {
-                        ID = o.ID,
-                        Time = o.Date.ToString("t"),
-                        Date = o.Date.ToString("d"),
-                        Brigade = o.Brigade.ID,
-                        Status = o.Status,
-                        Client = o.Client.AddFIO(),
-                        Address = a.AddAddress(),
-                        Telefone = o.Client.PhoneNumber,
-                        FinalPrice = o.FinalPrice,
-                        ApproximateTime = GetTimeByInt(o.ApproximateTime).ToString()
-                    }).ToList();
+                {
+                    ID = o.ID,
+                    Time = o.Date.ToString("t"),
+                    Date = o.Date.ToString("d"),
+                    Brigade = o.Brigade.ID,
+                    Status = o.Status,
+                    Client = o.Client.AddFIO(),
+                    Address = a.AddAddress(),
+                    Telefone = o.Client.PhoneNumber,
+                    FinalPrice = o.FinalPrice,
+                    ApproximateTime = GetTimeByInt(o.ApproximateTime).ToString()
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            
         }
         public class OrderInfo
         {
@@ -139,22 +163,53 @@ namespace CleaningDLL.Entity
         }
         public static void Add(Order order)
         {
-            db.Order.Add(order);
-            db.SaveChanges();
+
+            try
+            {
+                db.Order.Add(order);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return ;
+            }
         }
         public static void Update(Order order)
         {
-            db.Order.Update(order);
-            db.SaveChanges();
+
+            try
+            {
+                db.Order.Update(order);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return ;
+            }
         }
         public static List<Order> GetOrder()
         {
-            return db.Order.Include(a => a.Address).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).ToList();
+
+            try
+            {
+                return db.Order.Include(a => a.Address).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public static List<Order> GetClientOrder(int id)
         {
-            return db.Order.Include(a => a.Address).ThenInclude(a => a.RoomType).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).Where(a => a.Client.ID == id).ToList();
+            try
+            {
+                return db.Order.Include(a => a.Address).ThenInclude(a => a.RoomType).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).Where(a => a.Client.ID == id).ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

@@ -59,15 +59,39 @@ namespace CleaningDLL.Entity
 
         public static Employee GetBrigadirByBrigada(int id)
         {
-            return db.Employee.FirstOrDefault(a => a.BrigadeID == id && a.Position.ID == 2);
+
+            try
+            {
+                return db.Employee.FirstOrDefault(a => a.BrigadeID == id && a.Position.ID == 2);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         public static Employee GetEmployee(string Login, string Password)
         {
-            return db.Employee.FirstOrDefault(a => a.Login == Login && a.Password == Password);
+
+            try
+            {
+                return db.Employee.FirstOrDefault(a => a.Login == Login && a.Password == Password);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         public static Employee GetEmployeeBrigade(int Brigade)
         {
-            return db.Employee.FirstOrDefault(a => a.BrigadeID == Brigade);
+
+            try
+            {
+                return db.Employee.FirstOrDefault(a => a.BrigadeID == Brigade);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
 

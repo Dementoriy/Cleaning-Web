@@ -13,7 +13,7 @@ export default function Calculator() {
     };
 
     //const square :string = '';
-    //const square = (document.getElementById('#square') as HTMLInputElement).value;
+    //const squareValue = (document.getElementById('#square') as HTMLInputElement).value;
     //let squareValue : string = (document.getElementById("#square") as HTMLInputElement).value;
     const squareValue = 20;
 
@@ -21,7 +21,7 @@ export default function Calculator() {
     <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%'}}>
         <Typography variant="h5" color="primary" align='center'>Калькулятор</Typography>
         <Stack spacing={2.5} mt={2} alignItems="center">
-            <TextField type='text' label="Площадь:" color='primary' size='small' sx={{ width: '80%'}} id="square" /*value={square} onChange={handleChange("square")}*/ />
+            <TextField type='text' label="Площадь:" color='primary' size='small' defaultValue={"1"} sx={{ width: '80%'}} id="square" /*value={square} onChange={handleChange("square")}*/ />
             <Box width='80%'>
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label" style={{lineHeight: '0.8em'}}>Тип:</InputLabel>
