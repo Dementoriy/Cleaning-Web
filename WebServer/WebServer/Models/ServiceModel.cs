@@ -18,5 +18,22 @@ namespace WebServer.Models
         public string? Image { get; set; }
         public bool IsMain { get; set; }
         public string ApproximateTime { get; set; }
+
+        public ServiceModel()
+        { }
+
+        public ServiceModel(int ID, string ServiceName, string Description, decimal Price, int Time, 
+            string UnitsTitle, string? Image, bool IsMain, string ApproximateTime)
+        {
+            this.ID = ID;
+            this.ServiceName = ServiceName;
+            this.Description = Description;
+            this.Price = Price;
+            this.Time = Time;
+            this.UnitsTitle = UnitsTitle;
+            this.Image = Image;
+            this.IsMain = IsMain;
+            this.ApproximateTime = ApproximateTime;
+        }
     }
 }

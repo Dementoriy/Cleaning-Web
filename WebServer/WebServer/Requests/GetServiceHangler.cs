@@ -19,7 +19,15 @@ namespace WebServer.Requests
                 return;
             }
 
-            Send(new AnswerModel(true, new { services = services }, null, null));
+            List<ServiceModel> serviceModels = new List<ServiceModel>();
+            foreach (var service in services)
+            {
+                ServiceModel serviceModel = new ServiceModel(service.ID, service.ServiceName, service.Description, service.Price, 
+                    service.Time, service.Units.Unit, service.Image, service.IsMain, service.ApproximateTime);
+                serviceModels.Add(serviceModel);
+            }
+
+            Send(new AnswerModel(true, new { services = serviceModels }, null, null));
         }
     }
 }

@@ -55,18 +55,19 @@ public class OrderModel
                 {
                     Id = service.ID,
                     Amount = service.Amount,
-                    Service = new ServiceModel
-                    {
-                        ID = service.Service.ID,
-                        ServiceName = service.Service.ServiceName,
-                        Description = service.Service.Description,
-                        Price = service.Service.Price,
-                        Time = service.Service.Time,
-                        UnitsTitle = service.Service.Units.Unit,
-                        Image = service.Service.Image,
-                        IsMain = service.Service.IsMain,
-                        ApproximateTime = service.Service.ApproximateTime
-                    }
+                    Service = new ServiceModel(service.Service.ID, service.Service.ServiceName, service.Service.Description, 
+                    service.Service.Price, service.Service.Time, service.Service.Units.Unit, service.Service.Image, service.Service.IsMain, service.Service.ApproximateTime)
+                    //{
+                    //    ID = service.Service.ID,
+                    //    ServiceName = service.Service.ServiceName,
+                    //    Description = service.Service.Description,
+                    //    Price = service.Service.Price,
+                    //    Time = service.Service.Time,
+                    //    UnitsTitle = service.Service.Units.Unit,
+                    //    Image = service.Service.Image,
+                    //    IsMain = service.Service.IsMain,
+                    //    ApproximateTime = service.Service.ApproximateTime
+                    //}
                 });
             }
             newOrders.Add(newOrder);

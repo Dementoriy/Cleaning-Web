@@ -9,7 +9,7 @@ namespace WebServer.Requests
     public class GetFiltersHandler : RequestHandler
     {
         [Get("get")]
-        public void GetAddress()
+        public void GetFilters()
         {
             if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
             {

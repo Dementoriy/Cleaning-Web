@@ -12,6 +12,7 @@ class ServiceService {
             const data: Answer = response.data;
             if (data.status)
             {
+              console.log(data.answer);
               return data.answer.services as Service[];
             }
             return [];
