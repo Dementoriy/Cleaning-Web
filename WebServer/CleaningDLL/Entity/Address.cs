@@ -80,12 +80,12 @@ namespace CleaningDLL.Entity
 
         }
         public static Address GetAddress(string cityDistrict, string settlement, string street, 
-            string houseNumber, string block, string apartmentNumber)
+            string houseNumber, string block, string apartmentNumber, RoomType roomType)
         {
             try
             {
                 return db.Address.FirstOrDefault(e => e.CityDistrict == cityDistrict && e.Settlement == settlement && e.Street == street
-                && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber);
+                && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber && e.RoomType == roomType);
             }
             catch (Exception ex)
             {
@@ -94,12 +94,12 @@ namespace CleaningDLL.Entity
 
         }
         public static bool CheckAddress(string cityDistrict, string settlement, string street,
-            string houseNumber, string block, string apartmentNumber)
+            string houseNumber, string block, string apartmentNumber, string roomType)
         {
             try
             {
                 return !db.Address.Any(e => e.CityDistrict == cityDistrict && e.Settlement == settlement && e.Street == street
-                && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber);
+                && e.HouseNumber == houseNumber && e.Block == block && e.ApartmentNumber == apartmentNumber && e.RoomType.Type == roomType);
             }
             catch (Exception ex)
             {

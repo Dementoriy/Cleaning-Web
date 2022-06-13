@@ -6,17 +6,23 @@ import {useNavigate} from 'react-router-dom';
 export default function Calculator() {
     const navigate = useNavigate();
 
-    const [name, setName] = React.useState('');
+    const [type, setName] = React.useState('');
 
     const handleChange = (event: SelectChangeEvent) => {
         setName(event.target.value as string);
     };
 
+    const [square, setSquare] = React.useState<number>();
     const changeSquare=(e:any)=>{
         setSquare(e.target.value)
         }
 
-    const [square, setSquare] = React.useState<number>();
+    // const [type, setType] = React.useState<string>();
+    // const changeType=(e:any)=>{
+    //     setType(e.target.value)
+    //     }
+
+
 
 
   return (
@@ -30,7 +36,7 @@ export default function Calculator() {
                     <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={name}
+                    value={type}
                     label="Тип:"
                     onChange={handleChange}
                     sx={{height: '40px'}}
@@ -44,7 +50,7 @@ export default function Calculator() {
             </Box>
             <TextField disabled label="Цена" color='primary' size='small' sx={{width: '80%'}} />
             <TextField disabled label="≈Время" color='primary' size='small' sx={{width: '80%'}} />
-            <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={() => {navigate("/dop-services?square=" + square)}}>
+            <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={() => {navigate("/dop-services?square=" + square + "&type=" + type)}}>
             Доп. услуги
             </Button>
         </Stack>

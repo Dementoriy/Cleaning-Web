@@ -46,5 +46,27 @@ namespace CleaningDLL.Entity
                 return null;
             }
         }
+
+        public static List<Consumable> GetConsumableByService(int id)
+        {
+            try
+            {
+                return (from c in db.Consumable
+                        join cr in db.ConsumptionRate on c.ID equals cr.Consumable.ID
+                        join cs in db.ConsumablesService on cr.ID equals cs.ConsumptionRate.ID
+                        where cs.Service.ID == id
+                        orderby c.ID
+                        select new Consumable()
+                        {
+                            ID = c.ID,
+                            ConsumableName = c.ConsumableName,
+                            Description = c.Description
+                        }).Distinct().ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

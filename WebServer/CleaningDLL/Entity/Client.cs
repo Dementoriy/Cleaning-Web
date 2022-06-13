@@ -102,8 +102,7 @@ namespace CleaningDLL.Entity
 
         public static List<ClientInfo> GetClientInfo(string Telefon)
         {
-            try
-            {
+
             return (from c in db.Client
                     where c.PhoneNumber == Telefon
                     join o in db.Order on c.ID equals o.Client.ID
@@ -120,13 +119,10 @@ namespace CleaningDLL.Entity
                         HouseNumber = a.HouseNumber,
                         Block = a.Block,
                         ApartmentNumber = a.ApartmentNumber,
+                        RoomType = a.RoomType.Type,
                         IsOldClient = c.IsOldClient
                     }).ToList();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+
         }
        
         public class ClientInfo
@@ -141,6 +137,7 @@ namespace CleaningDLL.Entity
             public string? Street { get; set; }
             public string? Block { get; set; }
             public string? ApartmentNumber { get; set; }
+            public string? RoomType { get; set; }
             public bool IsOldClient { get; set; }
         }
         

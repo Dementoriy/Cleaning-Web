@@ -5,7 +5,7 @@ export interface Order {
         ID: number,
         Status: string,
         Address: Address,
-        Date: Date,
+        Date: string,
         FinalPrice: number,
         ApproximateTime: string,
         Comment: string,
@@ -15,6 +15,12 @@ export interface Order {
             Id: number,
             Amount: number,
             Service: Service,
+        }[],
+
+        Consumables : {
+            Id: number,
+            Name: string,
+            Description: string,
         }[]
         
 }

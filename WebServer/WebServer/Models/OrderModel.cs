@@ -7,12 +7,13 @@ public class OrderModel
     public int ID { get; set; }
     public string Status { get; set; }
     public AddressModel Address { get; set; } = new AddressModel();
-    public DateTime Date { get; set; }
+    public string Date { get; set; }
     public int FinalPrice { get; set; }
     public string ApproximateTime { get; set; }
     public string? Comment { get; set; }
     public int? Rating { get; set; }
     public List<ProvidedServiceModel> ProvidedServices { get; set; } = new List<ProvidedServiceModel>();
+    public List<ConsumableModel> Consumables { get; set; } = new List<ConsumableModel>();
     public class ProvidedServiceModel
     {
         public int Id { get; set; }
@@ -29,6 +30,7 @@ public class OrderModel
             {
                 ID = order.ID,
                 Status = order.Status,
+                Date = (order.Date.ToShortTimeString() + " " + order.Date.ToShortDateString()).ToString(),
                 FinalPrice = order.FinalPrice,
                 ApproximateTime = Order.GetTimeByInt(order.ApproximateTime),
                 Comment = order.Comment,
@@ -57,19 +59,15 @@ public class OrderModel
                     Amount = service.Amount,
                     Service = new ServiceModel(service.Service.ID, service.Service.ServiceName, service.Service.Description, 
                     service.Service.Price, service.Service.Time, service.Service.Units.Unit, service.Service.Image, service.Service.IsMain, service.Service.ApproximateTime)
-                    //{
-                    //    ID = service.Service.ID,
-                    //    ServiceName = service.Service.ServiceName,
-                    //    Description = service.Service.Description,
-                    //    Price = service.Service.Price,
-                    //    Time = service.Service.Time,
-                    //    UnitsTitle = service.Service.Units.Unit,
-                    //    Image = service.Service.Image,
-                    //    IsMain = service.Service.IsMain,
-                    //    ApproximateTime = service.Service.ApproximateTime
-                    //}
                 });
-            }
+                foreach (var consemable in Consumable.GetConsumableByService(service.ID))
+                {
+                    var tmpConsumable = new ConsumableModel(consemable.ID, consemable.ConsumableName, consemable.Description);
+                    if(!newOrder.Consumables.Any(x => x.Name == consemable.ConsumableName))
+                        newOrder.Consumables.Add(tmpConsumable);
+                }
+            };
+            
             newOrders.Add(newOrder);
         }
         return newOrders;

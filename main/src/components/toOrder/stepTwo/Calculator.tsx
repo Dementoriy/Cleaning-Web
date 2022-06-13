@@ -10,11 +10,17 @@ export default function Calculator() {
         setName(event.target.value as string);
     };
 
+    const changeSquare=(e:any)=>{
+        setSquare(e.target.value)
+        }
+
+    const [square, setSquare] = React.useState<number>();
+
   return (
     <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', width: '100%', paddingBottom: '40px'}}>
         <Typography variant="h5" color="primary" align='center'>Калькулятор</Typography>
         <Stack spacing={2.5} mt={2} alignItems="center">
-            <TextField type='text' label="Площадь:" color='primary' size='small' sx={{width: '80%'}} id="square" />
+            <TextField type='text' label="Площадь:" color='primary' size='small' sx={{width: '80%'}} id="square" value={square} onChange={changeSquare}/>
             <Box width='80%'>
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label" style={{lineHeight: '0.8em'}}>Тип:</InputLabel>

@@ -87,23 +87,23 @@ export default function MyCleaning() {
                                 <Typography variant="subtitle1">
                                     Тип помещения: {order.Address.RoomType}
                                 </Typography>
-                                {order.ProvidedServices.map((service) => (<>
-                                    {service.Service.IsMain &&
+                                {order.ProvidedServices.map((ps) => (<>
+                                    {ps.Service.IsMain &&
                                         <>
                                             <Typography variant="subtitle1">
-                                                Тип уборки: {service.Service.ServiceName}
+                                                Тип уборки: {ps.Service.ServiceName}
                                             </Typography>
 
                                             <Typography variant="subtitle1">
-                                                Площадь: {service.Amount}
+                                                Площадь: {ps.Amount}
                                             </Typography>
                                         </>
                                     }</>))}
                                     <Typography variant="subtitle1">Дополнительные услуги:</Typography>
                                     <Stack direction="row">
-                                        {order.ProvidedServices.map((service) => (<>
-                                        {!service.Service.IsMain &&
-                                            <Typography>{service.Service.ServiceName}, </Typography>
+                                        {order.ProvidedServices.map((ps) => (<>
+                                        {!ps.Service.IsMain &&
+                                            <Typography>{ ps.Service.ServiceName}, </Typography>
                                         }</>))}   
                                     </Stack>
                             </CardContent>
@@ -117,10 +117,10 @@ export default function MyCleaning() {
                         }}>
                             <Stack spacing={0.5}>
                                 <Typography variant="subtitle2">
-                                    Уборка запланирована на {order.Date.getDate}.{order.Date.getMonth}.{order.Date.getFullYear}
+                                    Уборка запланирована на:
                                 </Typography>
-                                <Typography variant="subtitle2">
-                                    Время прибытия: {order.Date.getHours}:{order.Date.getMinutes}
+                                <Typography variant="subtitle1">
+                                    {order.Date}
                                 </Typography>
                                 <Typography variant="subtitle2">
                                     Статус заявки: {order.Status}
@@ -143,6 +143,104 @@ export default function MyCleaning() {
                                 </Button>
                             </Stack>
                         </Box>
+                        <Modal
+                            open={openModal}
+                            onClose={handleCloseModal}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <Box sx={style} className='section'>
+                                <Typography variant="h5" color="primary" align='center'>Полная информация</Typography>
+                                <Stack direction="row" spacing={6} padding={4}>
+                                    <Stack spacing={2} width={"50%"}>
+                                        <Box sx={{borderBottom: '3px solid #776D61'}}>
+                                            <Typography variant="h6" color="primary">
+                                                Место уборки
+                                            </Typography>
+                                        </Box>
+                                        <TextField label="Адрес" color='primary' size='small' value={order.Address.FullAddress}/>
+                                        <TextField label="Тип помещения" color='primary' size='small' value={order.Address.RoomType}/>
+
+                                        <Box sx={{borderBottom: '3px solid #776D61'}}>
+                                            <Typography variant="h6" color="primary">
+                                                Время уборки
+                                            </Typography>
+                                        </Box>
+                                        <TextField label="Уборка запланирована на" color='primary' size='small' value={order.Date}/>
+                                        <TextField label="Уборка займет" color='primary' size='small' value={order.ApproximateTime} />
+                                        <TextField label="Статус заявки" color='primary' size='small' value={order.Status}/>
+                                    </Stack>
+                                    <Stack spacing={2} width={"50%"}>
+                                        <Box sx={{borderBottom: '3px solid #776D61'}}>
+                                            <Typography variant="h6" color="primary">
+                                                Услуга
+                                            </Typography>
+                                        </Box>
+                                        {order.ProvidedServices.map((ps) => (<>
+                                        {ps.Service.IsMain &&
+                                            <Stack direction="row" spacing={2}>
+                                                <TextField label="Тип уборки" color='primary' size='small' sx={{width:'80%'}} value={ps.Service.ServiceName}/>
+                                                <Stack direction="row" spacing={2}>
+                                                    <TextField label="Площадь" color='primary' size='small' value={ps.Amount}/>
+                                                    <TextField label="Цена" color='primary' size='small' value={ps.Amount * ps.Service.Price  * order.Address.Сoefficient}/>
+                                                </Stack>
+                                            </Stack>
+                                        }</>))}
+                                        <Box sx={{borderBottom: '3px solid #776D61'}}>
+                                            <Typography variant="h6" color="primary">
+                                                Дополнительные услуги
+                                            </Typography>
+                                        </Box>
+                                        
+                                        {order.ProvidedServices.map((ps) => (<>
+                                        {!ps.Service.IsMain &&
+                                        <Stack direction="row" spacing={2}>
+                                            <TextField label="Доп. услуга" color='primary' size='small' sx={{width:'80%'}} value={ps.Service.ServiceName}/>
+                                            <Stack direction="row" spacing={2}>
+                                                <TextField label="Количество" color='primary' size='small' value={ps.Amount}/>
+                                                <TextField label="Цена" color='primary' size='small' value={ps.Amount * ps.Service.Price * order.Address.Сoefficient}/>
+                                            </Stack>
+                                        </Stack>
+                                        }</>))}
+
+                                        {/* <Stack direction="row">
+                                            {order.Consumables.map((consumable) => (<>
+                                            {
+                                                <Typography>{ consumable.Name}, </Typography>
+                                            }</>))}   
+                                        </Stack> */}
+
+                                        <TextField
+                                            id="outlined-multiline-static"
+                                            label="Средства уборки"
+                                            multiline
+                                            rows={6}
+                                            value={order.Consumables.map((consumable) => (<>{
+                                                <Typography>{consumable.Name}</Typography>
+                                            }</>))}
+                                        />
+
+                                        <Box sx={{borderBottom: '3px solid #776D61'}}>
+                                        <Typography variant="h6" color="primary">
+                                            Итог
+                                        </Typography>
+                                        </Box>
+                                        <Stack direction="row" justifyContent="space-between" spacing={2}>
+                                            <div></div>
+                                            <TextField label="Итоговая цена" color='primary' size='small' sx={{ width: '30%'}} value={order.FinalPrice}/>
+                                        </Stack>
+                                        <TextField
+                                            id="outlined-multiline-static"
+                                            label="Комментарий"
+                                            multiline
+                                            rows={6}
+                                            value={order.Comment}
+                                        />
+
+                                    </Stack>
+                                </Stack>
+                            </Box>
+                        </Modal>
                     </Card>
                 )}
             </Stack>
@@ -162,23 +260,23 @@ export default function MyCleaning() {
                                 <Typography variant="subtitle1">
                                     Тип помещения: {order.Address.RoomType}
                                 </Typography>
-                                {order.ProvidedServices.map((service) => (<>
-                                    {service.Service.IsMain &&
+                                {order.ProvidedServices.map((ps) => (<>
+                                    {ps.Service.IsMain &&
                                         <>
                                             <Typography variant="subtitle1">
-                                                Тип уборки: {service.Service.ServiceName}
+                                                Тип уборки: {ps.Service.ServiceName}
                                             </Typography>
 
                                             <Typography variant="subtitle1">
-                                                Площадь: {service.Amount}
+                                                Площадь: {ps.Amount}
                                             </Typography>
                                         </>
                                     }</>))}
                                     <Typography variant="subtitle1">Дополнительные услуги:</Typography>
                                     <Stack direction="row">
-                                        {order.ProvidedServices.map((service) => (<>
-                                        {!service.Service.IsMain &&
-                                            <Typography>{service.Service.ServiceName}, </Typography>
+                                        {order.ProvidedServices.map((ps) => (<>
+                                        {!ps.Service.IsMain &&
+                                            <Typography>{ps.Service.ServiceName}, </Typography>
                                         }</>))}   
                                     </Stack>
                             </CardContent>
@@ -192,10 +290,10 @@ export default function MyCleaning() {
                         }}>
                             <Stack spacing={0.5}>
                                 <Typography variant="subtitle2">
-                                    Уборка запланирована на {order.Date}
+                                    Уборка запланирована на:
                                 </Typography>
-                                <Typography variant="subtitle2">
-                                    Время прибытия:
+                                <Typography variant="subtitle1">
+                                    {order.Date}
                                 </Typography>
                                 <Typography variant="subtitle2">
                                     Статус заявки: {order.Status}
@@ -218,6 +316,7 @@ export default function MyCleaning() {
                                 </Button>
                             </Stack>
                         </Box>
+
                     </Card>
                 )}
             </Stack>
@@ -239,87 +338,6 @@ export default function MyCleaning() {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Modal
-                open={openModal}
-                onClose={handleCloseModal}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style} className='section'>
-                    <Typography variant="h5" color="primary" align='center'>Полная информация</Typography>
-                    <Stack direction="row" spacing={6} padding={4}>
-                        <Stack spacing={1} width={"50%"}>
-                            <Box sx={{borderBottom: '3px solid #776D61'}}>
-                                <Typography variant="h5" color="primary">
-                                    Место уборки
-                                </Typography>
-                            </Box>
-                            <TextField label="Адрес" color='primary' size='small'/>
-                            <TextField label="Тип помещения" color='primary' size='small'/>
-
-                            <Box sx={{borderBottom: '3px solid #776D61'}}>
-                                <Typography variant="h5" color="primary">
-                                    Время уборки
-                                </Typography>
-                            </Box>
-                            <TextField label="Уборка запланирована на" color='primary' size='small'/>
-                            <TextField label="Уборка займет" color='primary' size='small'/>
-                            <TextField label="Статус заявки" color='primary' size='small'/>
-                        </Stack>
-                        <Stack spacing={1} width={"50%"}>
-                            <Box sx={{borderBottom: '3px solid #776D61'}}>
-                                <Typography variant="h5" color="primary">
-                                    Услуга
-                                </Typography>
-                            </Box>
-                            <Stack direction="row" spacing={2}>
-                                <TextField label="Тип уборки" color='primary' size='small'/>
-                                <Stack direction="row" spacing={2}>
-                                    <TextField label="Площадь" color='primary' size='small'/>
-                                    <TextField label="Цена" color='primary' size='small'/>
-                                </Stack>
-                            </Stack>
-
-                            <Box sx={{borderBottom: '3px solid #776D61'}}>
-                                <Typography variant="h5" color="primary">
-                                    Дополнительные услуги
-                                </Typography>
-                            </Box>
-                            <Stack direction="row" spacing={2}>
-                                <TextField label="Доп. услуга" color='primary' size='small'/>
-                                <Stack direction="row" spacing={2}>
-                                    <TextField label="Количество" color='primary' size='small'/>
-                                    <TextField label="Цена" color='primary' size='small'/>
-                                </Stack>
-                            </Stack>
-
-                            <TextField
-                                id="outlined-multiline-static"
-                                label="Расходуемые средства"
-                                multiline
-                                rows={6}
-                            />
-
-                            <Box sx={{borderBottom: '3px solid #776D61'}}>
-                            <Typography variant="h5" color="primary">
-                                Итог
-                            </Typography>
-                            </Box>
-                            <Stack direction="row" justifyContent="space-between" spacing={2}>
-                                <div></div>
-                                <TextField label="Итоговая цена" color='primary' size='small' sx={{ width: '30%'}}/>
-                            </Stack>
-                            <TextField
-                                id="outlined-multiline-static"
-                                label="Комментарий"
-                                multiline
-                                rows={6}
-                            />
-
-                        </Stack>
-                    </Stack>
-                </Box>
-            </Modal>
         </div>
     );
 }

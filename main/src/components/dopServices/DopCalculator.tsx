@@ -16,6 +16,7 @@ export default function DopCalculator() {
     const {search} = useLocation();
     const searchParams = new URLSearchParams(search);
     const square = searchParams.get("square");
+    const type = searchParams.get("type");
 
 
   return (
@@ -29,9 +30,8 @@ export default function DopCalculator() {
                     <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={name}
+                    value={type}
                     label="Тип:"
-                    onChange={handleChange}
                     sx={{height: '40px'}}
                     >
                     <MenuItem value={1}>Квартира</MenuItem>
