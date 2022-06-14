@@ -17,7 +17,8 @@ export default function DopCalculator() {
     const searchParams = new URLSearchParams(search);
     const square = searchParams.get("square");
     const type = searchParams.get("type");
-
+    const price = searchParams.get("price");
+    const time = searchParams.get("time");
 
   return (
     <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%'}}>
@@ -41,8 +42,8 @@ export default function DopCalculator() {
                     </Select>
                 </FormControl>
             </Box>
-            <TextField disabled label="Цена" color='primary' size='small' sx={{width: '80%'}} />
-            <TextField disabled label="≈Время" color='primary' size='small' sx={{width: '80%'}} />
+            <TextField disabled label="Цена" color='primary' size='small' sx={{width: '80%'}} value={price}/>
+            <TextField disabled label="≈Время" color='primary' size='small' sx={{width: '80%'}} value={time}/>
             <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}}  onClick={() => {navigate("/services")}}>
             Назад
             </Button>

@@ -103,7 +103,10 @@ export default function MyCleaning() {
                                     <Stack direction="row">
                                         {order.ProvidedServices.map((ps) => (<>
                                         {!ps.Service.IsMain &&
-                                            <Typography>{ ps.Service.ServiceName}, </Typography>
+                                            <Stack direction="row"> 
+                                                <Typography>{ps.Service.ServiceName},</Typography>
+                                                <div style={{width: '5px'}} />
+                                            </Stack>
                                         }</>))}   
                                     </Stack>
                             </CardContent>
@@ -203,21 +206,14 @@ export default function MyCleaning() {
                                         </Stack>
                                         }</>))}
 
-                                        {/* <Stack direction="row">
-                                            {order.Consumables.map((consumable) => (<>
-                                            {
-                                                <Typography>{ consumable.Name}, </Typography>
-                                            }</>))}   
-                                        </Stack> */}
-
                                         <TextField
                                             id="outlined-multiline-static"
                                             label="Средства уборки"
                                             multiline
                                             rows={6}
-                                            value={order.Consumables.map((consumable) => (<>{
-                                                <Typography>{consumable.Name}</Typography>
-                                            }</>))}
+                                            value={order.Consumables.map((consumable) => (
+                                                " " + consumable.Name
+                                            ))}
                                         />
 
                                         <Box sx={{borderBottom: '3px solid #776D61'}}>

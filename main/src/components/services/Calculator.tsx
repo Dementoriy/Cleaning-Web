@@ -17,13 +17,8 @@ export default function Calculator() {
         setSquare(e.target.value)
         }
 
-    // const [type, setType] = React.useState<string>();
-    // const changeType=(e:any)=>{
-    //     setType(e.target.value)
-    //     }
-
-
-
+    const [price, setPrice] = React.useState<number>();
+    const [time, setTime] = React.useState<number>();
 
   return (
     <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%'}}>
@@ -48,8 +43,8 @@ export default function Calculator() {
                     </Select>
                 </FormControl>
             </Box>
-            <TextField disabled label="Цена" color='primary' size='small' sx={{width: '80%'}} />
-            <TextField disabled label="≈Время" color='primary' size='small' sx={{width: '80%'}} />
+            <TextField disabled label="Цена" color='primary' size='small' sx={{width: '80%'}} value={price}/>
+            <TextField disabled label="≈Время" color='primary' size='small' sx={{width: '80%'}} value={time}/>
             <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={() => {navigate("/dop-services?square=" + square + "&type=" + type)}}>
             Доп. услуги
             </Button>

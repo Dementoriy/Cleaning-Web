@@ -60,7 +60,7 @@ public class OrderModel
                     Service = new ServiceModel(service.Service.ID, service.Service.ServiceName, service.Service.Description, 
                     service.Service.Price, service.Service.Time, service.Service.Units.Unit, service.Service.Image, service.Service.IsMain, service.Service.ApproximateTime)
                 });
-                foreach (var consemable in Consumable.GetConsumableByService(service.ID))
+                foreach (var consemable in Consumable.GetConsumableByService(service.Service.ID))
                 {
                     var tmpConsumable = new ConsumableModel(consemable.ID, consemable.ConsumableName, consemable.Description);
                     if(!newOrder.Consumables.Any(x => x.Name == consemable.ConsumableName))
