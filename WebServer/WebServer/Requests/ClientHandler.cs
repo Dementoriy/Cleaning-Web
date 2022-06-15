@@ -4,7 +4,7 @@ using RestPanda.Requests.Attributes;
 
 namespace WebServer.Requests;
 
-[RequestHandlerPath("/client")]
+[RequestHandlerPath("/profile")]
 public class ClientHandler : RequestHandler
 {
     [Post("/avatar")]
@@ -37,6 +37,44 @@ public class ClientHandler : RequestHandler
             return;
         }
 
+        Send(new AnswerModel(true, new
+        {
+            user = new ClientModel(client.ID, client.Surname, client.Name, client.MiddleName, client.Email!,
+                client.PhoneNumber, client.Login, client.IsOldClient, client.Avatar)
+        }, null, null));
+    }
+    [Post("change-client-info")]
+    public void ChangeClientInfo()
+    {
+        if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
+        {
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+
+        var client = TokenWorker.GetClientByToken(token);
+        if (client is null)
+        {
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+        var body = Bind<ClientModel>();
+        if (body.surname == null || body.name == null || body.email == null || body.phone == null || body.login == null)
+        {
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+        if(body.surname != client.Surname || body.name != client.Name || body.middleName != client.MiddleName 
+            || body.email != client.Email || body.phone != client.PhoneNumber || body.login != client.Login)
+        {
+            client.Surname = body.surname;
+            client.Name = body.name;
+            client.MiddleName = body.middleName;
+            client.Email = body.email;
+            client.PhoneNumber = body.phone;
+            client.Login = body.login;
+            client.Update();
+        }
         Send(new AnswerModel(true, new
         {
             user = new ClientModel(client.ID, client.Surname, client.Name, client.MiddleName, client.Email!,

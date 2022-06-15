@@ -40,42 +40,42 @@ export default function SignOn() {
       showPassword: false,
     });
     
-      const handleChange =
-        (prop: keyof RegisterData) => (event: React.ChangeEvent<HTMLInputElement>) => {
-          setValues({ ...values, [prop]: event.target.value });
-        };
-    
-      const handleClickShowPassword = () => {
-        setValues({
-          ...values,
-          showPassword: !values.showPassword,
-        });
-      };
-    
-      const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-      };
+  const handleChange =
+    (prop: keyof RegisterData) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({ ...values, [prop]: event.target.value });
+    };
 
-      const onClick = (event: any) => {
-        if(values.password !== values.passwordCheck){
-          alert("Пароли не совпадают, повторите попытку.");
-          return;
-        } 
-        const data : RegistrationModel = {
-          login: values.login,
-          password: sha256(values.password),
-          surname: values.surname,
-          name: values.name,
-          middlename: values.middleName,
-          phone: values.phoneNumber,
-          email: values.email,
-        }
-        AuthService.register(data).then((res) => {
-          dispatch(res);
-          navigate("/profile");
-        })
-      }
-      const navigate = useNavigate();
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+    
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  const onClick = (event: any) => {
+    if(values.password !== values.passwordCheck){
+      alert("Пароли не совпадают, повторите попытку.");
+      return;
+    } 
+    const data : RegistrationModel = {
+      login: values.login,
+      password: sha256(values.password),
+      surname: values.surname,
+      name: values.name,
+      middlename: values.middleName,
+      phone: values.phoneNumber,
+      email: values.email,
+    }
+    AuthService.register(data).then((res) => {
+      dispatch(res);
+      navigate("/profile");
+    })
+  }
+  const navigate = useNavigate();
 
   return (
     <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%', height: '54%', marginRight: '22px'}}>

@@ -62,13 +62,7 @@ export default function MyCleaning() {
     };
 
     return (
-        <div className='section' style={{
-            backgroundColor: '#F0EDE8',
-            borderRadius: '20px',
-            padding: '22px',
-            width: '100%',
-            height: '100%'
-        }}>
+        <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', width: "100%", height: "100%"}}>
             <Typography variant="h5" color="primary" align='center'>Мои уборки</Typography>
             <Box sx={{borderBottom: '3px solid #776D61'}}>
                 <Typography variant="h5" color="primary">

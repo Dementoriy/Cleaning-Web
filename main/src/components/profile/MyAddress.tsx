@@ -51,12 +51,13 @@ import "../../assets/css/Scrollbar.css";
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '80%',
+    width: '60%',
     bgcolor: '#F0EDE8',
     border: '2px solid #776D61',
     borderRadius: '20px',
     boxShadow: 24,
     p: 4,
+    paddingBottom: "100px"
   };
 
   return (
@@ -130,15 +131,22 @@ import "../../assets/css/Scrollbar.css";
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box sx={style}>
+            <Box sx={style} >
               <Typography variant="h5" color="primary" align='center'>Новый адрес</Typography>
-                <Stack spacing={1} width={"50%"} marginTop={2}>
-                  <TextField label="Район города" color='primary' size='small'/>
-                  <TextField label="Населенный пункт" color='primary' size='small'/>
-                  <TextField label="Улица" color='primary' size='small'/>
-                  <TextField label="Дом" color='primary' size='small'/>
-                  <TextField label="Корпус/строение" color='primary' size='small'/>
-                  <TextField label="Квартира" color='primary' size='small'/>
+                <Stack spacing={2} width={"100%"} mt={2} alignItems="center" justifyContent={"center"}>
+                  <Stack direction="row" spacing={2} width={"100%"} alignItems="center" justifyContent={"center"}>
+                    <TextField label="Адрес" color='primary' size='small' sx={{width:'40%'}}/>
+                    <Button variant="contained" color="secondary" size="medium" disableElevation sx={{ borderRadius: '10px'}}>
+                    Добавить
+                    </Button>
+                  </Stack>
+                  <Stack alignItems="center" justifyContent={"center"} style={{height: "400px", width: "600px", backgroundColor: '#B1A18B', borderRadius:"10px" }}>
+                    <YMaps>
+                      <div>
+                        <Map defaultState={{ center: [58.60, 49.66], zoom: 12}} style={{height: "360px", width: "560px"}} />
+                      </div>
+                    </YMaps>
+                  </Stack>
                 </Stack>
             </Box>
         </Modal>
