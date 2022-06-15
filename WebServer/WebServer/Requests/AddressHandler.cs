@@ -9,7 +9,38 @@ namespace WebServer.Requests;
 [RequestHandlerPath("/address")]
 public class AddressHandler : RequestHandler
 {
-    
+    [Get("get-address")]
+    public void GetFilters()
+    {
+        if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
+        {
+
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+        var client = TokenWorker.GetClientByToken(token);
+        if (client is null)
+        {
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+
+        IEnumerable<Address> addresses = ClientAddresses.GetClientAddressesById(client.ID);
+
+        List<AddressModel> addressModels = new List<AddressModel>();
+
+
+        foreach(var address in addresses)
+        {
+            AddressModel addressModel = new AddressModel(address.RoomType.Type, address.RoomType.Сoefficient, 
+                address.AddressName, address.FullAddress, address.CurrentAddress);
+            addressModels.Add(addressModel);
+        }
+
+        Send(new AnswerModel(true, new { addresses = addressModels }, null, null));
+
+    }
+
     [Post("add-address")]
     public void addAddress()
     {

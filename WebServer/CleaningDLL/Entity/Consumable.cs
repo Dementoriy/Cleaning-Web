@@ -20,7 +20,6 @@ namespace CleaningDLL.Entity
         public int ReferenceUnitsOfMeasurementID { get; set; }
         [Required]
         public int Amount { get; set; }
-        private static ApplicationContext db = Context.Db;
 
         public Consumable()
         {
@@ -34,6 +33,7 @@ namespace CleaningDLL.Entity
             this.ReferenceUnitsOfMeasurementID = ReferenceUnitsOfMeasurementID;
             this.Amount = Amount;
         }
+        private static ApplicationContext db = Context.Db;
 
         public static List<Consumable> GetConsumable()
         {

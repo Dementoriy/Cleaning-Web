@@ -6,7 +6,7 @@ public class OrderModel
 {
     public int ID { get; set; }
     public string Status { get; set; }
-    public AddressModel Address { get; set; } /*= new AddressModel();*/
+    public AddressModel Address { get; set; }
     public string Date { get; set; }
     public int FinalPrice { get; set; }
     public string ApproximateTime { get; set; }

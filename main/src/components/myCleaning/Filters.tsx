@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Typography, MenuItem, InputLabel,  FormControl, OutlinedInput, Box, Chip, Checkbox, Stack, TextField, Button} from "@mui/material";
 import { Theme, useTheme } from '@mui/material/styles';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -53,13 +53,17 @@ export default function Filters() {
     const [addresses, setAddresses] = React.useState<Address[]>([]);
     const [consumables, setConsumables] = React.useState<Consumable[]>([]);
 
+    const [key, setKey] = useState<boolean>(false);
+
     React.useEffect(() => {
+      if (key) return;
       if (addresses.length !== 0) return;
       if (consumables.length !== 0) return;
       FiltersService.GetFilters().then((res : any) => {
         setAddresses(res.addresses);
         setConsumables(res.consumables);
       })
+      setKey(true);
     }, [addresses, consumables])
 
   return (

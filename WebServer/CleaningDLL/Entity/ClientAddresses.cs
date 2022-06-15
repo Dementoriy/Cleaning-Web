@@ -70,7 +70,7 @@ namespace CleaningDLL.Entity
         {
             try
             {
-                return db.ClientAddresses.Include(c => c.Client).Include(c => c.Address).Where(a => a.Client.ID == id && a.Address.CurrentAddress == true).Select(x => x.Address);
+                return db.ClientAddresses.Include(c => c.Client).Include(c => c.Address).ThenInclude(a => a.RoomType).Where(a => a.Client.ID == id && a.Address.CurrentAddress == true).Select(x => x.Address);
             }
             catch (Exception ex)
             {

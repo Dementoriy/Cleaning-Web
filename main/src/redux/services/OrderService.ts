@@ -22,6 +22,22 @@ class OrderService {
             return []
           });
 	}
+  GetOrderById(id: number){
+		return axios.get(API_URL + "get-by-id?id=" + id )
+        .then((response) => {
+            const data: Answer = response.data;
+            if (data.status)
+            {
+              console.log(data.answer);
+              return data.answer.order as Order;
+            }
+            return null;
+          })
+          .catch((error) => {
+            console.log(error);
+            return null
+          });
+	}
 }
 
 export default new OrderService();

@@ -27,5 +27,23 @@ namespace WebServer.Requests
             
             Send(new AnswerModel(true, new { objects = OrderModel.GetOrderModels(orders) }, null, null));
         }
+
+        [Get("get-by-id")]
+        public void GetOrderById()
+        {
+            if(Params.TryGetValue("id", out var id))
+            {
+                var order = Order.GetOrderById(Int32.Parse(id));
+                
+                List<Order> orders = new List<Order>();
+                orders.Add(order);
+                Send(new AnswerModel(true, new { order = OrderModel.GetOrderModels(orders).First() }, null, null));
+            }
+            else
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+        }
     }
 }

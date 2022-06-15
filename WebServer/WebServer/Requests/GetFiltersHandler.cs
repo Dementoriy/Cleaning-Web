@@ -10,6 +10,7 @@ namespace WebServer.Requests
     {
         [Get("get")]
         public void GetFilters()
+        
         {
             if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
             {

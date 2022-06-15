@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Button,
     Typography,
@@ -16,17 +16,25 @@ import {
 } from "@mui/material";
 import OrderService from '../../redux/services/OrderService';
 import {Order} from "../../models/OrderModel";
+import {ProvidedServices} from "../../models/ProvidedServicesModel";
+import {Address} from "../../models/AddressModel";
+import { Consumable } from '../../models/ConsumableModel';
+
 
 export default function MyCleaning() {
 
     const [orders, setOrders] = React.useState<Order[]>([]);
 
+    const [key, setKey] = useState<boolean>(false);
+
     React.useEffect(() => {
+      if (key) return;
         if (orders.length !== 0) return;
         OrderService.GetOrder().then((res) => {
             setOrders(res);
             console.log(res);
         })
+        setKey(true);
     }, [orders])
 
     const [value, setValue] = React.useState<number | null>(0);
@@ -36,7 +44,21 @@ export default function MyCleaning() {
     const handleDialogOpen = () => {
         setOpenDialog(true);
     };
-    const handleModalOpen = () => {
+    const handleModalOpen = (orderId: number) => {
+        OrderService.GetOrderById(orderId).then((res: any) => {
+            setFullAddress(res.Address.FullAddress);
+            setRoomType(res.Address.RoomType);
+            setDate(res.Date);
+            setApproximateTime(res.ApproximateTime);
+            setFinalPrice(res.FinalPrice);
+            setComment(res.Comment);
+            setStatus(res.Status);
+            setProvidedServices(res.ProvidedServices);
+            setAddress(res.Address);
+            setConsumables(res.Consumables);
+            setCoefficient(res.Address.Сoefficient);
+            console.log(res.Address);
+        })
         setOpenModal(true);
     };
 
@@ -60,6 +82,18 @@ export default function MyCleaning() {
         boxShadow: 24,
         p: 4
     };
+
+    const [fullAddress, setFullAddress] = React.useState<string>();
+    const [roomType, setRoomType] = React.useState<string>();
+    const [date, setDate] = React.useState<string>();
+    const [approximateTime, setApproximateTime] = React.useState<string>();
+    const [finalPrice, setFinalPrice] = React.useState<number>();
+    const [comment, setComment] = React.useState<string>();
+    const [status, setStatus] = React.useState<string>();
+    const [providedServices, setProvidedServices] = React.useState<ProvidedServices[]>([]);
+    const [address, setAddress] = React.useState<Address>();
+    const [consumables, setConsumables] = React.useState<Consumable[]>([]);
+    const [coefficient, setCoefficient] = React.useState<number>(1.2);
 
     return (
         <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', width: "100%", height: "100%"}}>
@@ -131,7 +165,7 @@ export default function MyCleaning() {
                             </Stack>
                             <Stack spacing={1} direction={'row'} marginTop={'2%'} justifyContent="flex-end">
                                 <Button variant="contained" color="success" size="small" disableElevation
-                                        sx={{borderRadius: '10px'}} onClick={handleModalOpen}>
+                                        sx={{borderRadius: '10px'}} onClick={(e) => {handleModalOpen(order.ID)}}>
                                     Подробнее
                                 </Button>
                                 <Button variant="contained" color="success" size="small" disableElevation
@@ -140,97 +174,7 @@ export default function MyCleaning() {
                                 </Button>
                             </Stack>
                         </Box>
-                        <Modal
-                            open={openModal}
-                            onClose={handleCloseModal}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                        >
-                            <Box sx={style} className='section'>
-                                <Typography variant="h5" color="primary" align='center'>Полная информация</Typography>
-                                <Stack direction="row" spacing={6} padding={4}>
-                                    <Stack spacing={2} width={"50%"}>
-                                        <Box sx={{borderBottom: '3px solid #776D61'}}>
-                                            <Typography variant="h6" color="primary">
-                                                Место уборки
-                                            </Typography>
-                                        </Box>
-                                        <TextField label="Адрес" color='primary' size='small' value={order.Address.FullAddress}/>
-                                        <TextField label="Тип помещения" color='primary' size='small' value={order.Address.RoomType}/>
-
-                                        <Box sx={{borderBottom: '3px solid #776D61'}}>
-                                            <Typography variant="h6" color="primary">
-                                                Время уборки
-                                            </Typography>
-                                        </Box>
-                                        <TextField label="Уборка запланирована на" color='primary' size='small' value={order.Date}/>
-                                        <TextField label="Уборка займет" color='primary' size='small' value={order.ApproximateTime} />
-                                        <TextField label="Статус заявки" color='primary' size='small' value={order.Status}/>
-                                    </Stack>
-                                    <Stack spacing={2} width={"50%"}>
-                                        <Box sx={{borderBottom: '3px solid #776D61'}}>
-                                            <Typography variant="h6" color="primary">
-                                                Услуга
-                                            </Typography>
-                                        </Box>
-                                        {order.ProvidedServices.map((ps) => (<>
-                                        {ps.Service.IsMain &&
-                                            <Stack direction="row" spacing={2}>
-                                                <TextField label="Тип уборки" color='primary' size='small' sx={{width:'80%'}} value={ps.Service.ServiceName}/>
-                                                <Stack direction="row" spacing={2}>
-                                                    <TextField label="Площадь" color='primary' size='small' value={ps.Amount}/>
-                                                    <TextField label="Цена" color='primary' size='small' value={ps.Amount * ps.Service.Price  * order.Address.Сoefficient}/>
-                                                </Stack>
-                                            </Stack>
-                                        }</>))}
-                                        <Box sx={{borderBottom: '3px solid #776D61'}}>
-                                            <Typography variant="h6" color="primary">
-                                                Дополнительные услуги
-                                            </Typography>
-                                        </Box>
-                                        
-                                        {order.ProvidedServices.map((ps) => (<>
-                                        {!ps.Service.IsMain &&
-                                        <Stack direction="row" spacing={2}>
-                                            <TextField label="Доп. услуга" color='primary' size='small' sx={{width:'80%'}} value={ps.Service.ServiceName}/>
-                                            <Stack direction="row" spacing={2}>
-                                                <TextField label="Количество" color='primary' size='small' value={ps.Amount}/>
-                                                <TextField label="Цена" color='primary' size='small' value={ps.Amount * ps.Service.Price * order.Address.Сoefficient}/>
-                                            </Stack>
-                                        </Stack>
-                                        }</>))}
-
-                                        <TextField
-                                            id="outlined-multiline-static"
-                                            label="Средства уборки"
-                                            multiline
-                                            rows={6}
-                                            value={order.Consumables.map((consumable) => (
-                                                " " + consumable.Name
-                                            ))}
-                                        />
-
-                                        <Box sx={{borderBottom: '3px solid #776D61'}}>
-                                        <Typography variant="h6" color="primary">
-                                            Итог
-                                        </Typography>
-                                        </Box>
-                                        <Stack direction="row" justifyContent="space-between" spacing={2}>
-                                            <div></div>
-                                            <TextField label="Итоговая цена" color='primary' size='small' sx={{ width: '30%'}} value={order.FinalPrice}/>
-                                        </Stack>
-                                        <TextField
-                                            id="outlined-multiline-static"
-                                            label="Комментарий"
-                                            multiline
-                                            rows={6}
-                                            value={order.Comment}
-                                        />
-
-                                    </Stack>
-                                </Stack>
-                            </Box>
-                        </Modal>
+                        
                     </Card>
                 )}
             </Stack>
@@ -301,7 +245,7 @@ export default function MyCleaning() {
                                 }}
                                 />
                                 <Button variant="contained" color="success" size="small" disableElevation
-                                        sx={{borderRadius: '10px'}} onClick={handleModalOpen}>
+                                        sx={{borderRadius: '10px'}} onClick={(e) => {handleModalOpen(order.ID)}} >
                                     Подробнее
                                 </Button>
                             </Stack>
@@ -328,6 +272,97 @@ export default function MyCleaning() {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} className='section'>
+                    <Typography variant="h5" color="primary" align='center'>Полная информация</Typography>
+                    <Stack direction="row" spacing={6} padding={4}>
+                        <Stack spacing={2} width={"50%"}>
+                            <Box sx={{borderBottom: '3px solid #776D61'}}>
+                                <Typography variant="h6" color="primary">
+                                    Место уборки
+                                </Typography>
+                            </Box>
+                            <TextField label="Адрес" color='primary' size='small' value={fullAddress}/>
+                            <TextField label="Тип помещения" color='primary' size='small' value={roomType}/>
+
+                            <Box sx={{borderBottom: '3px solid #776D61'}}>
+                                <Typography variant="h6" color="primary">
+                                    Время уборки
+                                </Typography>
+                            </Box>
+                            <TextField label="Уборка запланирована на" color='primary' size='small' value={date}/>
+                            <TextField label="Уборка займет" color='primary' size='small' value={approximateTime} />
+                            <TextField label="Статус заявки" color='primary' size='small' value={status}/>
+                        </Stack>
+                        <Stack spacing={2} width={"50%"}>
+                            <Box sx={{borderBottom: '3px solid #776D61'}}>
+                                <Typography variant="h6" color="primary">
+                                    Услуга
+                                </Typography>
+                            </Box>
+                            {providedServices.map((ps) => (<>
+                            {ps.Service.IsMain &&
+                                <Stack direction="row" spacing={2}>
+                                    <TextField label="Тип уборки" color='primary' size='small' sx={{width:'80%'}} value={ps.Service.ServiceName}/>
+                                    <Stack direction="row" spacing={2}>
+                                        <TextField label="Площадь" color='primary' size='small' value={ps.Amount}/>
+                                        <TextField label="Цена" color='primary' size='small' value={ps.Amount * ps.Service.Price * coefficient!}/>
+                                    </Stack>
+                                </Stack>
+                            }</>))}
+                            <Box sx={{borderBottom: '3px solid #776D61'}}>
+                                <Typography variant="h6" color="primary">
+                                    Дополнительные услуги
+                                </Typography>
+                            </Box>
+                            
+                            {providedServices.map((ps) => (<>
+                            {!ps.Service.IsMain &&
+                            <Stack direction="row" spacing={2}>
+                                <TextField label="Доп. услуга" color='primary' size='small' sx={{width:'80%'}} value={ps.Service.ServiceName}/>
+                                <Stack direction="row" spacing={2}>
+                                    <TextField label="Количество" color='primary' size='small' value={ps.Amount}/>
+                                    <TextField label="Цена" color='primary' size='small' value={ps.Amount * ps.Service.Price * coefficient!}/>
+                                </Stack>
+                            </Stack>
+                            }</>))}
+
+                            <TextField
+                                id="outlined-multiline-static"
+                                label="Средства уборки"
+                                multiline
+                                rows={6}
+                                value={consumables.map((consumable) => (
+                                    " " + consumable.Name
+                                ))}
+                            />
+
+                            <Box sx={{borderBottom: '3px solid #776D61'}}>
+                            <Typography variant="h6" color="primary">
+                                Итог
+                            </Typography>
+                            </Box>
+                            <Stack direction="row" justifyContent="space-between" spacing={2}>
+                                <div></div>
+                                <TextField label="Итоговая цена" color='primary' size='small' sx={{ width: '30%'}} value={finalPrice}/>
+                            </Stack>
+                            <TextField
+                                id="outlined-multiline-static"
+                                label="Комментарий"
+                                multiline
+                                rows={6}
+                                value={comment}
+                            />
+
+                        </Stack>
+                    </Stack>
+                </Box>
+            </Modal>
         </div>
     );
 }

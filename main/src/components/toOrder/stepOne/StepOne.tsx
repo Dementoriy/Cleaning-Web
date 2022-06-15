@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Box, Stack, InputLabel, MenuItem, FormControl, TextField, Typography, Button, Card, CardHeader, CardContent, CardActions, Fab, Dialog, DialogActions, DialogContent, DialogContentText, Tabs, Tab} from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import IconButton from '@mui/material/IconButton';
@@ -65,12 +65,15 @@ export default function Stepper() {
     };
 
     const [addresses, setAddresses] = React.useState<Address[]>([]);
+    const [key, setKey] = useState<boolean>(false);
 
   React.useEffect(() => {
+    if (key) return;
     if (addresses.length !== 0) return;
     FiltersService.GetFilters().then((res : any) => {
       setAddresses(res.addresses);
     })
+    setKey(true);
     console.log(addresses);
   }, [addresses])
 
@@ -87,33 +90,20 @@ export default function Stepper() {
         <Stack direction='row' width='100%' spacing={6} justifyContent="center">
           <Stack width='30%' spacing={2}>
             <Typography variant="h5" color="primary" align='center'>Выбор адреса</Typography>
-            <Stack direction='row' justifyContent='space-between'>
-              <FormControl fullWidth sx={{width:'78%'}}>
-                <InputLabel id="demo-simple-select-label">Адрес</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={name}
-                  label="Age"
-                  onChange={handleChange}
-                >
-                  {addresses.map((address) => (
-                    <MenuItem value={address.FullAddress}>{address.FullAddress}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <Stack
-                component="form"
-                sx={{width: '20%'}}
-                noValidate
-                autoComplete="off"
-                alignItems="center"
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Адрес</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={name}
+                label="Age"
+                onChange={handleChange}
               >
-                <Fab color="secondary" aria-label="add">
-                  <AddIcon />
-                </Fab>
-              </Stack>
-            </Stack>
+                {addresses.map((address) => (
+                  <MenuItem value={address.FullAddress}>{address.FullAddress}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
             <TextField
               id="datetime-local"
@@ -132,30 +122,6 @@ export default function Stepper() {
               rows={6}
             />
 
-          </Stack>
-          <Stack width='30%'>
-            <Card sx={{ width: '100%', backgroundColor: '#B1A18B', borderRadius:"10px", marginTop: '5px'}}>
-              <CardHeader
-                action={
-                <IconButton aria-label="delete" onClick={handleClickOpen}>
-                  <DeleteOutlineOutlinedIcon />
-                </IconButton>
-                }
-                title="Работа"
-              />
-              <CardContent sx={{ mt: '-5%'}}>
-                <YMaps>
-                  <div>
-                    <Map defaultState={{ center: [58.60, 49.66], zoom: 11 }} style={{height: "240px"}} />
-                  </div>
-                </YMaps>
-              </CardContent>
-              <CardActions disableSpacing>
-                  <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px', width: '100%'}} endIcon={<EditOutlinedIcon />}>
-                    <Typography>Адрес 1</Typography>
-                  </Button>
-              </CardActions>
-            </Card>
           </Stack>
         </Stack>
           
@@ -222,32 +188,19 @@ export default function Stepper() {
           </Stack>
           <Stack width='30%' spacing={2}>
             <Typography variant="h5" color="primary" align='center'>Выбор адреса</Typography>
-            <Stack direction='row' justifyContent='space-between'>
-              <FormControl fullWidth sx={{width:'78%'}}>
-                <InputLabel id="demo-simple-select-label">Адрес</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={name}
-                  label="Age"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={1}>Воровского 101, кв. 6.</MenuItem>
-                  <MenuItem value={2}>пр. Строителей 98, кв. 105.</MenuItem>
-                </Select>
-              </FormControl>
-              <Stack
-                component="form"
-                sx={{width: '20%'}}
-                noValidate
-                autoComplete="off"
-                alignItems="center"
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Адрес</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={name}
+                label="Age"
+                onChange={handleChange}
               >
-                <Fab color="secondary" aria-label="add">
-                  <AddIcon />
-                </Fab>
-              </Stack>
-            </Stack>
+                <MenuItem value={1}>Воровского 101, кв. 6.</MenuItem>
+                <MenuItem value={2}>пр. Строителей 98, кв. 105.</MenuItem>
+              </Select>
+            </FormControl> 
 
             <TextField
               id="outlined-multiline-static"
@@ -256,30 +209,6 @@ export default function Stepper() {
               rows={6}
             />
 
-          </Stack>
-          <Stack width='30%'>
-            <Card sx={{ width: '100%', backgroundColor: '#B1A18B', borderRadius:"10px", marginTop: '5px'}}>
-              <CardHeader
-                action={
-                <IconButton aria-label="delete" onClick={handleClickOpen}>
-                  <DeleteOutlineOutlinedIcon />
-                </IconButton>
-                }
-                title="Работа"
-              />
-              <CardContent sx={{ mt: '-5%'}}>
-                <YMaps>
-                  <div>
-                    <Map defaultState={{ center: [58.60, 49.66], zoom: 11 }} style={{height: "240px"}} />
-                  </div>
-                </YMaps>
-              </CardContent>
-              <CardActions disableSpacing>
-                  <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px', width: '100%'}} endIcon={<EditOutlinedIcon />}>
-                    <Typography>Адрес 1</Typography>
-                  </Button>
-              </CardActions>
-            </Card>
           </Stack>
         </Stack>
           

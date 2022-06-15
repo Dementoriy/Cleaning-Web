@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Box, Checkbox, FormGroup, FormControlLabel, Card, CardContent, CardMedia, TextField, Typography, Stack} from '@mui/material';
 import ServiceService from '../../redux/services/ServiceService';
 import {Service} from "../../models/ServiceModel";
@@ -7,11 +7,15 @@ import "../../assets/css/Scrollbar.css";
 export default function DopServices() {
     const [services, setServices] = React.useState<Service[]>([]);
 
+    const [key, setKey] = useState<boolean>(false);
+
     React.useEffect(() => {
+      if (key) return;
         if (services.length !== 0) return;
         ServiceService.GetService().then((res) => {
             setServices(res);
         })
+        setKey(true);
     }, [services])
   return (
     <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: '100%', width: '100%'}}>

@@ -74,7 +74,8 @@ namespace CleaningDLL.Entity
 
             try
             {
-                return db.Order.FirstOrDefault(e => e.ID == id);
+                //return db.Order.FirstOrDefault(e => e.ID == id);
+                return db.ProvidedService.Include(o => o.Order).Include(s => s.Service).Select(x => x.Order).FirstOrDefault(e => e.ID == id);
             }
             catch (Exception ex)
             {

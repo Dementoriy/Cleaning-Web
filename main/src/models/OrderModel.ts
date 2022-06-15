@@ -1,5 +1,6 @@
 import {Address} from "./AddressModel";
-import {Service} from "./ServiceModel";
+import { ProvidedServices } from "./ProvidedServicesModel";
+import {Consumable} from "./ConsumableModel";
 
 export interface Order {
         ID: number,
@@ -10,17 +11,6 @@ export interface Order {
         ApproximateTime: string,
         Comment: string,
         Rating: number | null,
-
-        ProvidedServices : {
-            Id: number,
-            Amount: number,
-            Service: Service,
-        }[],
-
-        Consumables : {
-            Id: number,
-            Name: string,
-            Description: string,
-        }[]
-        
+        ProvidedServices : ProvidedServices[],
+        Consumables : Consumable[]
 }

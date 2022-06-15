@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Typography, CardMedia, CardContent, Card, Box, Stack, TextField} from "@mui/material";
 import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
 import ServiceService from '../../redux/services/ServiceService';
@@ -7,12 +7,15 @@ import "../../assets/css/Scrollbar.css";
 
 export default function Services() {
     const [services, setServices] = React.useState<Service[]>([]);
+    const [key, setKey] = useState<boolean>(false);
 
     React.useEffect(() => {
+        if (key) return;
         if (services.length !== 0) return;
         ServiceService.GetService().then((res) => {
             setServices(res);
         })
+        setKey(true);
     }, [services])
 
     return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import Stepper from './Stepper';
 import DopServices from '../../dopServices/DopServices';
-import Calculator from '../stepTwo/Calculator';
+import Calculator from '../stepThree/Calculator';
 import {Stack} from "@mui/material";
 
 export default function ToOrderGroupThree()

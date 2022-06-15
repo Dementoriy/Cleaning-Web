@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import {Button, Stack, TextField, Box, Card, Modal, CardHeader, CardContent, CardActions, Fab, Typography, Dialog, DialogActions, DialogContent, DialogContentText, FormControl, InputLabel, MenuItem } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -8,7 +8,6 @@ import { YMaps, Map } from 'react-yandex-maps';
 import {Address} from "../../models/AddressModel";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import FiltersService from '../../redux/services/FiltersService';
 import AddressService from '../../redux/services/AddressService';
 import "../../assets/css/Scrollbar.css";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -25,12 +24,14 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
     };
 
     const [addresses, setAddresses] = React.useState<Address[]>([]);
+    const [key, setKey] = useState<boolean>(false);
 
     React.useEffect(() => {
-        if (addresses.length !== 0) return;
-        FiltersService.GetFilters().then((res : any) => {
+      if (key) return;
+        AddressService.GetAddresses().then((res : any) => {
           setAddresses(res.addresses);
         })
+        setKey(true);
     }, [addresses])
 
   //   const myPlacemark = new YMaps.GeoObject({

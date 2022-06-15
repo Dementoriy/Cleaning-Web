@@ -10,10 +10,6 @@ namespace WebServer.Models
         public string FullAddress { get; set; }
         public bool CurrentAddress { get; set; }
 
-        //public AddressModel()
-        //{
-
-        //}
         public AddressModel(string RoomType, decimal Сoefficient, string AddressName, string FullAddress, bool CurrentAddress)
         {
             this.RoomType = RoomType;

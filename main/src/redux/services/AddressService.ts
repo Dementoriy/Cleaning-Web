@@ -21,6 +21,23 @@ class AddressService {
 				return address;
 			  });		
 	}
+	GetAddresses() {
+		return axios.get(API_URL + "get-address", {headers: authHeader()})
+        .then((response) => {
+            const data: Answer = response.data;
+            if (data.status)
+            {
+              console.log(data.answer);
+              const addresses : Address = data.answer.addresses; 
+              return {addresses : addresses}
+            }  
+            return { addresses : []};
+          })
+          .catch((error) => {
+            console.log(error);
+            return {addresses : []}
+          });
+	}
 }
 
 export default new AddressService();
