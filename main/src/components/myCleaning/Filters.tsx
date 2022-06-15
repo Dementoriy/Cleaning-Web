@@ -86,7 +86,7 @@ export default function Filters() {
             >
             {addresses.map((addressItem) => (
                 <MenuItem
-                key={addressItem.ID}
+                key={addressItem.FullAddress}
                 value={addressItem.FullAddress}
                 style={getStyles(addressItem.FullAddress, address, theme)}
                 >

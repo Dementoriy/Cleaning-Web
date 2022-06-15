@@ -6,10 +6,10 @@ import {useNavigate} from 'react-router-dom';
 export default function Calculator() {
     const navigate = useNavigate();
 
-    const [type, setName] = React.useState('');
+    const [type, setType] = React.useState('');
 
     const handleChange = (event: SelectChangeEvent) => {
-        setName(event.target.value as string);
+        setType(event.target.value as string);
     };
 
     const [square, setSquare] = React.useState<number>();

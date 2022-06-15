@@ -6,7 +6,6 @@ import {Client} from "../../models/ClientModel";
 import ClientService from "../../redux/services/ClientService";
 
 export default function Profile() {
-  const dispatch = useDispatch<AppDispatch>();
   const client = useSelector((state: RootState) => state);
   const [user, setUser] = React.useState<Client>(client.client.client!);
   const [values, setValues] = React.useState<Client>({

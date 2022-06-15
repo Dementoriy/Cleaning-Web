@@ -6,7 +6,7 @@ public class OrderModel
 {
     public int ID { get; set; }
     public string Status { get; set; }
-    public AddressModel Address { get; set; } = new AddressModel();
+    public AddressModel Address { get; set; } /*= new AddressModel();*/
     public string Date { get; set; }
     public int FinalPrice { get; set; }
     public string ApproximateTime { get; set; }
@@ -35,21 +35,8 @@ public class OrderModel
                 ApproximateTime = Order.GetTimeByInt(order.ApproximateTime),
                 Comment = order.Comment,
                 Rating = order.Rating,
-                Address = new AddressModel
-                {
-                    ID = order.Address.ID,
-                    CityDistrict = order.Address.CityDistrict,
-                    Settlement = order.Address.Settlement,
-                    Street = order.Address.Street,
-                    HouseNumber = order.Address.HouseNumber,
-                    Block = order.Address.Block,
-                    ApartmentNumber = order.Address.ApartmentNumber,
-                    RoomType = order.Address.RoomType.Type,
-                    Сoefficient = order.Address.RoomType.Сoefficient,
-                    AddressName = order.Address.AddressName,
-                    FullAddress = order.Address.FullAddress,
-                    CurrentAddress = order.Address.CurrentAddress
-                },
+                Address = new AddressModel(order.Address.RoomType.Type, order.Address.RoomType.Сoefficient, order.Address.AddressName,
+                order.Address.FullAddress, order.Address.CurrentAddress)
             };
             foreach (var service in ProvidedService.GetProvidedServicesByOrderId(order.ID))
             {

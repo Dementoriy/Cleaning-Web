@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Button, Stack, TextField, Box, Card, Modal, CardHeader, CardContent, CardActions, Fab, Typography, Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material";
+import {Button, Stack, TextField, Box, Card, Modal, CardHeader, CardContent, CardActions, Fab, Typography, Dialog, DialogActions, DialogContent, DialogContentText, FormControl, InputLabel, MenuItem } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -9,7 +9,9 @@ import {Address} from "../../models/AddressModel";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import FiltersService from '../../redux/services/FiltersService';
+import AddressService from '../../redux/services/AddressService';
 import "../../assets/css/Scrollbar.css";
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
   export default function MyAddress() {
     const user = useSelector((state: RootState) => state);
@@ -59,6 +61,39 @@ import "../../assets/css/Scrollbar.css";
     p: 4,
     paddingBottom: "100px"
   };
+
+  const [type, setType] = React.useState('');
+
+  const сhangeType = (event: SelectChangeEvent) => {
+      setType(event.target.value as string);
+  };
+
+  const [newAddress, setNewAddress] = React.useState<Address>();
+  const [values, setValues] = React.useState<Address>({
+    RoomType: "Квартира",
+    Сoefficient: 0,
+    AddressName: "",
+    FullAddress: "",
+    СurrentAddress: false
+  });
+  const handleChange =
+        (prop: keyof Address) => (event: React.ChangeEvent<HTMLInputElement>) => {
+          setValues({ ...values, [prop]: event.target.value });
+        };
+  
+  const newClientAddress = () => {
+    const newAddress : Address = {
+      RoomType: type,
+      Сoefficient: 0,
+      AddressName: type,
+      FullAddress: values.FullAddress,
+      СurrentAddress: false
+    }
+    AddressService.addAddress(newAddress!).then((res: any) => {
+      setNewAddress(res!);
+    })
+  }
+
 
   return (
     <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px',  width: '100%', height: '100%'}}>
@@ -135,8 +170,26 @@ import "../../assets/css/Scrollbar.css";
               <Typography variant="h5" color="primary" align='center'>Новый адрес</Typography>
                 <Stack spacing={2} width={"100%"} mt={2} alignItems="center" justifyContent={"center"}>
                   <Stack direction="row" spacing={2} width={"100%"} alignItems="center" justifyContent={"center"}>
-                    <TextField label="Адрес" color='primary' size='small' sx={{width:'40%'}}/>
-                    <Button variant="contained" color="secondary" size="medium" disableElevation sx={{ borderRadius: '10px'}}>
+                    <TextField label="Адрес" color='primary' size='small' sx={{width:'40%'}} onChange={handleChange('FullAddress')}/>
+                    <Box width='15%'>
+                      <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label" style={{lineHeight: '0.8em'}}>Тип:</InputLabel>
+                          <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={type}
+                          label="Тип:"
+                          onChange={сhangeType}
+                          sx={{height: '40px'}}
+                          >
+                          <MenuItem value={"Квартира"}>Квартира</MenuItem>
+                          <MenuItem value={"Дом"}>Дом</MenuItem>
+                          <MenuItem value={"Офис"}>Офис</MenuItem>
+                          <MenuItem value={"Другое"}>Другое</MenuItem>
+                          </Select>
+                      </FormControl>
+                    </Box>
+                    <Button variant="contained" color="secondary" size="medium" disableElevation sx={{ borderRadius: '10px'}} onClick={newClientAddress}>
                     Добавить
                     </Button>
                   </Stack>

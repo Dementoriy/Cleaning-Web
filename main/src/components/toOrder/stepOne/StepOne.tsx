@@ -98,7 +98,7 @@ export default function Stepper() {
                   onChange={handleChange}
                 >
                   {addresses.map((address) => (
-                    <MenuItem value={address.ID}>{address.FullAddress}</MenuItem>
+                    <MenuItem value={address.FullAddress}>{address.FullAddress}</MenuItem>
                   ))}
                 </Select>
               </FormControl>

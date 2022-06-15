@@ -6,13 +6,6 @@ import {useNavigate, useLocation} from 'react-router-dom';
 export default function DopCalculator() {
     const navigate = useNavigate();
 
-    const [name, setName] = React.useState('');
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setName(event.target.value as string);
-    };
-
-
     const {search} = useLocation();
     const searchParams = new URLSearchParams(search);
     const square = searchParams.get("square");

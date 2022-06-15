@@ -4,7 +4,7 @@ import {Answer} from "../../models/RequestModels";
 import {Client} from "../../models/ClientModel";
 import {AvatarError} from '../actions/clientActions'
 import {clientActions} from "../slices/clientSlice";
-const API_URL = "http://localhost:8080/profile/"
+const API_URL = "http://localhost:8080/profile/";
 
 class ClientService {
 	updateAvatar(avatar: string) {
@@ -33,8 +33,7 @@ class ClientService {
 			}).catch((error) => {
 				console.log(error);
 				return client;
-			  });
-				
+			  });		
 	}
 }
 
