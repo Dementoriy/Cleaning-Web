@@ -38,47 +38,70 @@ export default function MyCleaning() {
     }, [orders])
 
     const [ratingValue, setRatingValue] = React.useState<number | null>(0);
-    const [rating, setRating] = React.useState<Order>();
 
-    const [values, setValues] = React.useState<Order>({
-        ID: 0,
-        Status: "",
-        Address: { ID: 0, RoomType: "", Сoefficient: 0, AddressName: "", FullAddress: "", СurrentAddress: false},
-        Date: "",
-        FinalPrice: 0,
-        ApproximateTime: "",
-        Comment: "",
-        Rating: null,
-        ProvidedServices : [],
-        Consumables : []
-      });
-      const handleChange =
-        (prop: keyof Order) => (event: React.ChangeEvent<HTMLInputElement>) => {
-            setValues({ ...values, [prop]: event.target.value });
-        };
+    // const [values, setValues] = React.useState<Order>({
+    //     ID: 0,
+    //     Status: "",
+    //     Address: { ID: 0, RoomType: "", Сoefficient: 0, AddressName: "", FullAddress: "", СurrentAddress: false},
+    //     Date: "",
+    //     FinalPrice: 0,
+    //     ApproximateTime: "",
+    //     Comment: "",
+    //     Rating: null,
+    //     ProvidedServices : [],
+    //     Consumables : []
+    //   });
+    //   const handleChange =
+    //     (prop: keyof Order) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    //         setValues({ ...values, [prop]: event.target.value });
+    //     };
+
     const AddRating = (order: Order) => {
         const rating : Order = {
             ID: order.ID,
-            Status: order.Status,
-            Address: order.Address,
-            Date: order.Date,
-            FinalPrice: order.FinalPrice,
-            ApproximateTime: order.ApproximateTime,
-            Comment: order.Comment,
+            Status: "",
+            Address: { ID: 0, RoomType: "", Сoefficient: 0, AddressName: "", FullAddress: "", СurrentAddress: false},
+            Date: "",
+            FinalPrice: 0,
+            ApproximateTime: "",
+            Comment: "",
             Rating: ratingValue,
-            ProvidedServices : order.ProvidedServices,
-            Consumables : order.Consumables
+            ProvidedServices : [],
+            Consumables : []
         }
         OrderService.addRating(rating!).then((res: any) => {
-            setRating(res!);
+            setOrders(res!);
         })
         }
 
     const [openDialog, setOpenDialog] = React.useState(false);
     const [openModal, setOpenModal] = React.useState(false);
-    const handleDialogOpen = () => {
+    
+
+    const handleDialogOpen = (id: number) => {
+        setOrderId(id);
         setOpenDialog(true);
-    };
+      };
+
+      const cancellOrder = (id: number) => {
+        const cancOrder : Order = {
+            ID: id,
+            Status: "",
+            Address: { ID: 0, RoomType: "", Сoefficient: 0, AddressName: "", FullAddress: "", СurrentAddress: false},
+            Date: "",
+            FinalPrice: 0,
+            ApproximateTime: "",
+            Comment: "",
+            Rating: null,
+            ProvidedServices : [],
+            Consumables : []
+        };
+        OrderService.cancellOrder(cancOrder!).then((res: any) => {
+            setOrders(res!);
+        });
+        handleCloseDialog();
+      }
+
     const handleModalOpen = (orderId: number) => {
         OrderService.GetOrderById(orderId).then((res: any) => {
             setFullAddress(res.Address.FullAddress);
@@ -117,6 +140,7 @@ export default function MyCleaning() {
         p: 4
     };
 
+    const [orderId, setOrderId] = React.useState<number>();
     const [fullAddress, setFullAddress] = React.useState<string>();
     const [roomType, setRoomType] = React.useState<string>();
     const [date, setDate] = React.useState<string>();
@@ -203,7 +227,8 @@ export default function MyCleaning() {
                                     Подробнее
                                 </Button>
                                 <Button variant="contained" color="success" size="small" disableElevation
-                                        sx={{borderRadius: '10px'}} onClick={handleDialogOpen}>
+                                        sx={{borderRadius: '10px'}}
+                                        onClick={(e) => {handleDialogOpen(order.ID)}}>
                                     Отменить
                                 </Button>
                             </Stack>
@@ -274,11 +299,15 @@ export default function MyCleaning() {
                                 </Typography>
                             </Stack>
                             <Stack spacing={4} direction={'row'} marginTop={'2%'} justifyContent="flex-end">
-                                <Rating name="simple-controlled" value={ratingValue} onChange={(event, newValue) => {
+                                <Rating name="simple-controlled" defaultValue={order.Rating!} onChange={(event, newValue) => {
                                     setRatingValue(newValue);
                                 }}
                                 onClick={(e) => {AddRating(order)}}
                                 />
+                                {/* <Rating name="simple-controlled" defaultValue={order.Rating!} onChange={handleChange('Rating')!}
+                                onClick={(e) => {AddRating(order)}}
+                                /> */}
+                                
                                 <Button variant="contained" color="success" size="small" disableElevation
                                         sx={{borderRadius: '10px'}} onClick={(e) => {handleModalOpen(order.ID)}} >
                                     Подробнее
@@ -302,7 +331,7 @@ export default function MyCleaning() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog}>Нет</Button>
-                    <Button onClick={handleCloseDialog} autoFocus>
+                    <Button onClick={(e) => {cancellOrder(orderId!)}} autoFocus>
                         Да
                     </Button>
                 </DialogActions>

@@ -55,6 +55,22 @@ class OrderService {
 				return order;
 			  });		
 	}
+
+  cancellOrder(order: Order){
+    return axios.post(API_URL + 'cancell-Order', order, {headers: authHeader()})
+			.then((res) => {
+				const data: Answer = res.data;
+				if (data.status)
+          {
+            console.log(data.answer);
+            return data.answer.objects as Order[];
+          }
+				return [];
+			}).catch((error) => {
+				console.log(error);
+				return [];
+			  });	
+  }
 }
 
 export default new OrderService();

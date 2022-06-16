@@ -151,9 +151,6 @@ public class AddressHandler : RequestHandler
         address.CurrentAddress = body.CurrentAddress;
         address.Update();
 
-        AddressModel addressModel = new AddressModel(address.ID, address.RoomType.Type, address.RoomType.Сoefficient,
-                address.AddressName, address.FullAddress, address.CurrentAddress);
-
         IEnumerable<Address> addresses = ClientAddresses.GetClientAddressesById(client.ID);
 
         List<AddressModel> addressModels = new List<AddressModel>();
@@ -200,9 +197,6 @@ public class AddressHandler : RequestHandler
         address.RoomType = RoomType.GetRoomTypeByName(body.RoomType);
         address.AddressName = body.AddressName;
         address.Update();
-
-        AddressModel addressModel = new AddressModel(address.ID, address.RoomType.Type, address.RoomType.Сoefficient,
-                address.AddressName, address.FullAddress, address.CurrentAddress);
 
         IEnumerable<Address> addresses = ClientAddresses.GetClientAddressesById(client.ID);
 

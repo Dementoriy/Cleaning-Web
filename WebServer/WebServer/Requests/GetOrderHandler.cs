@@ -61,13 +61,17 @@ namespace WebServer.Requests
                 Send(new AnswerModel(false, null, 400, "incorrect request"));
                 return;
             }
+
             var body = Bind<OrderModel>();
-            Order order = Order.GetOrderById(body.ID);
-            if (body.Rating == null)
+
+            if (body.ID == null || body.Rating == null)
             {
                 Send(new AnswerModel(false, null, 400, "incorrect request"));
                 return;
             }
+
+            Order order = Order.GetOrderById(body.ID);
+
             if (body.Rating != order.Rating)
             {
                 order.Rating = body.Rating;
@@ -78,12 +82,40 @@ namespace WebServer.Requests
             orders.Add(order);
 
             Send(new AnswerModel(true, new { order = OrderModel.GetOrderModels(orders).First() }, null, null));
-            //Send(new AnswerModel(true, new
-            //{
-            //    rating = new OrderModel(order.ID, order.Status, order.Address, order.Date, order.FinalPrice, order.ApproximateTime, 
-            //    order.Comment, order.Rating, order.ProvidedServices, order.Consumables)
+        }
 
-            //}, null, null));
+        [Post("cancell-Order")]
+        public void cancellOrder()
+        {
+            if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            var client = TokenWorker.GetClientByToken(token);
+            if (client is null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            var body = Bind<OrderModel>();
+
+            if (body.ID == null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            Order order = Order.GetOrderById(body.ID);
+
+            order.Status = "Отменена";
+            order.Update();
+
+            List<Order> orders = Order.GetClientOrder(client.ID);
+
+            Send(new AnswerModel(true, new { objects = OrderModel.GetOrderModels(orders) }, null, null));
         }
     }
 }

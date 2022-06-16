@@ -22,10 +22,6 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
       setAddressName(addressName);
       setOpen(true);
     };
-    // const handleClickOpen = (fullAddress: string, roomType: string) => {
-    //   setOpen(true);
-      
-    // };
 
   const deleteAddress = (id: number) => {
     const delAddress : Address = {
