@@ -35,7 +35,7 @@ public class OrderModel
                 ApproximateTime = Order.GetTimeByInt(order.ApproximateTime),
                 Comment = order.Comment,
                 Rating = order.Rating,
-                Address = new AddressModel(order.Address.RoomType.Type, order.Address.RoomType.Сoefficient, order.Address.AddressName,
+                Address = new AddressModel(order.Address.ID, order.Address.RoomType.Type, order.Address.RoomType.Сoefficient, order.Address.AddressName,
                 order.Address.FullAddress, order.Address.CurrentAddress)
             };
             foreach (var service in ProvidedService.GetProvidedServicesByOrderId(order.ID))

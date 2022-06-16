@@ -1,4 +1,5 @@
 export interface Address {
+    ID: number,
     RoomType: string,
     Сoefficient: number,
     AddressName: string,

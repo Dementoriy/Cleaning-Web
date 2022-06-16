@@ -6,21 +6,51 @@ const API_URL = "http://localhost:8080/address/";
 
 class AddressService {
 
+	delClientAddress(address: Address){
+		return axios.post(API_URL + 'del-address', address, {headers: authHeader()})
+			.then((res) => {
+				const data: Answer = res.data;
+				if (data.status){
+					const addresses : Address = data.answer.addresses;
+					return addresses;
+				}
+				return [];
+			}).catch((error) => {
+				console.log(error);
+				return [];
+			  });		
+	}
+	
 	addAddress(address: Address){
 		return axios.post(API_URL + 'add-address', address, {headers: authHeader()})
 			.then((res) => {
 				const data: Answer = res.data;
 				if (data.status){
-					const newAddress : Address = data.answer.newAddress;
-					localStorage.setItem('newAddress', JSON.stringify(address));
-					return newAddress;
+					const addresses : Address = data.answer.addresses;
+					return addresses;
 				}
-				return address;
+				return [];
 			}).catch((error) => {
 				console.log(error);
-				return address;
+				return [];
 			  });		
 	}
+
+	changeAddress(address: Address){
+		return axios.post(API_URL + 'change-address', address, {headers: authHeader()})
+			.then((res) => {
+				const data: Answer = res.data;
+				if (data.status){
+					const addresses : Address = data.answer.addresses;
+					return addresses;
+				}
+				return [];
+			}).catch((error) => {
+				console.log(error);
+				return [];
+			  });		
+	}
+
 	GetAddresses() {
 		return axios.get(API_URL + "get-address", {headers: authHeader()})
         .then((response) => {

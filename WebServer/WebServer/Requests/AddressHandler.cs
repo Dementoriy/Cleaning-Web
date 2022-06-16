@@ -32,7 +32,7 @@ public class AddressHandler : RequestHandler
 
         foreach(var address in addresses)
         {
-            AddressModel addressModel = new AddressModel(address.RoomType.Type, address.RoomType.Сoefficient, 
+            AddressModel addressModel = new AddressModel(address.ID, address.RoomType.Type, address.RoomType.Сoefficient, 
                 address.AddressName, address.FullAddress, address.CurrentAddress);
             addressModels.Add(addressModel);
         }
@@ -107,9 +107,115 @@ public class AddressHandler : RequestHandler
         }
         else clientAddresses = ClientAddresses.GetClientAddresses(address, client);
 
-        Send(new AnswerModel(true, new
+        IEnumerable<Address> addresses = ClientAddresses.GetClientAddressesById(client.ID);
+
+        List<AddressModel> addressModels = new List<AddressModel>();
+
+
+        foreach (var a in addresses)
         {
-            newAddress = new AddressModel(roomType.Type, roomType.Сoefficient, roomType.Type, enteredAddress, true)
-        }, null, null));
+            AddressModel am = new AddressModel(a.ID, a.RoomType.Type, a.RoomType.Сoefficient,
+                a.AddressName, a.FullAddress, a.CurrentAddress);
+            addressModels.Add(am);
+        }
+
+        Send(new AnswerModel(true, new { addresses = addressModels }, null, null));
+    }
+
+    [Post("del-address")]
+    public void delClientAddress()
+    {
+        if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
+        {
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+
+        var client = TokenWorker.GetClientByToken(token);
+        if (client is null)
+        {
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+
+        var body = Bind<AddressModel>();
+
+        if (body.ID == null)
+        {
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+
+        Address address = Address.GetAddressById(body.ID);
+
+        address.CurrentAddress = body.CurrentAddress;
+        address.Update();
+
+        AddressModel addressModel = new AddressModel(address.ID, address.RoomType.Type, address.RoomType.Сoefficient,
+                address.AddressName, address.FullAddress, address.CurrentAddress);
+
+        IEnumerable<Address> addresses = ClientAddresses.GetClientAddressesById(client.ID);
+
+        List<AddressModel> addressModels = new List<AddressModel>();
+
+
+        foreach (var a in addresses)
+        {
+            AddressModel am = new AddressModel(a.ID, a.RoomType.Type, a.RoomType.Сoefficient,
+                a.AddressName, a.FullAddress, a.CurrentAddress);
+            addressModels.Add(am);
+        }
+
+        Send(new AnswerModel(true, new { addresses = addressModels }, null, null));
+
+    }
+
+    [Post("change-address")]
+    public void changeAddress()
+    {
+        if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
+        {
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+
+        var client = TokenWorker.GetClientByToken(token);
+        if (client is null)
+        {
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+
+        var body = Bind<AddressModel>();
+
+        if (body.FullAddress == null || body.RoomType == null || body.FullAddress == "" || body.RoomType == "" || body.AddressName == "" || body.AddressName == null)
+        {
+            Send(new AnswerModel(false, null, 400, "incorrect request"));
+            return;
+        }
+
+        Address address = Address.GetAddressById(body.ID);
+
+        address.FullAddress = body.FullAddress;
+        address.RoomType = RoomType.GetRoomTypeByName(body.RoomType);
+        address.AddressName = body.AddressName;
+        address.Update();
+
+        AddressModel addressModel = new AddressModel(address.ID, address.RoomType.Type, address.RoomType.Сoefficient,
+                address.AddressName, address.FullAddress, address.CurrentAddress);
+
+        IEnumerable<Address> addresses = ClientAddresses.GetClientAddressesById(client.ID);
+
+        List<AddressModel> addressModels = new List<AddressModel>();
+
+
+        foreach (var a in addresses)
+        {
+            AddressModel am = new AddressModel(a.ID, a.RoomType.Type, a.RoomType.Сoefficient,
+                a.AddressName, a.FullAddress, a.CurrentAddress);
+            addressModels.Add(am);
+        }
+
+        Send(new AnswerModel(true, new { addresses = addressModels }, null, null));
     }
 }

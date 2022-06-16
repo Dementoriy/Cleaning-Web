@@ -63,8 +63,16 @@ namespace CleaningDLL.Entity
         }
         public static void Add(ClientAddresses clientAddresses)
         {
-            db.ClientAddresses.Add(clientAddresses);
-            db.SaveChanges();
+            
+            try
+            {
+                db.ClientAddresses.Add(clientAddresses);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return ;
+            }
         }
         public static IEnumerable<Address> GetClientAddressesById(int id)
         {

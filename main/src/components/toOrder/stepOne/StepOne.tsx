@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import {Box, Stack, InputLabel, MenuItem, FormControl, TextField, Typography, Button, Card, CardHeader, CardContent, CardActions, Fab, Dialog, DialogActions, DialogContent, DialogContentText, Tabs, Tab} from '@mui/material';
+import {Box, Stack, InputLabel, MenuItem, FormControl, TextField, Typography, Tabs, Tab} from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import IconButton from '@mui/material/IconButton';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import AddIcon from '@mui/icons-material/Add';
-import { YMaps, Map } from 'react-yandex-maps';
+
 import {Address} from "../../../models/AddressModel";
 import FiltersService from "../../../redux/services/FiltersService";
 interface TabPanelProps {
@@ -100,6 +96,7 @@ export default function Stepper() {
                 onChange={handleChange}
               >
                 {addresses.map((address) => (
+                  
                   <MenuItem value={address.FullAddress}>{address.FullAddress}</MenuItem>
                 ))}
               </Select>
@@ -124,25 +121,6 @@ export default function Stepper() {
 
           </Stack>
         </Stack>
-          
-        <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        >
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Удалить адрес?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Нет</Button>
-            <Button onClick={handleClose} autoFocus>
-              Да
-            </Button>
-          </DialogActions>
-        </Dialog>
       </TabPanel>
                 
       <TabPanel value={value} index={1}>
@@ -176,13 +154,9 @@ export default function Stepper() {
                   label="Age"
                   onChange={handleChange}
                 >
-                  <MenuItem value={1}>Каждый день</MenuItem>
-                  <MenuItem value={2}>Через день</MenuItem>
-                  <MenuItem value={3}>Через 2 дня</MenuItem>
-                  <MenuItem value={4}>Через 3 дня</MenuItem>
-                  <MenuItem value={5}>Через 4 дня</MenuItem>
-                  <MenuItem value={6}>Через 5 дня</MenuItem>
-                  <MenuItem value={7}>Через 6 дня</MenuItem>
+                  {addresses.map((address) => (
+                    <MenuItem value={address.FullAddress}>{address.FullAddress}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
           </Stack>
@@ -211,25 +185,6 @@ export default function Stepper() {
 
           </Stack>
         </Stack>
-          
-        <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        >
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Удалить адрес?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Нет</Button>
-            <Button onClick={handleClose} autoFocus>
-              Да
-            </Button>
-          </DialogActions>
-        </Dialog>
       </TabPanel>
     </Box>
   );

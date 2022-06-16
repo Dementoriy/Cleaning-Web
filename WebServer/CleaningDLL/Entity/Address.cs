@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -93,6 +94,17 @@ namespace CleaningDLL.Entity
             }
 
         }
+        public static Address GetAddressById(int id)
+        {
+
+            try
+            {
+                return db.Address.Include(r => r.RoomType).First(a => a.ID == id);}
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public static bool CheckAddress(string cityDistrict, string settlement, string street,
             string houseNumber, string block, string apartmentNumber, string roomType)
         {
@@ -119,6 +131,18 @@ namespace CleaningDLL.Entity
             catch (Exception ex)
             {
                 return ;
+            }
+        }
+        public bool Update()
+        {
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

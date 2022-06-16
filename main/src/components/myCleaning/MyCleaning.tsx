@@ -37,7 +37,42 @@ export default function MyCleaning() {
         setKey(true);
     }, [orders])
 
-    const [value, setValue] = React.useState<number | null>(0);
+    const [ratingValue, setRatingValue] = React.useState<number | null>(0);
+    const [rating, setRating] = React.useState<Order>();
+
+    const [values, setValues] = React.useState<Order>({
+        ID: 0,
+        Status: "",
+        Address: { ID: 0, RoomType: "", Сoefficient: 0, AddressName: "", FullAddress: "", СurrentAddress: false},
+        Date: "",
+        FinalPrice: 0,
+        ApproximateTime: "",
+        Comment: "",
+        Rating: null,
+        ProvidedServices : [],
+        Consumables : []
+      });
+      const handleChange =
+        (prop: keyof Order) => (event: React.ChangeEvent<HTMLInputElement>) => {
+            setValues({ ...values, [prop]: event.target.value });
+        };
+    const AddRating = (order: Order) => {
+        const rating : Order = {
+            ID: order.ID,
+            Status: order.Status,
+            Address: order.Address,
+            Date: order.Date,
+            FinalPrice: order.FinalPrice,
+            ApproximateTime: order.ApproximateTime,
+            Comment: order.Comment,
+            Rating: ratingValue,
+            ProvidedServices : order.ProvidedServices,
+            Consumables : order.Consumables
+        }
+        OrderService.addRating(rating!).then((res: any) => {
+            setRating(res!);
+        })
+        }
 
     const [openDialog, setOpenDialog] = React.useState(false);
     const [openModal, setOpenModal] = React.useState(false);
@@ -57,7 +92,6 @@ export default function MyCleaning() {
             setAddress(res.Address);
             setConsumables(res.Consumables);
             setCoefficient(res.Address.Сoefficient);
-            console.log(res.Address);
         })
         setOpenModal(true);
     };
@@ -240,9 +274,10 @@ export default function MyCleaning() {
                                 </Typography>
                             </Stack>
                             <Stack spacing={4} direction={'row'} marginTop={'2%'} justifyContent="flex-end">
-                                <Rating name="simple-controlled" value={value} onChange={(event, newValue) => {
-                                    setValue(newValue);
+                                <Rating name="simple-controlled" value={ratingValue} onChange={(event, newValue) => {
+                                    setRatingValue(newValue);
                                 }}
+                                onClick={(e) => {AddRating(order)}}
                                 />
                                 <Button variant="contained" color="success" size="small" disableElevation
                                         sx={{borderRadius: '10px'}} onClick={(e) => {handleModalOpen(order.ID)}} >

@@ -22,6 +22,7 @@ class OrderService {
             return []
           });
 	}
+
   GetOrderById(id: number){
 		return axios.get(API_URL + "get-by-id?id=" + id )
         .then((response) => {
@@ -37,6 +38,22 @@ class OrderService {
             console.log(error);
             return null
           });
+	}
+
+  addRating(order: Order){
+		return axios.post(API_URL + 'add-rating', order, {headers: authHeader()})
+			.then((res) => {
+				const data: Answer = res.data;
+				if (data.status){
+					const rating : Order = data.answer.rating;
+					localStorage.setItem('newAddress', JSON.stringify(order));
+					return rating;
+				}
+				return order;
+			}).catch((error) => {
+				console.log(error);
+				return order;
+			  });		
 	}
 }
 

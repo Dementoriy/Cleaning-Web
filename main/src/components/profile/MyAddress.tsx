@@ -14,10 +14,33 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
   export default function MyAddress() {
     const user = useSelector((state: RootState) => state);
-    const [open, setOpen] = React.useState(false);
-    const handleClickOpen = () => {
+    const [open, setOpen] = React.useState<boolean>(false);
+    const handleClickOpen = (id: number, fullAddress: string, roomType: string) => {
+      setAddressId(id);
+      setFullAddress(fullAddress);
+      setRoomType(roomType);
+      setAddressName(addressName);
       setOpen(true);
     };
+    // const handleClickOpen = (fullAddress: string, roomType: string) => {
+    //   setOpen(true);
+      
+    // };
+
+  const deleteAddress = (id: number) => {
+    const delAddress : Address = {
+      ID: id,
+      RoomType: "",
+      Сoefficient: 0,
+      AddressName: "",
+      FullAddress: "",
+      СurrentAddress: false
+    };
+    AddressService.delClientAddress(delAddress!).then((res: any) => {
+      setAddresses(res!);
+    });
+    handleClose();
+  }
 
     const handleClose = () => {
       setOpen(false);
@@ -41,11 +64,27 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
   //     }
   // });
   //var myPlacemark = new YMaps.Placemark([55.8, 37.6]);
+  
+  const [addressId, setAddressId] = React.useState<number>();
+  const [fullAddress, setFullAddress] = React.useState<string>();
+  const [roomType, setRoomType] = React.useState<string>();
+  const [addressName, setAddressName] = React.useState<string>();
 
+  const [openChangeModal, setOpenChangeModal] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
+  const handleChangeModalOpen = (id: number, fullAddress: string, roomType: string, addressName: string) => {
+    setAddressId(id);
+    setFullAddress(fullAddress);
+    setRoomType(roomType);
+    setAddressName(addressName);
+    setOpenChangeModal(true);
+  };
   const handleModalOpen = () => {
     setOpenModal(true);
   };
+  const closeChangeModal = () => {
+    setOpenChangeModal(false);
+};
   const handleCloseModal = () => {
       setOpenModal(false);
   };
@@ -63,17 +102,21 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
     paddingBottom: "100px"
   };
 
+  const [changeType, setChangeType] = React.useState('');
   const [type, setType] = React.useState('');
-
+  
+  const сhangeTypeAddress = (event: SelectChangeEvent) => {
+    setChangeType(event.target.value as string);
+  };
   const сhangeType = (event: SelectChangeEvent) => {
       setType(event.target.value as string);
   };
 
-  const [newAddress, setNewAddress] = React.useState<Address>();
   const [values, setValues] = React.useState<Address>({
+    ID: 0,
     RoomType: "Квартира",
     Сoefficient: 0,
-    AddressName: "",
+    AddressName: "Квартира",
     FullAddress: "",
     СurrentAddress: false
   });
@@ -81,30 +124,47 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
         (prop: keyof Address) => (event: React.ChangeEvent<HTMLInputElement>) => {
           setValues({ ...values, [prop]: event.target.value });
         };
-  
+
+  const changeClientAddress = () => {
+    const changeAddress : Address = {
+      ID: addressId!,
+      RoomType: roomType!,
+      Сoefficient: 0,
+      AddressName: values.AddressName,
+      FullAddress: values.FullAddress,
+      СurrentAddress: false
+    };
+    AddressService.changeAddress(changeAddress!).then((res: any) => {
+      setAddresses(res!);
+    });
+    closeChangeModal();
+  }
   const newClientAddress = () => {
     const newAddress : Address = {
+      ID: addressId!,
       RoomType: type,
       Сoefficient: 0,
       AddressName: type,
       FullAddress: values.FullAddress,
       СurrentAddress: false
-    }
+    };
     AddressService.addAddress(newAddress!).then((res: any) => {
-      setNewAddress(res!);
-    })
+      setAddresses(res!);
+    });
+    handleCloseModal();
   }
 
+  
 
   return (
     <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px',  width: '100%', height: '100%'}}>
       <Typography variant="h5" color="primary" align='center'>Мои адреса</Typography>
       <Stack spacing={2}>
-      {addresses.map((address)=>(<div>
+      {addresses.map((address)=>(<>
         <Card sx={{ width: '100%', backgroundColor: '#B1A18B', borderRadius:"10px", marginTop: '20px'}}>
           <CardHeader
             action={
-            <IconButton aria-label="delete" onClick={handleClickOpen}>
+            <IconButton aria-label="delete" onClick={(e) => {handleClickOpen(address.ID, address.FullAddress, address.RoomType)}}>
               <DeleteOutlineOutlinedIcon />
             </IconButton>
             }
@@ -118,14 +178,14 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
             </YMaps>
           </CardContent>
           <CardActions disableSpacing>
-              <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px', width: '100%'}} endIcon={<EditOutlinedIcon />}>
+              <Button variant="contained" color="secondary" disableElevation sx={{ borderRadius: '10px', width: '100%'}} endIcon={<EditOutlinedIcon />} onClick={(e) => {handleChangeModalOpen(address.ID, address.FullAddress, address.RoomType, address.AddressName)}}>
                 <Typography>
                   {address.FullAddress}
                 </Typography>
               </Button>
           </CardActions>
         </Card>
-        </div>))}
+        </>))}
       </Stack>
       
       <Stack
@@ -156,7 +216,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Нет</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={(e) => {deleteAddress(addressId!)}} autoFocus>
             Да
           </Button>
         </DialogActions>
@@ -192,6 +252,50 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
                     </Box>
                     <Button variant="contained" color="secondary" size="medium" disableElevation sx={{ borderRadius: '10px'}} onClick={newClientAddress}>
                     Добавить
+                    </Button>
+                  </Stack>
+                  <Stack alignItems="center" justifyContent={"center"} style={{height: "400px", width: "600px", backgroundColor: '#B1A18B', borderRadius:"10px" }}>
+                    <YMaps>
+                      <div>
+                        <Map defaultState={{ center: [58.60, 49.66], zoom: 12}} style={{height: "360px", width: "560px"}} />
+                      </div>
+                    </YMaps>
+                  </Stack>
+                </Stack>
+            </Box>
+        </Modal>
+        <Modal
+            open={openChangeModal}
+            onClose={closeChangeModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={style} >
+              <Typography variant="h5" color="primary" align='center'>Изменение адрес</Typography>
+                <Stack spacing={2} width={"100%"} mt={2} alignItems="center" justifyContent={"center"}>
+                  <Stack direction="row" spacing={2} width={"100%"} alignItems="center" justifyContent={"center"}>
+                    <TextField label="Адрес" color='primary' size='small' sx={{width:'40%'}} defaultValue={fullAddress} onChange={handleChange('FullAddress')}/>
+                    <TextField label="Название" color='primary' size='small' sx={{width:'20%'}} defaultValue={addressName} onChange={handleChange('AddressName')}/>
+                    <Box width='15%'>
+                      <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label" style={{lineHeight: '0.8em'}}>Тип:</InputLabel>
+                          <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          defaultValue={roomType}
+                          label="Тип:"
+                          onChange={сhangeTypeAddress}
+                          sx={{height: '40px'}}
+                          >
+                          <MenuItem value={"Квартира"}>Квартира</MenuItem>
+                          <MenuItem value={"Дом"}>Дом</MenuItem>
+                          <MenuItem value={"Офис"}>Офис</MenuItem>
+                          <MenuItem value={"Другое"}>Другое</MenuItem>
+                          </Select>
+                      </FormControl>
+                    </Box>
+                    <Button variant="contained" color="secondary" size="medium" disableElevation sx={{ borderRadius: '10px'}} onClick={changeClientAddress}>
+                    Изменить
                     </Button>
                   </Stack>
                   <Stack alignItems="center" justifyContent={"center"} style={{height: "400px", width: "600px", backgroundColor: '#B1A18B', borderRadius:"10px" }}>

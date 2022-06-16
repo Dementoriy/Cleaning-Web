@@ -188,6 +188,18 @@ namespace CleaningDLL.Entity
                 return ;
             }
         }
+        public bool Update()
+        {
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public static List<Order> GetOrder()
         {
 

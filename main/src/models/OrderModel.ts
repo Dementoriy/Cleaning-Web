@@ -9,7 +9,7 @@ export interface Order {
         Date: string,
         FinalPrice: number,
         ApproximateTime: string,
-        Comment: string,
+        Comment: string | null,
         Rating: number | null,
         ProvidedServices : ProvidedServices[],
         Consumables : Consumable[]
