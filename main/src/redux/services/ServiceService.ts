@@ -22,6 +22,20 @@ class ServiceService {
             return []
           });
 	}
+  GetTime(timeValue: number){
+		return axios.post(API_URL + 'get-time', {timeValue : timeValue}, {headers: authHeader()})
+			.then((res) => {
+				const data: Answer = res.data;
+				if (data.status){
+					const stringTime : string = data.answer.stringTime;
+					return stringTime;
+				}
+				return ;
+			}).catch((error) => {
+				console.log(error);
+				return ;
+			  });		
+	}
 }
 
 export default new ServiceService();

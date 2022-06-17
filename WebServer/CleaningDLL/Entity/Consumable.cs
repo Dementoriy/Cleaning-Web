@@ -68,5 +68,29 @@ namespace CleaningDLL.Entity
                 return null;
             }
         }
+
+        public static Consumable GetConsumableByName( string consumable)
+        {
+            try
+            {
+                return db.Consumable.First(c => c.ConsumableName == consumable);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static Consumable GetConsumableById(int id)
+        {
+            try
+            {
+                return db.Consumable.First(c => c.ID == id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

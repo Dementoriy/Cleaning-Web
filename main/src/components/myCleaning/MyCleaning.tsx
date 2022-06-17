@@ -19,25 +19,24 @@ import {Order} from "../../models/OrderModel";
 import {ProvidedServices} from "../../models/ProvidedServicesModel";
 import {Address} from "../../models/AddressModel";
 import { Consumable } from '../../models/ConsumableModel';
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../redux/store";
 
 
 export default function MyCleaning() {
 
-    const [orders, setOrders] = React.useState<Order[]>([]);
-
+    const state = useSelector((state: RootState) => state);
     const [key, setKey] = useState<boolean>(false);
-
+    const dispatch = useDispatch<AppDispatch>();
     React.useEffect(() => {
       if (key) return;
-        if (orders.length !== 0) return;
         OrderService.GetOrder().then((res) => {
-            setOrders(res);
-            console.log(res);
+        dispatch(res);
         })
         setKey(true);
-    }, [orders])
+    }, [])
 
-    const [ratingValue, setRatingValue] = React.useState<number | null>(0);
+    const [ratingValue, setRatingValue] = React.useState<number | null>();
 
     // const [values, setValues] = React.useState<Order>({
     //     ID: 0,
@@ -65,12 +64,12 @@ export default function MyCleaning() {
             FinalPrice: 0,
             ApproximateTime: "",
             Comment: "",
-            Rating: ratingValue,
+            Rating: ratingValue!,
             ProvidedServices : [],
             Consumables : []
         }
         OrderService.addRating(rating!).then((res: any) => {
-            setOrders(res!);
+            dispatch(res);
         })
         }
 
@@ -97,7 +96,7 @@ export default function MyCleaning() {
             Consumables : []
         };
         OrderService.cancellOrder(cancOrder!).then((res: any) => {
-            setOrders(res!);
+            dispatch(res);
         });
         handleCloseDialog();
       }
@@ -162,7 +161,7 @@ export default function MyCleaning() {
                 </Typography>
             </Box>
             <Stack spacing={2}>
-                {orders.map((order) =>
+                {state.orders.map((order) =>
                     (order.Status !== 'Отменена' && order.Status !== 'Завершена')  &&
                     <Card sx={{display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
                         <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
@@ -243,7 +242,7 @@ export default function MyCleaning() {
                 </Typography>
             </Box>
             <Stack spacing={2}>
-                {orders.map((order) => (order.Status === 'Отменена' || order.Status === 'Завершена')  &&
+                {state.orders.map((order) => (order.Status === 'Отменена' || order.Status === 'Завершена')  &&
                     <Card sx={{display: 'flex', border: "3px solid #776D61", borderRadius: "10px", mt: "10px"}}>
                         <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                             <CardContent sx={{flex: '1 0 auto'}}>

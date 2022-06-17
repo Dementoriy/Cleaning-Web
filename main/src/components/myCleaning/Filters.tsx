@@ -4,8 +4,10 @@ import { Theme, useTheme } from '@mui/material/styles';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {Address} from "../../models/AddressModel";
 import {Consumable} from "../../models/ConsumableModel";
-import FiltersService from "../../redux/services/FiltersService";
-import ConsumableService from "../../redux/services/ConsumableService";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../redux/store";
+import {filtersState} from "../../redux/reducers/filterReducer";
+import FiltersService from '../../redux/services/FiltersService';
 
 const ITEM_HEIGHT = 40; //высота списка
 const ITEM_PADDING_TOP = 8;
@@ -29,42 +31,63 @@ function getStyles(name: string, string: readonly string[], theme: Theme) {
 
 export default function Filters() {
 
+    const state = useSelector((state: RootState) => state);
+    const dispatch = useDispatch<AppDispatch>();
+
     const theme = useTheme();
-    const [address, setAddress] = React.useState<string[]>([]);
-    const [consumable, setСonsumable] = React.useState<string[]>([]);
+    const [filterAddress, setFilterAddress] = React.useState<string[]>([]);
+    const [filterConsumable, setFilterСonsumable] = React.useState<string[]>([]);
+
+    const [receivedAddresses, setReceivedAddresses] = React.useState<Address[]>([]);
+    const [receivedConsumables, setReceivedConsumables] = React.useState<Consumable[]>([]);
+
+    const [dateTimeOt, setDateTimeOt] = React.useState<string>();
+    const [dateTimeDo, setDateTimeDo] = React.useState<string>();
+
+    const [address, setAddress] = React.useState<Address>();
   
-    const handleChangeAddress = (event: SelectChangeEvent<typeof address>) => {
+    const handleChangeAddress = (event: SelectChangeEvent<typeof filterAddress>) => {
       const {
         target: { value },
       } = event;
-      setAddress(
+      setFilterAddress(
         typeof value === 'string' ? value.split(',') : value,
       );
+      setReceivedAddresses(receivedAddresses);
     };
-    const handleChangeConsumable = (event: SelectChangeEvent<typeof consumable>) => {
+    const handleChangeConsumable = (event: SelectChangeEvent<typeof filterConsumable>) => {
         const {
           target: { value },
         } = event;
-        setСonsumable(
+        setFilterСonsumable(
           typeof value === 'string' ? value.split(',') : value,
         );
+        setReceivedConsumables(receivedConsumables);
       };
 
-    const [addresses, setAddresses] = React.useState<Address[]>([]);
-    const [consumables, setConsumables] = React.useState<Consumable[]>([]);
+    // const [consumables, setConsumables] = React.useState<Consumable[]>([]);
+
+    const filterOrder = () => {
+      const filters : filtersState = {
+        address: receivedAddresses,
+        consumables : receivedConsumables,
+        dateOt: dateTimeOt!,
+        dateDo: dateTimeDo!
+      }
+      FiltersService.GetOrder(filters).then((res: any) => {
+        dispatch(res);
+      });
+    }
 
     const [key, setKey] = useState<boolean>(false);
 
     React.useEffect(() => {
       if (key) return;
-      if (addresses.length !== 0) return;
-      if (consumables.length !== 0) return;
       FiltersService.GetFilters().then((res : any) => {
-        setAddresses(res.addresses);
-        setConsumables(res.consumables);
+        dispatch(res);
       })
       setKey(true);
-    }, [addresses, consumables])
+    }, [])
 
   return (
     <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%', height: '100%'}}>
@@ -76,7 +99,7 @@ export default function Filters() {
             labelId="address-chip-label"
             id="address-chip"
             multiple
-            value={address}
+            value={filterAddress}
             onChange={handleChangeAddress}
             input={<OutlinedInput id="select-address-chip" label="address-chip" />}
             renderValue={(selected) => (
@@ -88,14 +111,14 @@ export default function Filters() {
             )}
             MenuProps={MenuProps}
             >
-            {addresses.map((addressItem) => (
+            {state.filterReducer.address.map((receivedAddresses) => (
                 <MenuItem
-                key={addressItem.FullAddress}
-                value={addressItem.FullAddress}
-                style={getStyles(addressItem.FullAddress, address, theme)}
+                key={receivedAddresses.FullAddress}
+                value={receivedAddresses.FullAddress}
+                style={getStyles(receivedAddresses.FullAddress, filterAddress, theme)}
                 >
-                <Checkbox checked={address.indexOf(addressItem.FullAddress) > -1} />
-                {addressItem.FullAddress}
+                <Checkbox checked={filterAddress.indexOf(receivedAddresses.FullAddress) > -1} />
+                {receivedAddresses.FullAddress}
                 </MenuItem>
             ))}
             </Select>
@@ -105,7 +128,10 @@ export default function Filters() {
             id="date"
             label="От"
             type="date"
-            defaultValue="2022-05-01"
+            defaultValue={dateTimeOt}
+                onChange={e => {
+                  setDateTimeOt(e.target.value);
+                }}
             InputLabelProps={{
               shrink: true,
             }}
@@ -115,7 +141,10 @@ export default function Filters() {
             id="date"
             label="До"
             type="date"
-            defaultValue="2022-05-01"
+            defaultValue={dateTimeDo}
+                onChange={e => {
+                  setDateTimeDo(e.target.value);
+                }}
             InputLabelProps={{
               shrink: true,
             }}
@@ -127,7 +156,7 @@ export default function Filters() {
               labelId="consumable-chip-label"
               id="consumable-chip"
               multiple
-              value={consumable}
+              value={filterConsumable}
               onChange={handleChangeConsumable}
               input={<OutlinedInput id="select-consumable-chip" label="consumable-сhip" />}
               renderValue={(selected) => (
@@ -139,21 +168,21 @@ export default function Filters() {
               )}
               MenuProps={MenuProps}
               >
-              {consumables.map((consumableItem) => (
+              {state.filterReducer.consumables.map((receivedConsumables) => (
                 <MenuItem
-                key={consumableItem.Id}
-                value={consumableItem.Name}
-                style={getStyles(consumableItem.Name, consumable, theme)}
+                key={receivedConsumables.Id}
+                value={receivedConsumables.Name}
+                style={getStyles(receivedConsumables.Name, filterConsumable, theme)}
                 >
-                <Checkbox checked={consumable.indexOf(consumableItem.Name) > -1} />
-                {consumableItem.Name}
+                <Checkbox checked={filterConsumable.indexOf(receivedConsumables.Name) > -1} />
+                {receivedConsumables.Name}
                 </MenuItem>
               ))}
               </Select>
           </FormControl>
         </Stack>
         <Box mt={2} sx={{ textAlign: 'center'}}>
-          <Button variant="contained" color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}}>
+          <Button variant="contained" color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={filterOrder}>
             Применить
           </Button>
         </Box>

@@ -218,6 +218,19 @@ namespace CleaningDLL.Entity
             try
             {
                 return db.Order.Include(a => a.Address).ThenInclude(a => a.RoomType).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).Where(a => a.Client.ID == id).ToList();
+            
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static List<Order> GetFilteredOrders(int id, List<Address> addresses, DateTime dateTimeOt, DateTime dateTimeDo)
+        {
+            try
+            {
+                return db.Order.Include(a => a.Address).ThenInclude(a => a.RoomType).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).Where(a => a.Client.ID == id && a.Date >= dateTimeOt && a.Date <= dateTimeDo && addresses.Contains(a.Address)).ToList();
             }
             catch (Exception ex)
             {

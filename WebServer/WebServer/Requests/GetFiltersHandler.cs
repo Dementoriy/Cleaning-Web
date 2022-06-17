@@ -44,5 +44,59 @@ namespace WebServer.Requests
             Send(new AnswerModel(true, new { addresses = addresses, consumables  = consumableModels }, null, null));
 
         }
+
+        
+        [Post("get-order")]
+        public void GetOrder()
+        {
+            if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            var client = TokenWorker.GetClientByToken(token);
+            if (client is null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            var body = Bind<FiltersStateModal>();
+
+            if (body.address == null || body.consumables == null || body.dateOt == null || body.dateDo == null) 
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            List<Address> addresses = new List<Address>();
+
+            foreach(var address in body.address)
+            {
+                Address am = Address.GetAddressById(address.ID);
+                addresses.Add(am);
+            }
+
+            List<Consumable> consumables = new List<Consumable>();
+
+            foreach (var consumable in body.consumables)
+            {
+                Consumable c = Consumable.GetConsumableById(consumable.ID);
+                consumables.Add(c);
+            }
+
+            DateTime dateTimeOt = DateTime.Parse(body.dateOt);
+            DateTime dateTimeDo = DateTime.Parse(body.dateDo);
+
+            List<Order> filteredOrders = Order.GetFilteredOrders(client.ID, addresses, dateTimeOt, dateTimeDo);
+
+            List<OrderModel> orderModels = OrderModel.GetOrderModels(filteredOrders);
+
+            //List<OrderModel> filteredOrderModels = OrderModel.GetFilteredOrderModels(consumables);
+
+
+            Send(new AnswerModel(true, new { objects = orderModels }, null, null));
+        }
     }
 }

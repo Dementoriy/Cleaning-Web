@@ -2,6 +2,7 @@ import axios from "axios";
 import authHeader from '../AuthHeader';
 import {Answer} from "../../models/RequestModels";
 import {Order} from "../../models/OrderModel";
+import {OrderLoaded, OrderNotLoaded} from "../actions/orderActions";
 
 const API_URL = "http://localhost:8080/my-cleaning/";
 
@@ -13,13 +14,14 @@ class OrderService {
             if (data.status)
             {
               console.log(data.answer);
-              return data.answer.objects as Order[];
+              // return data.answer.objects as Order[];
+              return OrderLoaded(data.answer.objects);
             }
-            return [];
+            return OrderNotLoaded;
           })
           .catch((error) => {
             console.log(error);
-            return []
+            return OrderNotLoaded
           });
 	}
 

@@ -85,5 +85,17 @@ namespace CleaningDLL.Entity
                 return null;
             }
         }
+
+        public static IEnumerable<Address> GetClientAddressesByFullAddress(string fullAddress)
+        {
+            try
+            {
+                return db.ClientAddresses.Include(c => c.Client).Include(c => c.Address).ThenInclude(a => a.RoomType).Where(a => a.Address.FullAddress == fullAddress).Select(x => x.Address);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

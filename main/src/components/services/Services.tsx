@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Typography, CardMedia, CardContent, Card, Box, Stack, TextField} from "@mui/material";
+import { Typography, CardMedia, CardContent, Card, Box, Stack, TextField} from "@mui/material";
 import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
 import ServiceService from '../../redux/services/ServiceService';
 import {Service} from "../../models/ServiceModel";
@@ -52,9 +52,6 @@ export default function Services() {
                         </Stack>
                         <Typography variant="subtitle2" color="text.primary" align="center" component="div" marginLeft="14%" mt="-10%">{service.ApproximateTime}</Typography>
                         <Typography variant="subtitle2" color="text.primary" align="center" component="div" sx={{ mt: '20%'}}>От {service.Price} руб./{service.UnitsTitle}</Typography>
-                        <Button variant="contained" color="success" disableElevation sx={{ borderRadius: '10px', mt: '10%', width: '100%'}}>
-                            Выбрать
-                        </Button>
                     </Box>
                 </Card>
                 </div>}</>))}

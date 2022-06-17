@@ -29,5 +29,35 @@ namespace WebServer.Requests
 
             Send(new AnswerModel(true, new { services = serviceModels }, null, null));
         }
+
+        [Post("get-time")]
+        public void GetTime()
+        {
+            if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            var client = TokenWorker.GetClientByToken(token);
+            if (client is null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            var body = Bind<TimeModel>();
+
+            if (body.timeValue == null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            string stringTime = Order.GetTimeByInt(body.timeValue);
+
+            Send(new AnswerModel(true, new { stringTime = stringTime }, null, null));
+
+        }
     }
 }
