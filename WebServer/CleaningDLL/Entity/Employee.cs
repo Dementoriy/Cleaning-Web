@@ -56,7 +56,17 @@ namespace CleaningDLL.Entity
             public string MiddleName { get; set; }
         }
 
-
+        public static Employee GetEmployeeById(int id)
+        {
+            try
+            {
+                return db.Employee.FirstOrDefault(a => a.ID == id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public static Employee GetBrigadirByBrigada(int id)
         {
 

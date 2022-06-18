@@ -68,6 +68,37 @@ class AddressService {
             return {addresses : []}
           });
 	}
+
+
+	getAddressesByString(getAddresses: string[]){
+		return axios.post(API_URL + 'get-addresses-by-string', {addresses : getAddresses}, {headers: authHeader()})
+			.then((res) => {
+				const data: Answer = res.data;
+				if (data.status){
+					const addresses : Address[] = data.answer.addresses;
+					return addresses;
+				}
+				return [];
+			}).catch((error) => {
+				console.log(error);
+				return [];
+			  });		
+	}
+
+	GetAddressByFullAddress(selectedAddress : string){
+		return axios.post(API_URL + 'get-addresses-by-full-address', {selectedAddress : selectedAddress}, {headers: authHeader()})
+			.then((res) => {
+				const data: Answer = res.data;
+				if (data.status){
+					const address : Address = data.answer.address;
+					return address;
+				}
+				return ;
+			}).catch((error) => {
+				console.log(error);
+				return ;
+			  });
+	}
 }
 
 export default new AddressService();

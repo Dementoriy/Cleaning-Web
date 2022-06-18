@@ -73,7 +73,8 @@ export default function Filters() {
         consumables : receivedConsumables,
         dateOt: dateTimeOt!,
         dateDo: dateTimeDo!
-      }
+      };
+      console.log(filters);
       FiltersService.GetOrder(filters).then((res: any) => {
         dispatch(res);
       });

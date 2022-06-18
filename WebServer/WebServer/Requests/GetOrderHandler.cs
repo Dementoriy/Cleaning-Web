@@ -117,5 +117,57 @@ namespace WebServer.Requests
 
             Send(new AnswerModel(true, new { objects = OrderModel.GetOrderModels(orders) }, null, null));
         }
+
+        [Post("add-order")]
+        public void addOrder()
+        {
+            if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            var client = TokenWorker.GetClientByToken(token);
+            if (client is null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+            
+            var body = Bind<FinalOrderInfoModel>();
+
+            if (body.address == null || body.dateTime == null || body.service == null || body.square == null 
+                || body.time == null || body.price == null || body.timeValue == null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            Address address = Address.GetAddressById(body.address.ID);
+            Employee employee = Employee.GetEmployeeById(1);
+            Brigade brigade = Brigade.GetBrigadeByID(1);
+            DateTime dateTime = DateTime.Parse(body.dateTime);
+
+            Order order = new Order("Назначен выезд", client, employee, address,
+                        brigade, dateTime, body.price, body.timeValue,
+                        body.comment, null);
+
+            Order.Add(order);
+
+            var providedService = new ProvidedService(order, Service.GetServiceById(body.service.ID), body.square);
+            ProvidedService.Add(providedService);
+
+            for ( int i = 0; i < body.amount.Length; i++)
+            {
+                providedService = new ProvidedService(order, Service.GetServiceById(body.dopService[i].ID), body.amount[i]);
+                ProvidedService.Add(providedService);
+            }
+
+            Order.Update(order);
+
+            List<Order> orders = Order.GetClientOrder(client.ID);
+
+            Send(new AnswerModel(true, new { objects = OrderModel.GetOrderModels(orders) }, null, null));
+        }
     }
 }

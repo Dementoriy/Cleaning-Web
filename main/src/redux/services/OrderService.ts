@@ -3,6 +3,7 @@ import authHeader from '../AuthHeader';
 import {Answer} from "../../models/RequestModels";
 import {Order} from "../../models/OrderModel";
 import {OrderLoaded, OrderNotLoaded} from "../actions/orderActions";
+import {FinalOrderInfo} from '../../components/toOrder/StepThree';
 
 const API_URL = "http://localhost:8080/my-cleaning/";
 
@@ -72,6 +73,22 @@ class OrderService {
 				console.log(error);
 				return [];
 			  });	
+  }
+
+  addOrder(finalOrderInfo: FinalOrderInfo){
+    return axios.post(API_URL + 'add-order', finalOrderInfo, {headers: authHeader()})
+    .then((res) => {
+      const data: Answer = res.data;
+      if (data.status)
+        {
+          console.log(data.answer);
+          return data.answer.objects as Order[];
+        }
+      return [];
+    }).catch((error) => {
+      console.log(error);
+      return [];
+      });	
   }
 }
 

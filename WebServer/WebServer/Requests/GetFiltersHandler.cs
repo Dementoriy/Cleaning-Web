@@ -64,7 +64,7 @@ namespace WebServer.Requests
 
             var body = Bind<FiltersStateModal>();
 
-            if (body.address == null || body.consumables == null || body.dateOt == null || body.dateDo == null) 
+            if (body.address == null || body.dateOt == null || body.dateDo == null) 
             {
                 Send(new AnswerModel(false, null, 400, "incorrect request"));
                 return;
@@ -78,13 +78,6 @@ namespace WebServer.Requests
                 addresses.Add(am);
             }
 
-            List<Consumable> consumables = new List<Consumable>();
-
-            foreach (var consumable in body.consumables)
-            {
-                Consumable c = Consumable.GetConsumableById(consumable.ID);
-                consumables.Add(c);
-            }
 
             DateTime dateTimeOt = DateTime.Parse(body.dateOt);
             DateTime dateTimeDo = DateTime.Parse(body.dateDo);
@@ -93,10 +86,16 @@ namespace WebServer.Requests
 
             List<OrderModel> orderModels = OrderModel.GetOrderModels(filteredOrders);
 
-            //List<OrderModel> filteredOrderModels = OrderModel.GetFilteredOrderModels(consumables);
+            if(body.consumables == null)
+            {
+                Send(new AnswerModel(true, new { objects = orderModels }, null, null));
+                return;
+            }
 
+            List<OrderModel> filteredOrderModels = OrderModel.GetFilteredOrderModels(body.consumables, orderModels);
 
-            Send(new AnswerModel(true, new { objects = orderModels }, null, null));
+            Send(new AnswerModel(true, new { objects = filteredOrderModels }, null, null));
+
         }
     }
 }

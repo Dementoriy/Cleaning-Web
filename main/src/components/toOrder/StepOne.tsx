@@ -3,11 +3,12 @@ import {Stack, Button, Typography, Box, InputLabel, MenuItem, FormControl, TextF
 import {useNavigate} from 'react-router-dom';
 import '../../assets/css/Stepper.css';
 import {selected, unselected, line} from './StepperStyle'
-
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-
 import {Address} from "../../models/AddressModel";
 import AddressService from "../../redux/services/AddressService";
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -41,14 +42,41 @@ function a11yProps(index: number) {
   };
 }
 
-export interface FirsOrderInfo
+export interface FirstOrderInfo
 {
   address : Address,
   dateTime : string,
   comment : string
 }
 
-export default function Steppers() {
+export default function StepOne() {
+
+  const [openSnack, setOpenSnack] = React.useState(false);
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseSnack}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const navigate = useNavigate();
 
@@ -58,7 +86,6 @@ export default function Steppers() {
   const [comment, setComment] = React.useState<string>();
   
     const handleChangeAddress = (event: SelectChangeEvent) => {
-      setAddress(address);
       setSelectedAddress(event.target.value as string);
     };
 
@@ -89,6 +116,11 @@ export default function Steppers() {
     }, [addresses])
 
     const nextPage = () => {
+      if(address === undefined || dateTime === undefined)
+      {
+        handleClickSnack();
+        return;
+      }
       navigate("/to-order-two", {state:
         {
           address: address, 
@@ -126,23 +158,19 @@ export default function Steppers() {
           </div>
           <Typography variant="h6" color="primary" align='center'>Оплата</Typography>
         </Stack>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ width: '56%', marginLeft: '22%', marginTop: '10px' }}>
-          <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} disabled>
-            Назад
-          </Button>
+        <Stack direction="row" justifyContent="flex-end" alignItems="center" sx={{ width: '56%', marginLeft: '22%', marginTop: '10px' }}>
           <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}}
           onClick={nextPage}
-          //onClick={() => {navigate("/to-order-two",
-          // {state:
-          //   {
-          //     address: address, 
-          //     dateTime: dateTime, 
-          //     comment: comment
-          //   }
-          // }
           >
             Далее
           </Button>
+          <Snackbar
+            open={openSnack}
+            autoHideDuration={6000}
+            onClose={handleCloseSnack}
+            message="Выберите адрес и время"
+            action={action}
+          />
         </Stack>
       </div>
       <Box sx={{ width: '100%', height: '38%',backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px'}}>
@@ -163,7 +191,12 @@ export default function Steppers() {
                   id="demo-simple-select"
                   value={selectedAddress}
                   label="Age"
-                  onChange={handleChangeAddress}
+                  onChange={e => {
+                      setSelectedAddress(e.target.value);
+                      AddressService.GetAddressByFullAddress(e.target.value).then((res: any) => {
+                      setAddress(res);
+                    });
+                  }}
                 >
                   {addresses.map((address) => (
                     
@@ -179,7 +212,8 @@ export default function Steppers() {
                 defaultValue={dateTime}
                 onChange={e => {
                   setDateTime(e.target.value);
-                }}
+
+              }}
                 InputLabelProps={{
                   shrink: true,
                 }}

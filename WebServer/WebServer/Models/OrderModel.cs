@@ -60,15 +60,18 @@ public class OrderModel
         return newOrders;
     }
 
-    //public static List<OrderModel> GetFilteredOrderModels(List<Consumable> consumables)
-    //{
-    //    try
-    //    {
-    //        return db.Order.Include(a => a.Address).ThenInclude(a => a.RoomType).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).Where(a => a.Client.ID == id && a.Date >= dateTimeOt && a.Date <= dateTimeDo && addresses.Contains(a.Address)).ToList();
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return null;
-    //    }
-    //}
+    public static List<OrderModel> GetFilteredOrderModels(List<ConsumableModel> consumables, List<OrderModel> orderModels)
+    {
+        List<OrderModel> finalOrderModels = new List<OrderModel>();
+
+        foreach(var order in orderModels)
+        {
+            foreach(var consumable in consumables)
+            {
+                if (order.Consumables.Any(c => c.Name == consumable.Name))
+                    finalOrderModels.Add(order);
+            }
+        }
+        return finalOrderModels;
+    }
 }

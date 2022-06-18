@@ -10,13 +10,26 @@ import {Service} from "../../models/ServiceModel";
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import {FirsOrderInfo} from './StepOne';
+import {FirstOrderInfo} from './StepOne';
+import {Address} from "../../models/AddressModel";
 
 export interface State extends SnackbarOrigin {
   open: boolean;
 }
 
-export default function Steppers() {
+export interface OrderInfo
+{
+  address : Address,
+  dateTime : string,
+  comment : string
+  service: Service,
+  square: number,
+  price: number,
+  time: string,
+  timeValue: number
+}
+
+export default function StepTwo() {
 
   const [open, setOpen] = React.useState(false);
 
@@ -64,8 +77,7 @@ export default function Steppers() {
 
     React.useEffect(() => {
         if (key) return;
-        if (services.length !== 0) return;
-        ServiceService.GetService().then((res) => {
+            ServiceService.GetService().then((res) => {
             setServices(res);
         })
         setKey(true);
@@ -74,6 +86,7 @@ export default function Steppers() {
   const [selectedService, setSelectedService] = React.useState<Service>();
   const [price, setPrice] = React.useState<number>();
   const [time, setTime] = React.useState<string>();
+  const [timeValue, setTimeValue] = React.useState<number>();
 
     const calculate = (service: Service) => {
       if(square === NaN || square === undefined) 
@@ -82,16 +95,15 @@ export default function Steppers() {
         return;
       }
       setSelectedService(service);
-      setPrice(service.Price * square! * mainOrderInfo.address.Сoefficient);
-      const timeValue = service.Time * square!;
-      console.log(timeValue);
-      ServiceService.GetTime(timeValue).then((res: any) => {
+      setPrice(service.Price * square! * firstOrderInfo.address.Сoefficient);
+      setTimeValue(service.Time * square!);
+      ServiceService.GetTime(service.Time * square!).then((res: any) => {
         setTime(res);
       })
     };
 
     const location = useLocation();
-    const mainOrderInfo: FirsOrderInfo = location.state as FirsOrderInfo;
+    const firstOrderInfo: FirstOrderInfo = location.state as FirstOrderInfo;
 
   return (
     <Stack spacing={3} width='78%'>
@@ -121,20 +133,19 @@ export default function Steppers() {
           </div>
           <Typography variant="h6" color="primary" align='center'>Оплата</Typography>
         </Stack>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ width: '56%', marginLeft: '22%', marginTop: '10px' }}>
-          <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={() => {navigate("/to-order-one")}}>
-            Назад
-          </Button>
+        <Stack direction="row" justifyContent="flex-end" alignItems="center" sx={{ width: '56%', marginLeft: '22%', marginTop: '10px' }}>
+
           <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={() => {navigate("/to-order-three",
           {state:
             {
-              address: mainOrderInfo.address, 
-              dateTime: mainOrderInfo.dateTime, 
-              comment: mainOrderInfo.comment,
+              address: firstOrderInfo.address, 
+              dateTime: firstOrderInfo.dateTime, 
+              comment: firstOrderInfo.comment,
               service: selectedService,
               square: square,
               price: price,
-              time: time
+              time: time,
+              timeValue: timeValue
             }
           })}}>
             Далее
@@ -194,9 +205,9 @@ export default function Steppers() {
           <Typography variant="h5" color="primary" align='center'>Калькулятор</Typography>
           <Stack spacing={2.5} mt={2} alignItems="center">
             <TextField type='text' label="Площадь:" color='primary' size='small' sx={{width: '80%'}} defaultValue={square} onChange={changeSquare}/>
-            <TextField type='text' label="Тип:" color='primary' size='small' sx={{width: '80%'}} value={mainOrderInfo.address.RoomType}/>
-            <TextField label="Цена" color='primary' size='small' sx={{width: '80%'}} value={price}/>
-            <TextField label="≈Время" color='primary' size='small' sx={{width: '80%'}} value={time}/>
+            <TextField type='text' label="Тип:" color='primary' size='small' sx={{width: '80%'}} value={firstOrderInfo.address.RoomType}/>
+            <TextField type='text' label="Цена" color='primary' size='small' sx={{width: '80%'}} value={price}/>
+            <TextField type='text' label="≈Время" color='primary' size='small' sx={{width: '80%'}} value={time}/>
           </Stack>
         </div>
       </Stack>
