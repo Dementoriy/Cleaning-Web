@@ -10,6 +10,8 @@ import {AppDispatch, RootState} from "../../redux/store";
 import sha256 from "sha256";
 import {useNavigate} from 'react-router-dom';
 import {clientActions} from '../../redux/slices/clientSlice';
+import Snackbar from '@mui/material/Snackbar';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface State {
     login: string;
@@ -19,6 +21,33 @@ interface State {
   
 
 export default function SignIn() {
+
+  const [openSnack, setOpenSnack] = React.useState(false);
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseSnack}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const [values, setValues] = React.useState<State>({
       login: '',
@@ -51,6 +80,10 @@ export default function SignIn() {
 			if (res.type === clientActions.loginSuccess.type) {
 				navigate("/profile");
 			}
+      else{
+        handleClickSnack();
+        return;
+      }
 		})
 	};
 
@@ -106,6 +139,13 @@ export default function SignIn() {
         >
           <Button variant="text" size="large" color="primary" disableElevation onClick={() => {navigate("/registration")}}>Регистрация</Button>
           <Button variant="contained" size="large" color="secondary" sx={{ borderRadius: '10px'}} onClick={onClick} disableElevation>Войти</Button>
+          <Snackbar
+            open={openSnack}
+            autoHideDuration={6000}
+            onClose={handleCloseSnack}
+            message="Неверный логин или пароль"
+            action={action}
+          />
         </Stack>
       </Stack>
     </div>

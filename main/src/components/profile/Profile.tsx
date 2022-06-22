@@ -46,7 +46,7 @@ export default function Profile() {
       {client.client.isAuth && (
         <>
         <Stack direction="row" spacing={2}>
-          <Avatar alt={user.login.toUpperCase()} src={user.avatar} sx={{ width: 120, height: 120 }}/>
+          <Avatar alt={user.login.toUpperCase()} src={user.login.toUpperCase()} sx={{ width: 120, height: 120 }}/>
           <Stack spacing={0.5}>
             <div style={{height: '10px'}} />
             <Typography color="primary" variant="h5">

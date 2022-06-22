@@ -37,7 +37,12 @@ namespace CleaningDLL
             Database.Migrate();
             new Context(this);
         }
-        public static string ConnectionString = "Host=45.10.244.15;Port=55532;Database=work100004;Username=work100004;Password=IFNz81Glc|9b~JiPOviN";
+        public ApplicationContext() : base(GetDb())
+        {
+            Database.Migrate();
+        }
+        //public static string ConnectionString = "Host=45.10.244.15;Port=55532;Database=work100004;Username=work100004;Password=IFNz81Glc|9b~JiPOviN";
+        public static string ConnectionString = "Host=localhost;Port=5432;Database=Cleaning;Username=postgres;Password=qwertyuiop228";
         public static DbContextOptions<ApplicationContext> GetDb()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();

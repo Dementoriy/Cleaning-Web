@@ -21,7 +21,9 @@ export interface OrderInfo
 {
   address : Address,
   dateTime : string,
+  dateTimeEnd : string,
   comment : string
+  periodicity : number,
   service: Service,
   square: number,
   price: number,
@@ -139,8 +141,10 @@ export default function StepTwo() {
           {state:
             {
               address: firstOrderInfo.address, 
-              dateTime: firstOrderInfo.dateTime, 
+              dateTime: firstOrderInfo.dateTime,
+              dateTimeEnd: firstOrderInfo.dateTimeEnd,
               comment: firstOrderInfo.comment,
+              periodicity: firstOrderInfo.periodicity,
               service: selectedService,
               square: square,
               price: price,

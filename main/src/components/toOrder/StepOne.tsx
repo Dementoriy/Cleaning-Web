@@ -6,7 +6,7 @@ import {selected, unselected, line} from './StepperStyle'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {Address} from "../../models/AddressModel";
 import AddressService from "../../redux/services/AddressService";
-import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 interface TabPanelProps {
@@ -46,7 +46,9 @@ export interface FirstOrderInfo
 {
   address : Address,
   dateTime : string,
-  comment : string
+  dateTimeEnd : string,
+  comment : string,
+  periodicity : number
 }
 
 export default function StepOne() {
@@ -80,14 +82,16 @@ export default function StepOne() {
 
   const navigate = useNavigate();
 
-  const [selectedAddress, setSelectedAddress] = React.useState<string>();
+  const [selectedAddress, setSelectedAddress] = React.useState<number>();
   const [address, setAddress] = React.useState<Address>();
   const [dateTime, setDateTime] = React.useState<string>();
+  const [dateTimeEnd, setDateTimeEnd] = React.useState<string>();
+  const [periodicity, setPeriodicity] = React.useState<number>();
   const [comment, setComment] = React.useState<string>();
   
-    const handleChangeAddress = (event: SelectChangeEvent) => {
-      setSelectedAddress(event.target.value as string);
-    };
+    // const handleChangeAddress = (event: SelectChangeEvent) => {
+    //   setSelectedAddress(event.target.value as number);
+    // };
 
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
@@ -106,6 +110,7 @@ export default function StepOne() {
 
     const [addresses, setAddresses] = React.useState<Address[]>([]);
     const [key, setKey] = useState<boolean>(false);
+    const [addressId, setAddressId] = useState<number>(0);
 
     React.useEffect(() => {
       if (key) return;
@@ -125,7 +130,9 @@ export default function StepOne() {
         {
           address: address, 
           dateTime: dateTime, 
-          comment: comment
+          dateTimeEnd: dateTimeEnd,
+          comment: comment,
+          periodicity : periodicity
         }
       });
     };
@@ -192,15 +199,19 @@ export default function StepOne() {
                   value={selectedAddress}
                   label="Age"
                   onChange={e => {
-                      setSelectedAddress(e.target.value);
-                      AddressService.GetAddressByFullAddress(e.target.value).then((res: any) => {
-                      setAddress(res);
-                    });
-                  }}
+                      setSelectedAddress(+e.target.value);
+                      addresses.forEach((a) => {
+                        if (a.ID === e.target.value)
+                        {
+                          setAddress(a);
+                          return;
+                        }
+                      })
+                    }}
                 >
                   {addresses.map((address) => (
                     
-                    <MenuItem value={address.FullAddress}>{address.FullAddress}</MenuItem>
+                    <MenuItem value={address.ID}>{address.AddressName}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -243,16 +254,23 @@ export default function StepOne() {
                 id="datetime-local"
                 label="Начало периода"
                 type="datetime-local"
-                defaultValue="2022-05-01T08:00:00"
+                defaultValue={dateTime}
+                onChange={e => {
+                  setDateTime(e.target.value);
+
+              }}
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
               <TextField
-                id="datetime-local"
+                id="date"
                 label="Конец периода"
-                type="datetime-local"
-                defaultValue="2022-05-01T08:00:00"
+                type="date"
+                defaultValue={dateTimeEnd}
+                onChange={e => {
+                  setDateTimeEnd(e.target.value);
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -262,13 +280,16 @@ export default function StepOne() {
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    // value={name}
+                    value={periodicity}
                     label="Age"
-                    // onChange={handleChange}
+                    onChange={e => {
+                      setPeriodicity(+e.target.value);
+                  }}
                   >
-                    {addresses.map((address) => (
-                      <MenuItem value={address.FullAddress}>{address.FullAddress}</MenuItem>
-                    ))}
+                    <MenuItem value={1}>Каждый день</MenuItem>
+                    <MenuItem value={2}>Через 1 дня</MenuItem>
+                    <MenuItem value={3}>Через 2 дня</MenuItem>
+                    <MenuItem value={4}>Через 3 дня</MenuItem>
                   </Select>
                 </FormControl>
             </Stack>
@@ -279,20 +300,35 @@ export default function StepOne() {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  // value={name}
+                  value={selectedAddress}
                   label="Age"
-                  // onChange={handleChange}
+                  onChange={e => {
+                      setSelectedAddress(+e.target.value);
+                      addresses.forEach((a) => {
+                        if (a.ID === e.target.value)
+                        {
+                          setAddress(a);
+                          return;
+                        }
+                      })
+                    }}
                 >
-                  <MenuItem value={1}>Воровского 101, кв. 6.</MenuItem>
-                  <MenuItem value={2}>пр. Строителей 98, кв. 105.</MenuItem>
+                  {addresses.map((address) => (
+                    
+                    <MenuItem value={address.ID}>{address.AddressName}</MenuItem>
+                  ))}
                 </Select>
-              </FormControl> 
+              </FormControl>
 
               <TextField
                 id="outlined-multiline-static"
                 label="Комментарий"
+                defaultValue={comment}
                 multiline
                 rows={6}
+                onChange={e => {
+                  setComment(e.target.value);
+              }}
               />
 
             </Stack>

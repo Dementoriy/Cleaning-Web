@@ -1,14 +1,17 @@
 import React from 'react';
-import {Stack, Button, Typography, Box, TextField} from '@mui/material';
+import {Stack, Button, Typography, Box, TextField, Dialog, DialogActions, DialogContent, DialogContentText} from '@mui/material';
 import {useNavigate, useLocation} from 'react-router-dom';
 import {selected, line} from './StepperStyle';
 import {FinalOrderInfo} from './StepThree';
-import {Service} from '../../models/ServiceModel';
 import OrderService from '../../redux/services/OrderService';
+import {Client} from "../../models/ClientModel";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../redux/store";
+import moment from 'moment';
  
 export default function StepFour() {
+  const client = useSelector((state: RootState) => state);
+  const [user, setUser] = React.useState<Client>(client.client.client!);
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -20,12 +23,52 @@ export default function StepFour() {
     console.log(finalOrderInfo);
   }
 
-  const Pay = () => {
-    OrderService.addOrder(finalOrderInfo).then((res: any) => {
+  const Pay = (() => {
+    OrderService.addOrder(finalOrderInfo).then((res) => {
       dispatch(res);
   });
-    // navigate("/my-cleaning");
-  }
+    handleDialogOpen();
+  })
+
+  const [dateStart, setDateStart] = React.useState<string>('');
+  const [dateFinish, setDateFinish] = React.useState<string>('');
+  const [count, setCount] = React.useState<number>();
+
+  React.useEffect(() => {
+    if(finalOrderInfo.dateTimeEnd != null)
+    {
+      var dateS : Date = new Date(Date.parse(finalOrderInfo.dateTime));
+      var dateF : Date = new Date(Date.parse(finalOrderInfo.dateTimeEnd));
+
+      setDateStart(moment(dateS).format('YYYY-MM-DD'));
+      setDateFinish(moment(dateF).format('YYYY-MM-DD'));
+
+      const days = moment(dateFinish).diff(moment(dateStart), 'days');
+      if(Math.floor((days+1)%finalOrderInfo.periodicity) > 0)
+      {
+        setCount(Math.floor((days+3)/finalOrderInfo.periodicity));
+        console.log(days);
+      }
+      else {
+        setCount(Math.floor((days+1)/finalOrderInfo.periodicity));
+      }
+      finalOrderInfo.count = count!;
+      }
+    else
+    {
+      setCount(1);
+      finalOrderInfo.count = 1;
+    }
+  })
+
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleDialogOpen = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   return (
     <Stack spacing={3} width='78%'>
@@ -96,10 +139,10 @@ export default function StepFour() {
                 </Typography>
               </Box>
               <Stack direction="row" spacing={2}>
-                <TextField label="Тип уборки" color='primary' size='small' value={finalOrderInfo.service.ServiceName}/>
-                <Stack direction="row" spacing={2}>
-                  <TextField label="Площадь" color='primary' size='small' value={finalOrderInfo.square}/>
-                  <TextField label="Цена" color='primary' size='small' value={finalOrderInfo.square * finalOrderInfo.service.Price * finalOrderInfo.address.Сoefficient}/>
+                <TextField label="Тип уборки" color='primary' size='small' sx={{ width: '50%'}} value={finalOrderInfo.service.ServiceName}/>
+                <Stack direction="row" spacing={2} sx={{ width: '50%'}}>
+                  <TextField label="Площадь" color='primary' size='small' sx={{ width: '50%'}} value={finalOrderInfo.square}/>
+                  <TextField label="Цена" color='primary' size='small' sx={{ width: '50%'}} value={finalOrderInfo.square * finalOrderInfo.service.Price * finalOrderInfo.address.Сoefficient}/>
                 </Stack>
               </Stack>
 
@@ -111,10 +154,10 @@ export default function StepFour() {
 
                 {finalOrderInfo.dopService.map((ps, index) => (
                   <Stack direction="row" spacing={2}>
-                    <TextField label="Доп. услуга" color='primary' size='small' value={ps.ServiceName}/>
-                    <Stack direction="row" spacing={2}>
-                      <TextField label="Количество" color='primary' size='small' value={finalOrderInfo.amount[index]}/>
-                      <TextField label="Цена" color='primary' size='small' value={finalOrderInfo.amount[index] * ps.Price * finalOrderInfo.address.Сoefficient}/>
+                    <TextField label="Доп. услуга" color='primary' size='small' sx={{ width: '50%'}} value={ps.ServiceName}/>
+                    <Stack direction="row" spacing={2} sx={{ width: '50%'}}>
+                      <TextField label="Количество" color='primary' size='small' sx={{ width: '50%'}} value={finalOrderInfo.amount[index]}/>
+                      <TextField label="Цена" color='primary' size='small' sx={{ width: '50%'}} value={finalOrderInfo.amount[index] * ps.Price * finalOrderInfo.address.Сoefficient}/>
                     </Stack>
                   </Stack>
                 ))}
@@ -125,9 +168,14 @@ export default function StepFour() {
                   Итог
                 </Typography>
               </Box>
-              <Stack direction="row" justifyContent="space-between" spacing={2}>
-                <div></div>
-                <TextField label="Итоговая цена" color='primary' size='small' sx={{ width: '30%'}} value={finalOrderInfo.price}/>
+              <Stack direction="row" spacing={2} justifyContent="flex-end">
+                <TextField label="Количество заявок" color='primary' size='small' sx={{ width: '25%'}} 
+                  value={count}/>
+                <TextField label="Цена" color='primary' size='small' sx={{ width: '25%'}} value={finalOrderInfo.price}/>
+                <TextField label="Итоговая цена" color='primary' size='small' sx={{ width: '25%'}}
+                value={finalOrderInfo.periodicity === undefined ?
+                  finalOrderInfo.price : finalOrderInfo.price * count!
+                }/>
               </Stack>
               <TextField
                 id="outlined-multiline-static"
@@ -135,11 +183,28 @@ export default function StepFour() {
                 multiline
                 rows={6}
                 value={finalOrderInfo.comment}
+                disabled
               />
             </Stack>
           </Stack>
         </Box>
       </div>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+    >
+        <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Товарный чек отправлен на почту {user.email}. Перейти в "Мои уборки"?
+            </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+            <Button onClick={() => {navigate("/to-order-one")}}>Нет</Button>
+            <Button onClick={() => {navigate("/my-cleaning")}} autoFocus>Да</Button>
+        </DialogActions>
+      </Dialog>
     </Stack>
     
   );

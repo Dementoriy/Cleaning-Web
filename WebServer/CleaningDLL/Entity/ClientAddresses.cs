@@ -76,6 +76,7 @@ namespace CleaningDLL.Entity
         }
         public static IEnumerable<Address> GetClientAddressesById(int id)
         {
+            //using var db = new ApplicationContext();
             try
             {
                 return db.ClientAddresses.Include(c => c.Client).Include(c => c.Address).ThenInclude(a => a.RoomType).Where(a => a.Client.ID == id && a.Address.CurrentAddress == true).Select(x => x.Address);

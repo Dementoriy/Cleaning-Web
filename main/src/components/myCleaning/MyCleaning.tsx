@@ -34,28 +34,11 @@ export default function MyCleaning() {
         dispatch(res);
         })
         setKey(true);
-    }, [])
+    }, [dispatch, key])
 
     const [ratingValue, setRatingValue] = React.useState<number | null>();
 
-    // const [values, setValues] = React.useState<Order>({
-    //     ID: 0,
-    //     Status: "",
-    //     Address: { ID: 0, RoomType: "", Сoefficient: 0, AddressName: "", FullAddress: "", СurrentAddress: false},
-    //     Date: "",
-    //     FinalPrice: 0,
-    //     ApproximateTime: "",
-    //     Comment: "",
-    //     Rating: null,
-    //     ProvidedServices : [],
-    //     Consumables : []
-    //   });
-    //   const handleChange =
-    //     (prop: keyof Order) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    //         setValues({ ...values, [prop]: event.target.value });
-    //     };
-
-    const AddRating = (order: Order) => {
+    const AddRating = (order: Order, newValue: number) => {
         const rating : Order = {
             ID: order.ID,
             Status: "",
@@ -64,7 +47,7 @@ export default function MyCleaning() {
             FinalPrice: 0,
             ApproximateTime: "",
             Comment: "",
-            Rating: ratingValue!,
+            Rating: newValue!,
             ProvidedServices : [],
             Consumables : []
         }
@@ -298,15 +281,14 @@ export default function MyCleaning() {
                                 </Typography>
                             </Stack>
                             <Stack spacing={4} direction={'row'} marginTop={'2%'} justifyContent="flex-end">
+                                {order.Status !== "Отменена" ? 
                                 <Rating name="simple-controlled" defaultValue={order.Rating!} onChange={(event, newValue) => {
                                     setRatingValue(newValue);
+                                    console.log(newValue);
+                                    AddRating(order, newValue!);
                                 }}
-                                onClick={(e) => {AddRating(order)}}
-                                />
-                                {/* <Rating name="simple-controlled" defaultValue={order.Rating!} onChange={handleChange('Rating')!}
-                                onClick={(e) => {AddRating(order)}}
-                                /> */}
-                                
+                                /> : <></>}
+
                                 <Button variant="contained" color="success" size="small" disableElevation
                                         sx={{borderRadius: '10px'}} onClick={(e) => {handleModalOpen(order.ID)}} >
                                     Подробнее

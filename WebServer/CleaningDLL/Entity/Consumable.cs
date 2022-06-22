@@ -37,6 +37,7 @@ namespace CleaningDLL.Entity
 
         public static List<Consumable> GetConsumable()
         {
+            //using var db = new ApplicationContext();
             try
             {
                 return db.Consumable.ToList();

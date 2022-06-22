@@ -1,6 +1,7 @@
 ﻿using WebServer.Models;
 using RestPanda.Requests;
 using RestPanda.Requests.Attributes;
+using CleaningDLL.Entity;
 
 namespace WebServer.Requests;
 
@@ -64,6 +65,7 @@ public class ClientHandler : RequestHandler
             Send(new AnswerModel(false, null, 400, "incorrect request"));
             return;
         }
+
         if(body.surname != client.Surname || body.name != client.Name || body.middleName != client.MiddleName 
             || body.email != client.Email || body.phone != client.PhoneNumber || body.login != client.Login)
         {
@@ -71,8 +73,10 @@ public class ClientHandler : RequestHandler
             client.Name = body.name;
             client.MiddleName = body.middleName;
             client.Email = body.email;
-            client.PhoneNumber = body.phone;
-            client.Login = body.login;
+            if(!Client.proverkaClientTelefon(body.phone))
+                client.PhoneNumber = body.phone;
+            if(!Client.proverkaClientLogin(body.login))
+                client.Login = body.login;
             client.Update();
         }
         Send(new AnswerModel(true, new

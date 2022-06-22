@@ -62,6 +62,19 @@ namespace CleaningDLL.Entity
             }
 
         }
+        public static Client GetClientById(int id)
+        {
+            try
+            {
+                return db.Client.First(e => e.ID == id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
         public static bool ClientByTelefonIsNew(string telefon)
         {
             try
@@ -152,7 +165,29 @@ namespace CleaningDLL.Entity
                 return false;
             }
         }
-
+        public static bool proverkaClientLogin(string login)
+        {
+            try
+            {
+                return db.Client.Any(a => a.Login == login);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public bool Update()
+        {
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public static bool Add(Client client)
         {
             var command = new NpgsqlCommand("INSERT INTO \"Client\" (\"Surname\",\"Name\",\"MiddleName\",\"PhoneNumber\", " +
@@ -195,18 +230,6 @@ namespace CleaningDLL.Entity
             catch (Exception ex)
             {
                 return null;
-            }
-        }
-        public bool Update()
-        {
-            try
-            {
-                db.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
             }
         }
     }

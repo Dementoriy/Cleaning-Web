@@ -34,22 +34,52 @@ public class AuthHandler : RequestHandler
             Send(new AnswerModel(false, null, 401, "incorrect request"));
             return;
         }
-        var client = new Client(body!.surname, body.name, body.middlename, body.phone, false, body.login, body.password, body.email, null);
-        if (!client.AddClient())
+        if(!Client.proverkaClientTelefon(body.phone))
         {
-            Send(new AnswerModel(false, null, 401, "incorrect request"));
-            return;
-        }
+            var newClient = new Client(body!.surname, body.name, body.middlename, body.phone, false, body.login, body.password, body.email, null);
+            if (!newClient.AddClient())
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request"));
+                return;
+            }
 
-        var tokens = GenerateToken(client);
-        Send(new AnswerModel(true, new
+            var tokens = GenerateToken(newClient);
+            Send(new AnswerModel(true, new
+            {
+                access_token = tokens,
+                user = new ClientModel(newClient.ID,
+                    newClient.Surname, newClient.Name, newClient.MiddleName, newClient.Email!,
+                    newClient.PhoneNumber,
+                    newClient.Login, newClient.IsOldClient, newClient.Avatar)
+            }, null, null));
+        }
+        else
         {
-            access_token = tokens,
-            user = new ClientModel(client.ID,
-                client.Surname, client.Name, client.MiddleName, client.Email!,
-                client.PhoneNumber,
-                client.Login, client.IsOldClient, client.Avatar)
-        }, null, null));
+            Client updateClient = Client.GetClientByTelefon(body.phone);
+            if(updateClient.Password == null && !Client.proverkaClientLogin(body.login))
+            {
+                updateClient.Email = body.email;
+                updateClient.Login = body.login;
+                updateClient.Password = body.password;
+                updateClient.Login = body.login;
+                updateClient.Update();
+
+                var tokens = GenerateToken(updateClient);
+                Send(new AnswerModel(true, new
+                {
+                    access_token = tokens,
+                    user = new ClientModel(updateClient.ID,
+                        updateClient.Surname, updateClient.Name, updateClient.MiddleName, updateClient.Email!,
+                        updateClient.PhoneNumber,
+                        updateClient.Login, updateClient.IsOldClient, updateClient.Avatar)
+                }, null, null));
+            }
+            else
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request"));
+                return;
+            }
+        }
     }
     [Post("/authorization")]
     public void Authorization()

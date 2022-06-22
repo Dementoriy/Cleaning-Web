@@ -10,14 +10,16 @@ namespace WebServer.Models
     {
         public AddressModel address { get; set; }
         public string dateTime { get; set; }
+        public string dateTimeEnd { get; set; }
         public string comment { get; set; }
+        public int periodicity { get; set; }
         public ServiceModel service { get; set; }
-        public int square { get; set; }
+        public string square { get; set; }
         public int price { get; set; }
         public string time { get; set; }
         public int timeValue { get; set; }
         public ServiceModel[] dopService { get; set; }
-        public int[] amount { get; set; }
-
+        public string[] amount { get; set; }
+        public int? count { get; set; }
     }
 }

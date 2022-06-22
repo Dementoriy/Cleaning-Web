@@ -48,14 +48,12 @@ class OrderService {
 			.then((res) => {
 				const data: Answer = res.data;
 				if (data.status){
-					const rating : Order = data.answer.rating;
-					localStorage.setItem('newAddress', JSON.stringify(order));
-					return rating;
+          return OrderLoaded(data.answer.objects);
 				}
-				return order;
+				return OrderNotLoaded;
 			}).catch((error) => {
 				console.log(error);
-				return order;
+				return OrderNotLoaded;
 			  });		
 	}
 
@@ -66,12 +64,12 @@ class OrderService {
 				if (data.status)
           {
             console.log(data.answer);
-            return data.answer.objects as Order[];
+            return OrderLoaded(data.answer.objects);
           }
-				return [];
+				return OrderNotLoaded;
 			}).catch((error) => {
 				console.log(error);
-				return [];
+				return OrderNotLoaded;
 			  });	
   }
 
@@ -81,13 +79,12 @@ class OrderService {
       const data: Answer = res.data;
       if (data.status)
         {
-          console.log(data.answer);
-          return data.answer.objects as Order[];
+          return OrderLoaded(data.answer.objects);
         }
-      return [];
+      return OrderNotLoaded;
     }).catch((error) => {
       console.log(error);
-      return [];
+      return OrderNotLoaded;
       });	
   }
 }

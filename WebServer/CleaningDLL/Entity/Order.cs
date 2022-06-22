@@ -215,6 +215,7 @@ namespace CleaningDLL.Entity
 
         public static List<Order> GetClientOrder(int id)
         {
+            using var db = new ApplicationContext();
             try
             {
                 return db.Order.Include(a => a.Address).ThenInclude(a => a.RoomType).Include(c => c.Client).Include(b => b.Brigade).Include(e => e.Employee).Where(a => a.Client.ID == id).ToList();

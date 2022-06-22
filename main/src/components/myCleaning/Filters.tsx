@@ -88,7 +88,7 @@ export default function Filters() {
         dispatch(res);
       })
       setKey(true);
-    }, [])
+    }, [key, dispatch])
 
   return (
     <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%', height: '100%'}}>

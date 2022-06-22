@@ -16,14 +16,17 @@ export interface FinalOrderInfo
 {
   address : Address,
   dateTime : string,
+  dateTimeEnd : string,
   comment : string
+  periodicity : number,
   service: Service,
   square: number,
   price: number,
   time: string,
   timeValue: number,
   dopService: Service[],
-  amount: number[]
+  amount: number[],
+  count: number
 }
 
 export default function StepThree() {
@@ -128,8 +131,10 @@ export default function StepThree() {
           {state:
             {
               address: orderInfo.address, 
-              dateTime: orderInfo.dateTime, 
+              dateTime: orderInfo.dateTime,
+              dateTimeEnd: orderInfo.dateTimeEnd,
               comment: orderInfo.comment,
+              periodicity: orderInfo.periodicity,
               service: orderInfo.service,
               square: orderInfo.square,
               price: price,
