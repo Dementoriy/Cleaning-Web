@@ -18,12 +18,13 @@ namespace WebServer.Models
         public string? Image { get; set; }
         public bool IsMain { get; set; }
         public string ApproximateTime { get; set; }
+        public bool BtnStatus { get; set; }
 
         public ServiceModel()
         { }
 
         public ServiceModel(int ID, string ServiceName, string Description, decimal Price, int Time, 
-            string UnitsTitle, string? Image, bool IsMain, string ApproximateTime)
+            string UnitsTitle, string? Image, bool IsMain, string ApproximateTime, bool BtnStatus)
         {
             this.ID = ID;
             this.ServiceName = ServiceName;
@@ -34,6 +35,7 @@ namespace WebServer.Models
             this.Image = Image;
             this.IsMain = IsMain;
             this.ApproximateTime = ApproximateTime;
+            this.BtnStatus = BtnStatus;
         }
     }
 }

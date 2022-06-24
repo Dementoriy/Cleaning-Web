@@ -72,29 +72,49 @@ namespace WebServer.Requests
 
             List<Address> addresses = new List<Address>();
 
-            foreach(var address in body.address)
-            {
-                Address am = Address.GetAddressById(address.ID);
+            //foreach(var address in body.address)
+            //{
+                Address am = Address.GetAddressById(body.address);
                 addresses.Add(am);
-            }
+            //}
 
 
             DateTime dateTimeOt = DateTime.Parse(body.dateOt);
             DateTime dateTimeDo = DateTime.Parse(body.dateDo);
+            dateTimeDo = dateTimeDo.AddDays(1);
 
             List<Order> filteredOrders = Order.GetFilteredOrders(client.ID, addresses, dateTimeOt, dateTimeDo);
 
             List<OrderModel> orderModels = OrderModel.GetOrderModels(filteredOrders);
 
-            if(body.consumables == null)
+            if(body.consumables == null || body.consumables == 0)
             {
                 Send(new AnswerModel(true, new { objects = orderModels }, null, null));
                 return;
             }
+            else
+            {
+                List<Consumable> consumables = new List<Consumable>();
 
-            List<OrderModel> filteredOrderModels = OrderModel.GetFilteredOrderModels(body.consumables, orderModels);
+                //foreach (var consumable in body.consumables)
+                //{
+                    Consumable c = Consumable.GetConsumableById(body.consumables);
+                    consumables.Add(c);
+                //}
 
-            Send(new AnswerModel(true, new { objects = filteredOrderModels }, null, null));
+                List<ConsumableModel> consumableModels = new List<ConsumableModel>();
+
+                foreach (var model in consumables)
+                {
+                    ConsumableModel cm = new ConsumableModel(model.ID, model.ConsumableName, model.Description);
+                    consumableModels.Add(cm);
+                }
+
+                List<OrderModel> filteredOrderModels = OrderModel.GetFilteredOrderModels(consumableModels, orderModels);
+
+                Send(new AnswerModel(true, new { objects = filteredOrderModels }, null, null));
+            }
+
 
         }
     }

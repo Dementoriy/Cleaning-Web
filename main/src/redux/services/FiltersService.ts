@@ -5,7 +5,8 @@ import {Address} from "../../models/AddressModel";
 import {Consumable} from "../../models/ConsumableModel";
 import {FiltersLoaded, FiltersNotLoaded} from "../actions/filtersActions";
 import {filtersState} from "../reducers/filterReducer";
-import {Order} from "../../models/OrderModel";
+import {Filter} from "../../models/FilterModel";
+import {OrderLoaded, OrderNotLoaded} from "../actions/orderActions";
 
 const API_URL = "http://localhost:8080/filters/";
 
@@ -31,19 +32,19 @@ class FiltersService {
           });
 	  }
 
-    GetOrder(filters: filtersState){
+    GetOrder(filters: Filter){
       return axios.post(API_URL + 'get-order', filters, {headers: authHeader()})
         .then((res) => {
           const data: Answer = res.data;
           if (data.status)
             {
               console.log(data.answer);
-              return data.answer.objects as Order[];
+              return OrderLoaded(data.answer.objects);
             }
-          return [];
+            return OrderNotLoaded;
         }).catch((error) => {
           console.log(error);
-          return [];
+          return OrderNotLoaded;
           });	
     }
 

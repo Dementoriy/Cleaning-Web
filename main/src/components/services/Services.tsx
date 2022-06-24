@@ -18,11 +18,17 @@ export default function Services() {
         setKey(true);
     }, [services])
 
+    const [search, setSearch] = React.useState<string>();
+    const getSearch = (search : string) =>{
+      ServiceService.getSearch(search).then((res) => {
+        setServices(res);
+    })}
+
     return (
-    <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: '100%', width: '100%'}} >
+    <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: "650px", width: '100%'}} >
         <Typography variant="h5" color="primary" align='center'>Услуги</Typography>
         <Stack direction="row" alignItems="center" justifyContent={"center"} mt={1} mb={1}>
-            <TextField label="Поиск" color='primary' size='small' sx={{width: '40%'}}></TextField>
+            <TextField label="Поиск" color='primary' size='small' sx={{width: '40%'}} onChange={e => {setSearch(e.target.value); getSearch(e.target.value)}}></TextField>
         </Stack>
         <Stack spacing={2}>
             {services.map((service)=>(<>

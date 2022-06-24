@@ -8,8 +8,8 @@ namespace WebServer.Models
 {
     public class FiltersStateModal
     {
-        public List<AddressModel> address { get; set; } = new List<AddressModel>();
-        public List<ConsumableModel> consumables { get; set; } = new List<ConsumableModel>();
+        public int address { get; set; }
+        public int consumables { get; set; }
         public string dateOt { get; set; }
         public string dateDo { get; set; }
     }

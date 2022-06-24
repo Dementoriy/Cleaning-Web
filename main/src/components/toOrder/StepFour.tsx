@@ -32,6 +32,8 @@ export default function StepFour() {
 
   const [dateStart, setDateStart] = React.useState<string>('');
   const [dateFinish, setDateFinish] = React.useState<string>('');
+  const [dateTimeStart, setDateTimeStart] = React.useState<string>('');
+  const [dateTimeFinish, setDateTimeFinish] = React.useState<string>('');
   const [count, setCount] = React.useState<number>();
 
   React.useEffect(() => {
@@ -42,6 +44,8 @@ export default function StepFour() {
 
       setDateStart(moment(dateS).format('YYYY-MM-DD'));
       setDateFinish(moment(dateF).format('YYYY-MM-DD'));
+      setDateTimeStart(moment(dateS).format("DD-MM-YYYY hh:mm"));
+      setDateTimeFinish(moment(dateF).format("DD-MM-YYYY"));
 
       const days = moment(dateFinish).diff(moment(dateStart), 'days');
       if(Math.floor((days+1)%finalOrderInfo.periodicity) > 0)
@@ -59,6 +63,7 @@ export default function StepFour() {
       setCount(1);
       finalOrderInfo.count = 1;
     }
+    console.log(finalOrderInfo);
   })
 
   const [openDialog, setOpenDialog] = React.useState(false);
@@ -110,9 +115,6 @@ export default function StepFour() {
       <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px',  width: '100%', marginRight: '17px', height: '38%'}}>
         <Box>
           <Typography variant="h5" color="primary" align='center'>Информация о заявке</Typography>
-          <Button variant='contained' color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={info}>
-            инфа
-          </Button>
           <Stack direction="row" spacing={6} padding={4}>
             <Stack spacing={1} width={"50%"}>
               <Box sx={{borderBottom: '3px solid #776D61'}}>
@@ -128,9 +130,21 @@ export default function StepFour() {
                   Время уборки
                 </Typography>
               </Box>
-              <TextField label="Уборка запланирована на" color='primary' size='small' value={finalOrderInfo.dateTime}/>
-              <TextField label="Уборка займет" color='primary' size='small' value={finalOrderInfo.time}/>
-              <TextField label="Статус заявки" color='primary' size='small' value={"Сформирована"}/>
+              <>{
+                (finalOrderInfo.dateTimeEnd === undefined) ?
+                (<>
+                  <TextField label="Уборка запланирована на" color='primary' size='small' value={moment(finalOrderInfo.dateTime).format("hh:mm DD-MM-YYYY")}/>
+                  <TextField label="Уборка займет" color='primary' size='small' value={finalOrderInfo.time}/>
+                  <TextField label="Статус заявки" color='primary' size='small' value={"Сформирована"}/>
+                </>) :
+                (<>
+                  <TextField label="Период с" color='primary' size='small' value={moment(finalOrderInfo.dateTime).format("hh:mm DD-MM-YYYY")}/>
+                  <TextField label="Период до" color='primary' size='small' value={moment(finalOrderInfo.dateTimeEnd).format("DD-MM-YYYY")}/>
+                  <TextField label="Уборка займет" color='primary' size='small' value={finalOrderInfo.time}/>
+                  <TextField label="Статус заявки" color='primary' size='small' value={"Сформирована"}/>
+                </>)
+              }</>
+              
             </Stack>
             <Stack spacing={1} width={"50%"}>
               <Box sx={{borderBottom: '3px solid #776D61'}}>
@@ -197,7 +211,7 @@ export default function StepFour() {
     >
         <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Товарный чек отправлен на почту {user.email}. Перейти в "Мои уборки"?
+              Заявка успешно оплачена! Товарный чек отправлен на почту {user.email}. Перейти в "Мои уборки"?
             </DialogContentText>
         </DialogContent>
         <DialogActions>

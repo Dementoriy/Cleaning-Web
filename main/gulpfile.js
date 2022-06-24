@@ -1,7 +1,12 @@
 const gulp = require("gulp");
-const ts = require("gulp-typescript");
-const tsProject = ts.createProject("tsconfig.json");
+const {run} = require('gulp-dotnet-cli');
+const shell = require('gulp-shell');
 
-gulp.task("default", function () {
-    return tsProject.src().pipe(tsProject()).js.pipe(gulp.dest("dist"));
+gulp.task("http", () => {
+    return gulp.src('../WebServer/WebServer/WebServer.csproj', {read: false}).pipe(run())
+})
+
+gulp.task("serve-dev", () => {
+    return gulp.src('./').pipe(shell((['npm run start'])))
 });
+gulp.task("default", gulp.series(gulp.parallel("http", "serve-dev")))

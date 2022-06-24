@@ -36,6 +36,40 @@ class ServiceService {
 				return ;
 			  });		
 	}
+
+  getSearch(search : string) {
+		return axios.get(API_URL + "get-search?search=" + search, {headers: authHeader()})
+        .then((response) => {
+            const data: Answer = response.data;
+            if (data.status)
+            {
+              console.log(data.answer);
+              return data.answer.services as Service[];
+            }
+            return [];
+          })
+          .catch((error) => {
+            console.log(error);
+            return []
+          });
+	}
+
+  getDopSearch(search : string) {
+		return axios.get(API_URL + "get-dop-search?search=" + search, {headers: authHeader()})
+        .then((response) => {
+            const data: Answer = response.data;
+            if (data.status)
+            {
+              console.log(data.answer);
+              return data.answer.services as Service[];
+            }
+            return [];
+          })
+          .catch((error) => {
+            console.log(error);
+            return []
+          });
+	}
 }
 
 export default new ServiceService();

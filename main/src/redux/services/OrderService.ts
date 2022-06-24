@@ -4,6 +4,7 @@ import {Answer} from "../../models/RequestModels";
 import {Order} from "../../models/OrderModel";
 import {OrderLoaded, OrderNotLoaded} from "../actions/orderActions";
 import {FinalOrderInfo} from '../../components/toOrder/StepThree';
+import {Filter} from "../../models/FilterModel";
 
 const API_URL = "http://localhost:8080/my-cleaning/";
 
@@ -75,6 +76,21 @@ class OrderService {
 
   addOrder(finalOrderInfo: FinalOrderInfo){
     return axios.post(API_URL + 'add-order', finalOrderInfo, {headers: authHeader()})
+    .then((res) => {
+      const data: Answer = res.data;
+      if (data.status)
+        {
+          return OrderLoaded(data.answer.objects);
+        }
+      return OrderNotLoaded;
+    }).catch((error) => {
+      console.log(error);
+      return OrderNotLoaded;
+      });	
+  }
+
+  addReport(filters: Filter){
+    return axios.post(API_URL + 'add-report', filters, {headers: authHeader()})
     .then((res) => {
       const data: Answer = res.data;
       if (data.status)

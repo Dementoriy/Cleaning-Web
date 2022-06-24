@@ -40,13 +40,24 @@ export default function Profile() {
       setUser(res!);
     })
   }
+  const addAvatar = (event : any) =>{
+    const file : File = event.target.files[0];
+    if(file === undefined)
+      return;
+    const reader = new FileReader();
+    reader.onloadend = function(){
+      setValues({...values, avatar: reader.result!.toString()});
+      console.log(reader.result!.toString());
+    }
+    reader.readAsDataURL(file);
+  }
 
   return (
     <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px',  width: '100%', height: '100%'}}>
       {client.client.isAuth && (
         <>
         <Stack direction="row" spacing={2}>
-          <Avatar alt={user.login.toUpperCase()} src={user.login.toUpperCase()} sx={{ width: 120, height: 120 }}/>
+          <Avatar alt={user.login.toUpperCase()} src={user.avatar} sx={{ width: 120, height: 120 }}/>
           <Stack spacing={0.5}>
             <div style={{height: '10px'}} />
             <Typography color="primary" variant="h5">
@@ -72,9 +83,15 @@ export default function Profile() {
           <TextField label="Номер телефона" size='small' sx={{fontFamily: "Roboto"}} defaultValue={values.phone} onChange={handleChange('phone')}/>
           <TextField label="Email" size='small' defaultValue={values.email} onChange={handleChange('email')}/>
         </Stack>
-        <Button variant="contained" color="secondary" size="medium" disableElevation sx={{ borderRadius: '10px', mt: '10px', ml: '43%'}} onClick={changeUser}>
-        Сохранить
-        </Button>
+        <Stack direction='row' spacing={2} sx={{ borderRadius: '10px', mt: '10px', ml: '20%'}}>
+          <Button variant="contained" color="secondary" component="label" size="medium" disableElevation sx={{ borderRadius: '10px'}}>
+            Выбрать аватар<input type='file' accept='image/*' hidden onChange={addAvatar}/>
+          </Button>
+          <Button variant="contained" color="secondary" size="medium" disableElevation sx={{ borderRadius: '10px'}} onClick={changeUser}>
+          Сохранить
+          </Button>
+        </Stack>
+
         </>
       )} 
     </div>

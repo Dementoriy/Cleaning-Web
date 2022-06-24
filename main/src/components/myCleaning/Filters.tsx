@@ -3,78 +3,74 @@ import { Typography, MenuItem, InputLabel,  FormControl, OutlinedInput, Box, Chi
 import { Theme, useTheme } from '@mui/material/styles';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {Address} from "../../models/AddressModel";
+import {Filter} from "../../models/FilterModel";
 import {Consumable} from "../../models/ConsumableModel";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../redux/store";
-import {filtersState} from "../../redux/reducers/filterReducer";
 import FiltersService from '../../redux/services/FiltersService';
+import OrderService from '../../redux/services/OrderService';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
-const ITEM_HEIGHT = 40; //высота списка
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-function getStyles(name: string, string: readonly string[], theme: Theme) {
-    return {
-      fontWeight:
-            string.indexOf(name) === -1
-          ? theme.typography.fontWeightRegular
-          : theme.typography.fontWeightMedium,
-    };
-  }
 
 export default function Filters() {
+
+  const [openSnack, setOpenSnack] = React.useState(false);
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseSnack}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
 
     const state = useSelector((state: RootState) => state);
     const dispatch = useDispatch<AppDispatch>();
 
     const theme = useTheme();
-    const [filterAddress, setFilterAddress] = React.useState<string[]>([]);
-    const [filterConsumable, setFilterСonsumable] = React.useState<string[]>([]);
 
-    const [receivedAddresses, setReceivedAddresses] = React.useState<Address[]>([]);
-    const [receivedConsumables, setReceivedConsumables] = React.useState<Consumable[]>([]);
+    const [selectedAddress, setSelectedAddress] = React.useState<number>();
+    const [address, setAddress] = React.useState<Address>();
+
+    const [selectedConsumable, setSelectedConsumable] = React.useState<number>();
+    const [consumable, setConsumable] = React.useState<Consumable>();
 
     const [dateTimeOt, setDateTimeOt] = React.useState<string>();
     const [dateTimeDo, setDateTimeDo] = React.useState<string>();
 
-    const [address, setAddress] = React.useState<Address>();
-  
-    const handleChangeAddress = (event: SelectChangeEvent<typeof filterAddress>) => {
-      const {
-        target: { value },
-      } = event;
-      setFilterAddress(
-        typeof value === 'string' ? value.split(',') : value,
-      );
-      setReceivedAddresses(receivedAddresses);
-    };
-    const handleChangeConsumable = (event: SelectChangeEvent<typeof filterConsumable>) => {
-        const {
-          target: { value },
-        } = event;
-        setFilterСonsumable(
-          typeof value === 'string' ? value.split(',') : value,
-        );
-        setReceivedConsumables(receivedConsumables);
-      };
-
-    // const [consumables, setConsumables] = React.useState<Consumable[]>([]);
-
     const filterOrder = () => {
-      const filters : filtersState = {
-        address: receivedAddresses,
-        consumables : receivedConsumables,
+      if(selectedAddress === undefined || dateTimeOt === undefined || dateTimeDo === undefined)
+      {
+        handleClickSnack();
+        return;
+      }
+      const filters : Filter = {
+        address: selectedAddress!,
+        consumables : selectedConsumable!,
         dateOt: dateTimeOt!,
         dateDo: dateTimeDo!
       };
-      console.log(filters);
+      console.log(JSON.stringify(filters));
       FiltersService.GetOrder(filters).then((res: any) => {
         dispatch(res);
       });
@@ -90,103 +86,128 @@ export default function Filters() {
       setKey(true);
     }, [key, dispatch])
 
+    const addReport = () => {
+      if(selectedAddress === undefined || dateTimeOt === undefined || dateTimeDo === undefined)
+      {
+        handleClickSnack();
+        return;
+      }
+      const filters : Filter = {
+        address: selectedAddress!,
+        consumables : selectedConsumable!,
+        dateOt: dateTimeOt!,
+        dateDo: dateTimeDo!
+      };
+      console.log(JSON.stringify(filters));
+      OrderService.addReport(filters);
+    };
+
   return (
-    <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%', height: '100%'}}>
+    <Stack spacing={4} width='100%'>
+      <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '40px', width: '100%', height: '33%'}}>
         <Typography variant="h5" color="primary" align='center'>Фильтры</Typography>
         <Stack spacing={2} mt={2} sx={{width: '100%'}}>
-          <FormControl sx={{width: '100%'}}>
-            <InputLabel id="address-chip-label">Адреса</InputLabel>
-            <Select
-            labelId="address-chip-label"
-            id="address-chip"
-            multiple
-            value={filterAddress}
-            onChange={handleChangeAddress}
-            input={<OutlinedInput id="select-address-chip" label="address-chip" />}
-            renderValue={(selected) => (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                ))}
-                </Box>
-            )}
-            MenuProps={MenuProps}
-            >
-            {state.filterReducer.address.map((receivedAddresses) => (
-                <MenuItem
-                key={receivedAddresses.FullAddress}
-                value={receivedAddresses.FullAddress}
-                style={getStyles(receivedAddresses.FullAddress, filterAddress, theme)}
-                >
-                <Checkbox checked={filterAddress.indexOf(receivedAddresses.FullAddress) > -1} />
-                {receivedAddresses.FullAddress}
-                </MenuItem>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Адрес</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={selectedAddress}
+            label="Age"
+            onChange={e => {
+                setSelectedAddress(+e.target.value);
+                state.filterReducer.address.forEach((a) => {
+                  if (a.ID === e.target.value)
+                  {
+                    setAddress(a);
+                    return;
+                  }
+                })
+              }}
+          >
+            {state.filterReducer.address.map((address) => (
+              
+              <MenuItem value={address.ID}>{address.AddressName}</MenuItem>
             ))}
-            </Select>
-          </FormControl>
+          </Select>
+        </FormControl>
             
-          <TextField
-            id="date"
-            label="От"
-            type="date"
-            defaultValue={dateTimeOt}
-                onChange={e => {
-                  setDateTimeOt(e.target.value);
-                }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+        <TextField
+          id="date"
+          label="От"
+          type="date"
+          defaultValue={dateTimeOt}
+              onChange={e => {
+                setDateTimeOt(e.target.value);
+              }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
 
-          <TextField
-            id="date"
-            label="До"
-            type="date"
-            defaultValue={dateTimeDo}
-                onChange={e => {
-                  setDateTimeDo(e.target.value);
-                }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+        <TextField
+          id="date"
+          label="До"
+          type="date"
+          defaultValue={dateTimeDo}
+              onChange={e => {
+                setDateTimeDo(e.target.value);
+              }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
 
-          <FormControl sx={{width: '100%'}}>
-              <InputLabel id="consumable-chip-label">Средства уборки</InputLabel>
-              <Select
-              labelId="consumable-chip-label"
-              id="consumable-chip"
-              multiple
-              value={filterConsumable}
-              onChange={handleChangeConsumable}
-              input={<OutlinedInput id="select-consumable-chip" label="consumable-сhip" />}
-              renderValue={(selected) => (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                  {selected.map((value) => (
-                      <Chip key={value} label={value} />
-                  ))}
-                  </Box>
-              )}
-              MenuProps={MenuProps}
-              >
-              {state.filterReducer.consumables.map((receivedConsumables) => (
-                <MenuItem
-                key={receivedConsumables.Id}
-                value={receivedConsumables.Name}
-                style={getStyles(receivedConsumables.Name, filterConsumable, theme)}
-                >
-                <Checkbox checked={filterConsumable.indexOf(receivedConsumables.Name) > -1} />
-                {receivedConsumables.Name}
-                </MenuItem>
-              ))}
-              </Select>
-          </FormControl>
-        </Stack>
-        <Box mt={2} sx={{ textAlign: 'center'}}>
-          <Button variant="contained" color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={filterOrder}>
-            Применить
-          </Button>
-        </Box>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Расходник</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={selectedConsumable}
+            label="Age"
+            onChange={e => {
+                setSelectedConsumable(+e.target.value);
+                state.filterReducer.consumables.forEach((a) => {
+                  if (a.ID === +e.target.value)
+                  {
+                    setConsumable(a);
+                    return;
+                  }
+                })
+              }}
+          >
+            {state.filterReducer.consumables.map((consumable) => (
+              
+              <MenuItem value={consumable.ID}>{consumable.Name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Stack>
+      <Box mt={2} sx={{ textAlign: 'center'}}>
+        <Button variant="contained" color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={filterOrder}>
+          Применить
+        </Button>
+        <Snackbar
+          open={openSnack}
+          autoHideDuration={6000}
+          onClose={handleCloseSnack}
+          message="Необходимо выбрать адрес, дату начала и дату конца периода"
+          action={action}
+        />
+      </Box>
     </div>
+    <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', paddingBottom: '30px',  width: '100%', height: '50%'}}>
+        <Typography variant="h5" color="primary" align='center'>Экспорт</Typography>
+        <Stack alignItems="center" spacing={3} mt={2}>
+          <Typography variant="subtitle1" color="primary">
+            Отчет по отфильтрованным заявкам в формате Excel. 
+          </Typography>
+          <Button variant="contained" color="secondary" size="large" disableElevation sx={{ borderRadius: '10px'}} onClick={addReport}>
+          Сформировать отчет
+          </Button>
+        </Stack>
+    </div>
+  </Stack>
+    
   );
 }

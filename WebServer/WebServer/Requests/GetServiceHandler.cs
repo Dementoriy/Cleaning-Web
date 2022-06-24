@@ -2,6 +2,7 @@
 using RestPanda.Requests.Attributes;
 using CleaningDLL.Entity;
 using WebServer.Models;
+using System.Web;
 
 namespace WebServer.Requests
 {
@@ -23,7 +24,7 @@ namespace WebServer.Requests
             foreach (var service in services)
             {
                 ServiceModel serviceModel = new ServiceModel(service.ID, service.ServiceName, service.Description, service.Price, 
-                    service.Time, service.Units.Unit, service.Image, service.IsMain, service.ApproximateTime);
+                    service.Time, service.Units.Unit, service.Image, service.IsMain, service.ApproximateTime, true);
                 serviceModels.Add(serviceModel);
             }
 
@@ -58,6 +59,64 @@ namespace WebServer.Requests
 
             Send(new AnswerModel(true, new { stringTime = stringTime }, null, null));
 
+        }
+
+        [Get("get-search")]
+        public void GetSearch()
+        {
+            List<Service> services = Service.GetService();
+
+            if (!services.Any())
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request body"));
+                return;
+            }
+
+            services = services.Where(a => a.IsMain).ToList();
+
+            if (Params.TryGetValue("search", out var search) && search != "")
+            {
+                services = services.Where(r => r.ServiceName.ToLower().Contains(HttpUtility.UrlDecode(search).ToLower())).ToList();
+            }
+
+            List<ServiceModel> serviceModels = new List<ServiceModel>();
+            foreach (var service in services)
+            {
+                ServiceModel serviceModel = new ServiceModel(service.ID, service.ServiceName, service.Description, service.Price,
+                    service.Time, service.Units.Unit, service.Image, service.IsMain, service.ApproximateTime, true);
+                serviceModels.Add(serviceModel);
+            }
+
+            Send(new AnswerModel(true, new { services = serviceModels }, null, null));
+        }
+
+        [Get("get-dop-search")]
+        public void GetDopSearch()
+        {
+            List<Service> services = Service.GetService();
+
+            if (!services.Any())
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request body"));
+                return;
+            }
+
+            services = services.Where(a => !a.IsMain).ToList();
+
+            if (Params.TryGetValue("search", out var search) && search != "")
+            {
+                services = services.Where(r => r.ServiceName.ToLower().Contains(HttpUtility.UrlDecode(search).ToLower())).ToList();
+            }
+
+            List<ServiceModel> serviceModels = new List<ServiceModel>();
+            foreach (var service in services)
+            {
+                ServiceModel serviceModel = new ServiceModel(service.ID, service.ServiceName, service.Description, service.Price,
+                    service.Time, service.Units.Unit, service.Image, service.IsMain, service.ApproximateTime, true);
+                serviceModels.Add(serviceModel);
+            }
+
+            Send(new AnswerModel(true, new { services = serviceModels }, null, null));
         }
     }
 }

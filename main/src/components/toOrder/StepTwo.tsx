@@ -107,6 +107,12 @@ export default function StepTwo() {
     const location = useLocation();
     const firstOrderInfo: FirstOrderInfo = location.state as FirstOrderInfo;
 
+    const [search, setSearch] = React.useState<string>();
+    const getSearch = (search : string) =>{
+      ServiceService.getSearch(search).then((res) => {
+        setServices(res);
+    })}
+
   return (
     <Stack spacing={3} width='78%'>
       <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', marginTop: '17px', width: '100%'}}>
@@ -157,10 +163,10 @@ export default function StepTwo() {
         </Stack>
       </div>
       <Stack direction="row" justifyContent="space-between">
-        <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', width: "74%", height: "45%"}} >
+        <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', width: "74%", height: "460px"}} >
           <Typography variant="h5" color="primary" align='center'>Услуги</Typography>
           <Stack direction="row" alignItems="center" justifyContent={"center"} mt={1} mb={1}>
-              <TextField label="Поиск" color='primary' size='small' sx={{width: '40%'}}></TextField>
+              <TextField label="Поиск" color='primary' size='small' sx={{width: '40%'}} onChange={e => {setSearch(e.target.value); getSearch(e.target.value)}}></TextField>
           </Stack>
           <Stack spacing={2}>
               {services.map((service)=>(<>
@@ -205,10 +211,17 @@ export default function StepTwo() {
                   </div>}</>))}
           </Stack>
         </div>
-        <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', width: "20%", marginLeft: "26px", paddingBottom: '40px', height: "30%"}}>
+        <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', width: "20%", marginLeft: "26px", paddingBottom: '40px', height: "300px"}}>
           <Typography variant="h5" color="primary" align='center'>Калькулятор</Typography>
           <Stack spacing={2.5} mt={2} alignItems="center">
-            <TextField type='text' label="Площадь:" color='primary' size='small' sx={{width: '80%'}} defaultValue={square} onChange={changeSquare}/>
+            <TextField type='text' label="Площадь:" color='primary' size='small' sx={{width: '80%', maxLenght: 2}} value={square} onChange={e => {
+                    if(!isNaN(Number(e.target.value))){
+                      setSquare(+e.target.value.trim());
+                    }
+                    else{
+                      setSquare(+e.target.value.substring(0, e.target.value.length - 1).trim());
+                    } 
+                  }}/>
             <TextField type='text' label="Тип:" color='primary' size='small' sx={{width: '80%'}} value={firstOrderInfo.address.RoomType}/>
             <TextField type='text' label="Цена" color='primary' size='small' sx={{width: '80%'}} value={price}/>
             <TextField type='text' label="≈Время" color='primary' size='small' sx={{width: '80%'}} value={time}/>

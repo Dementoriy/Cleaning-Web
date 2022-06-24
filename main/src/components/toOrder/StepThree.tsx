@@ -98,19 +98,28 @@ export default function StepThree() {
 
   const addPsMass = (amount: number, selectedService: Service)=>{
     if (selectedServiceMass.includes(selectedService)){
+      setPrice(price! - selectedService.Price * amount! * orderInfo.address.Сoefficient);
       var index = selectedServiceMass.indexOf(selectedService);
       setSelectedServiceMass((selectedServiceMass)=>[...selectedServiceMass.filter(i=>i !== selectedService)]);
-      setAmountMass(amountMass=>[...amountMass.splice(index, 1)]);
+      amountMass.splice(index, 1);
     }
     else {
       setSelectedServiceMass(selectedServiceMass=>[...selectedServiceMass,selectedService]);
       setAmountMass(amountMass=>[...amountMass,amount]);
     }
+    
   }
 
-
+  const [serviceMass, setServiceMass] = React.useState<boolean[]>([]);
 
   const calculate = (service: Service) => {
+    services.forEach((a) => {
+      if (a.ID === service.ID && serviceMass[a.ID] == false)
+      {
+        service.BtnStatus == false;
+        return;
+      }
+    })
     if(amount === NaN || amount === undefined) 
     {
       handleClick();
@@ -124,27 +133,34 @@ export default function StepThree() {
     ServiceService.GetTime(orderInfo.timeValue + service.Time * amount!).then((res: any) => {
       setTime(res);
     })
+    console.log(service);
   };
 
   const NextPage = () => {
     navigate("/to-order-four",
-          {state:
-            {
-              address: orderInfo.address, 
-              dateTime: orderInfo.dateTime,
-              dateTimeEnd: orderInfo.dateTimeEnd,
-              comment: orderInfo.comment,
-              periodicity: orderInfo.periodicity,
-              service: orderInfo.service,
-              square: orderInfo.square,
-              price: price,
-              time: time,
-              timeValue: timeValue,
-              dopService: selectedServiceMass,
-              amount: amountMass
-            }
-          });
+    {state:
+      {
+        address: orderInfo.address, 
+        dateTime: orderInfo.dateTime,
+        dateTimeEnd: orderInfo.dateTimeEnd,
+        comment: orderInfo.comment,
+        periodicity: orderInfo.periodicity,
+        service: orderInfo.service,
+        square: orderInfo.square,
+        price: price,
+        time: time,
+        timeValue: timeValue,
+        dopService: selectedServiceMass,
+        amount: amountMass
+      }
+    });
   }
+
+  const [search, setSearch] = React.useState<string>();
+    const getDopSearch = (search : string) =>{
+      ServiceService.getDopSearch(search).then((res) => {
+        setServices(res);
+    })}
 
   return (
     <Stack spacing={3} width='78%'>
@@ -184,10 +200,10 @@ export default function StepThree() {
         </Stack>
       </div>
       <Stack direction="row" justifyContent="space-between">
-        <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', width: "74%", height: "41%" }}>
+        <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', width: "74%", height: "460px" }}>
           <Typography variant="h5" color="primary" align='center'>Дополнительные услуги</Typography>
           <Stack direction="row" alignItems="center" justifyContent={"center"} mt={1} mb={1}>
-            <TextField label="Поиск" color='primary' size='small' sx={{width: '40%'}}></TextField>
+            <TextField label="Поиск" color='primary' size='small' sx={{width: '40%'}} onChange={e => {setSearch(e.target.value); getDopSearch(e.target.value)}}></TextField>
           </Stack>
           
           <Stack spacing={2}>
@@ -220,14 +236,21 @@ export default function StepThree() {
                       <TextField label="Количество" color='primary' size='small' sx={{mt: '10%', width: '98%'}} defaultValue={amount} onChange={changeAmount}/>
                     </FormGroup>
                   </Box>
-                  <Button variant="contained" color="success" disableElevation sx={{ borderRadius: '10px', mt: '10%', width: '100%'}}  onClick={(e) => {calculate(service)}}>
-                      Выбрать
-                  </Button>
+                  <>{
+                    (service.BtnStatus) ?
+                    (<Button variant="contained" color="success" disableElevation sx={{ borderRadius: '10px', mt: '10%', width: '100%'}}  onClick={(e) => {calculate(service)}}>
+                        Выбрать
+                    </Button>) :
+                    (<Button variant="contained" color="primary" disableElevation sx={{ borderRadius: '10px', mt: '10%', width: '100%'}}  onClick={(e) => {calculate(service)}}>
+                        Отменить
+                    </Button>)
+                  }</>
+                  
                   <Snackbar
                     open={open}
                     autoHideDuration={6000}
                     onClose={handleClose}
-                    message="Введите площадь"
+                    message="Введите количество"
                     action={action}
                   />
                 </Box>
@@ -235,7 +258,7 @@ export default function StepThree() {
             </div>}</>))}
           </Stack>
         </div>
-        <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', width: "20%", marginLeft: "26px", paddingBottom: '40px', height: "30%"}}>
+        <div style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', width: "20%", marginLeft: "26px", paddingBottom: '40px', height: "300px"}}>
           <Typography variant="h5" color="primary" align='center'>Калькулятор</Typography>
           <Stack spacing={2.5} mt={2} alignItems="center">
             <TextField type='text' label="Площадь:" color='primary' size='small' sx={{width: '80%'}} value={orderInfo.square} />

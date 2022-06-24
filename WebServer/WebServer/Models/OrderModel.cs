@@ -45,7 +45,7 @@ public class OrderModel
                     Id = service.ID,
                     Amount = service.Amount,
                     Service = new ServiceModel(service.Service.ID, service.Service.ServiceName, service.Service.Description, 
-                    service.Service.Price, service.Service.Time, service.Service.Units.Unit, service.Service.Image, service.Service.IsMain, service.Service.ApproximateTime)
+                    service.Service.Price, service.Service.Time, service.Service.Units.Unit, service.Service.Image, service.Service.IsMain, service.Service.ApproximateTime, true)
                 });
                 foreach (var consemable in Consumable.GetConsumableByService(service.Service.ID))
                 {

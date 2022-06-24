@@ -1,5 +1,5 @@
 export interface Consumable {
-    Id: number,
+    ID: number,
     Name: string,
     Description: string,
 }

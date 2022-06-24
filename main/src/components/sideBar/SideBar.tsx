@@ -25,7 +25,7 @@ export default function SideBar() {
           {user.client.isAuth && (
           <>
             <Stack spacing={1} marginTop={10} alignItems={"center"}>
-              <Avatar alt={user.client.client!.login.toUpperCase()} src={user.client.client!.login.toUpperCase()} sx={{ width: 140, height: 140 }}/>
+              <Avatar alt={user.client.client!.login.toUpperCase()} src={user.client.client!.avatar} sx={{ width: 140, height: 140 }}/>
               <Typography variant="h6" sx={{color: 'white'}}>{user.client.client!.login}</Typography>
             </Stack>
             <Stack spacing={1} marginTop={8}>

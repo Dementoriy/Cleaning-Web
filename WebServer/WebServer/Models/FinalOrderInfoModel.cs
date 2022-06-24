@@ -14,7 +14,7 @@ namespace WebServer.Models
         public string comment { get; set; }
         public int periodicity { get; set; }
         public ServiceModel service { get; set; }
-        public string square { get; set; }
+        public int square { get; set; }
         public int price { get; set; }
         public string time { get; set; }
         public int timeValue { get; set; }

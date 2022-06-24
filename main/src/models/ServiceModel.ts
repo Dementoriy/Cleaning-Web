@@ -7,5 +7,6 @@ export interface Service {
     UnitsTitle: string,
     Image: string,
     IsMain: boolean,
-    ApproximateTime: string
+    ApproximateTime: string,
+    BtnStatus: boolean
 }

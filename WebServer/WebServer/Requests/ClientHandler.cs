@@ -8,42 +8,6 @@ namespace WebServer.Requests;
 [RequestHandlerPath("/profile")]
 public class ClientHandler : RequestHandler
 {
-    [Post("/avatar")]
-    public void AddAvatar()
-    {
-        if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
-        {
-            Send(new AnswerModel(false, null, 400, "incorrect request"));
-            return;
-        }
-
-        var client = TokenWorker.GetClientByToken(token);
-        if (client is null)
-        {
-            Send(new AnswerModel(false, null, 400, "incorrect request"));
-            return;
-        }
-
-        var body = Bind<AvatarModel>();
-        if (body is null || string.IsNullOrEmpty(body.avatar))
-        {
-            Send(new AnswerModel(false, null, 400, "incorrect request"));
-            return;
-        }
-
-        client.Avatar = body.avatar;
-        if (!client.Update())
-        {
-            Send(new AnswerModel(false, null, 400, "incorrect request"));
-            return;
-        }
-
-        Send(new AnswerModel(true, new
-        {
-            user = new ClientModel(client.ID, client.Surname, client.Name, client.MiddleName, client.Email!,
-                client.PhoneNumber, client.Login, client.IsOldClient, client.Avatar)
-        }, null, null));
-    }
     [Post("change-client-info")]
     public void ChangeClientInfo()
     {
@@ -67,8 +31,9 @@ public class ClientHandler : RequestHandler
         }
 
         if(body.surname != client.Surname || body.name != client.Name || body.middleName != client.MiddleName 
-            || body.email != client.Email || body.phone != client.PhoneNumber || body.login != client.Login)
+            || body.email != client.Email || body.phone != client.PhoneNumber || body.login != client.Login || body.avatar != client.Avatar)
         {
+            client.Avatar = body.avatar == "" ? null : body.avatar;
             client.Surname = body.surname;
             client.Name = body.name;
             client.MiddleName = body.middleName;

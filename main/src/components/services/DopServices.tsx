@@ -17,11 +17,18 @@ export default function DopServices() {
         })
         setKey(true);
     }, [services])
+
+    const [search, setSearch] = React.useState<string>();
+    const getDopSearch = (search : string) =>{
+      ServiceService.getDopSearch(search).then((res) => {
+        setServices(res);
+    })}
+
   return (
-    <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: '100%', width: '100%'}}>
+    <div className='section' style={{backgroundColor: '#F0EDE8', borderRadius: '20px', padding: '22px', height: "650px", width: '100%'}}>
         <Typography variant="h5" color="primary" align='center'>Дополнительные услуги</Typography>
         <Stack direction="row" alignItems="center" justifyContent={"center"} mt={1} mb={1}>
-            <TextField label="Поиск" color='primary' size='small' sx={{width: '60%'}}></TextField>
+            <TextField label="Поиск" color='primary' size='small' sx={{width: '60%'}} onChange={e => {setSearch(e.target.value); getDopSearch(e.target.value)}}></TextField>
         </Stack>
         
         <Stack spacing={2}>

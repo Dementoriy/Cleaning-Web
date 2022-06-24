@@ -52,14 +52,6 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
         })
         setKey(true);
     }, [addresses])
-
-  //   const myPlacemark = new YMaps.GeoObject({
-  //     geometry: {
-  //         type: "Point",
-  //         coordinates: [55.76, 37.56]
-  //     }
-  // });
-  //var myPlacemark = new YMaps.Placemark([55.8, 37.6]);
   
   const [addressId, setAddressId] = React.useState<number>();
   const [fullAddress, setFullAddress] = React.useState<string>();
@@ -203,7 +195,6 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        // style={{marginLeft: '64%', marginBottom: '20%'}}
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -218,47 +209,47 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
         </DialogActions>
       </Dialog>
       <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
         >
-            <Box sx={style} >
-              <Typography variant="h5" color="primary" align='center'>Новый адрес</Typography>
-                <Stack spacing={2} width={"100%"} mt={2} alignItems="center" justifyContent={"center"}>
-                  <Stack direction="row" spacing={2} width={"100%"} alignItems="center" justifyContent={"center"}>
-                    <TextField label="Адрес" color='primary' size='small' sx={{width:'40%'}} onChange={handleChange('FullAddress')}/>
-                    <Box width='15%'>
-                      <FormControl fullWidth>
-                          <InputLabel id="demo-simple-select-label" style={{lineHeight: '0.8em'}}>Тип:</InputLabel>
-                          <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={type}
-                          label="Тип:"
-                          onChange={сhangeType}
-                          sx={{height: '40px'}}
-                          >
-                          <MenuItem value={"Квартира"}>Квартира</MenuItem>
-                          <MenuItem value={"Дом"}>Дом</MenuItem>
-                          <MenuItem value={"Офис"}>Офис</MenuItem>
-                          <MenuItem value={"Другое"}>Другое</MenuItem>
-                          </Select>
-                      </FormControl>
-                    </Box>
-                    <Button variant="contained" color="secondary" size="medium" disableElevation sx={{ borderRadius: '10px'}} onClick={newClientAddress}>
-                    Добавить
-                    </Button>
-                  </Stack>
-                  <Stack alignItems="center" justifyContent={"center"} style={{height: "400px", width: "600px", backgroundColor: '#B1A18B', borderRadius:"10px" }}>
-                    <YMaps>
-                      <div>
-                        <Map defaultState={{ center: [58.60, 49.66], zoom: 12}} style={{height: "360px", width: "560px"}} />
-                      </div>
-                    </YMaps>
-                  </Stack>
+          <Box sx={style} >
+            <Typography variant="h5" color="primary" align='center'>Новый адрес</Typography>
+              <Stack spacing={2} width={"100%"} mt={2} alignItems="center" justifyContent={"center"}>
+                <Stack direction="row" spacing={2} width={"100%"} alignItems="center" justifyContent={"center"}>
+                  <TextField label="Адрес" color='primary' size='small' sx={{width:'40%'}} onChange={handleChange('FullAddress')}/>
+                  <Box width='15%'>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label" style={{lineHeight: '0.8em'}}>Тип:</InputLabel>
+                      <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={type}
+                      label="Тип:"
+                      onChange={сhangeType}
+                      sx={{height: '40px'}}
+                      >
+                      <MenuItem value={"Квартира"}>Квартира</MenuItem>
+                      <MenuItem value={"Дом"}>Дом</MenuItem>
+                      <MenuItem value={"Офис"}>Офис</MenuItem>
+                      <MenuItem value={"Другое"}>Другое</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                  <Button variant="contained" color="secondary" size="medium" disableElevation sx={{ borderRadius: '10px'}} onClick={newClientAddress}>
+                  Добавить
+                  </Button>
                 </Stack>
-            </Box>
+                <Stack alignItems="center" justifyContent={"center"} style={{height: "400px", width: "600px", backgroundColor: '#B1A18B', borderRadius:"10px" }}>
+                  <YMaps>
+                    <div>
+                      <Map defaultState={{ center: [58.60, 49.66], zoom: 12}} style={{height: "360px", width: "560px"}} />
+                    </div>
+                  </YMaps>
+                </Stack>
+              </Stack>
+          </Box>
         </Modal>
         <Modal
             open={openChangeModal}
